@@ -1,0 +1,26 @@
+{
+  "$schema": "https://dprint.dev/schemas/v0.json",
+  "projectType": "openSource",
+  "incremental": true,
+  "indentWidth": 2,
+  "typescript": {
+    "lineWidth": 360,
+    "semiColons": "asi",
+    "quoteStyle": "preferDouble",
+    "useBraces": "preferNone",
+    "singleBodyPosition": "nextLine",
+    "arrowFunction.useParentheses": "preferNone",
+    "typeLiteral.separatorKind": "comma",
+    "spaceSurroundingProperties": false,
+    "exportDeclaration.spaceSurroundingNamedExports": false,
+    "importDeclaration.spaceSurroundingNamedImports": false,
+    "typeAnnotation.spaceBeforeColon": false,
+    "commentLine.forceSpaceAfterSlashes": false,
+    "taggedTemplate.spaceBeforeLiteral": false,
+    "nextControlFlowPosition": "nextLine"
+  },
+  "includes": ["**/*.ts"],
+  "plugins": [
+    "https://plugins.dprint.dev/typescript-0.48.0.wasm"
+  ]
+}
