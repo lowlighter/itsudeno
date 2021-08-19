@@ -27,11 +27,7 @@ scripts:
     cmd: deno lint
   fmt:
     desc: Format code
-    cmd: dprint fmt --config .github/config/dprint.json
+    cmd: # dprint fmt --config .github/config/dprint.json
   fmt-check:
     desc: Format code (check)
-    cmd: dprint check --config .github/config/dprint.json
-  dev:
-    desc: Setup development environment
-    cmd:
-      - curl -fsSL https://dprint.dev/install.sh | sh
+    cmd: # dprint check --config .github/config/dprint.json

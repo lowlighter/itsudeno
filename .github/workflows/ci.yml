@@ -21,8 +21,10 @@ jobs:
         uses: denoland/setup-deno@v1
       - name: Setup Velociraptor
         uses: jurassiscripts/setup-velociraptor@v1
+      - name: Setup dprint
+        run: curl -fsSL https://dprint.dev/install.sh | sh && cp /home/runner/.dprint/bin/dprint /usr/local/bin/dprint
       - name: Lint code
-        run: vr dev && vr build && vr lint
+        run: vr build && vr lint
   format:
     name: Format code
     runs-on: ubuntu-latest
@@ -33,8 +35,10 @@ jobs:
         uses: denoland/setup-deno@v1
       - name: Setup Velociraptor
         uses: jurassiscripts/setup-velociraptor@v1
+      - name: Setup dprint
+        run: curl -fsSL https://dprint.dev/install.sh | sh && cp /home/runner/.dprint/bin/dprint /usr/local/bin/dprint
       - name: Format code
-        run: vr dev && vr build && vr fmt-check
+        run: vr build && vr fmt-check
   test:
     name: Test code
     runs-on: ${{ matrix.os }}
@@ -56,6 +60,8 @@ jobs:
         uses: denoland/setup-deno@v1
       - name: Setup Velociraptor
         uses: jurassiscripts/setup-velociraptor@v1
+      - name: Setup dprint
+        run: curl -fsSL https://dprint.dev/install.sh | sh && cp /home/runner/.dprint/bin/dprint /usr/local/bin/dprint
       - name: Format code
         run: vr build && vr test
   codeql:
