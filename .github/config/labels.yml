@@ -1,0 +1,24 @@
+meta:
+  - .github/**
+  - .gitattributes
+  - .gitignore
+  - LICENSE
+  - SECURITY.md
+  - imports.json
+  - scripts.yml
+docs:
+  - ARCHITECTURE.md
+  - CONTRIBUTING.md
+  - README.md
+core:
+  - core/**
+executors:
+  - executors/**
+inventories:
+  - inventories/**
+modules:
+  - modules/**
+reporters:
+  - reporters/**
+vaults:
+  - vaults/**
