@@ -1,0 +1,37 @@
+name: Itsudeno
+version: 0.1.0
+description: Scriptable IT automation system.
+author: lowlighter (Simon Lecoq)
+repository: https://github.com/lowlighter/itsudeno
+license:
+  name: GNU General Public License v3.0
+  link: https://github.com/lowlighter/itsudeno/blob/main/LICENSE
+
+allow:
+  - all
+imap: imports.json
+unstable: true
+scripts:
+  build:
+    desc: Build app
+    cmd:
+      # - deno run core/internal/builder/definition.ts
+      # - dprint fmt --config .github/config/dprint.json core/generated/**/*
+  test:
+    desc: Run tests
+    cmd:
+      - deno test --coverage=.coverage
+      # - deno coverage .coverage
+  lint:
+    desc: Lint code
+    cmd: deno lint
+  fmt:
+    desc: Format code
+    cmd: dprint fmt --config .github/config/dprint.json
+  fmt-check:
+    desc: Format code (check)
+    cmd: dprint check --config .github/config/dprint.json
+  dev:
+    desc: Setup development environment
+    cmd:
+      - curl -fsSL https://dprint.dev/install.sh | sh
