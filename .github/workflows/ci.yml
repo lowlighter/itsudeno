@@ -1,0 +1,27 @@
+name: Continuous integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - '**/*.md'
+
+jobs:
+
+  codeql:
+    name: Analyze code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup CodeQL
+        uses: github/codeql-action/init@v1
+        with:
+          languages: typescript
+          config-file: .github/config/codeql.yml
+      - name: Analyze code
+        uses: github/codeql-action/analyze@v1
