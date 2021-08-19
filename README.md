@@ -1,6 +1,8 @@
 # 🍣 Itsudeno
 
 > ⚠️ This project is in active development and will be available at a later date.
+>
+> ℹ️ Progress towards initial release can be tracked [here](https://github.com/lowlighter/itsudeno/discussions/3)
 
 *Itsudeno* is a scriptable IT automation system written in [TypeScript](https://github.com/Microsoft/TypeScript) and running on [Deno](https://github.com/denoland/deno).
 It can be used to easily deploy and configure applications, services and networks on target hosts.
@@ -25,13 +27,13 @@ Use [YAML](https://yaml.org/) and [template literals](https://developer.mozilla.
     policy: drop
 ```
 
-Or use it directly with [TypeScript](https://github.com/microsoft/TypeScript) and [deno](https://github.com/denoland/deno) for imperative programming:
+Or use it directly with [TypeScript](https://github.com/microsoft/TypeScript) and [Deno](https://github.com/denoland/deno) for imperative programming:
 
 ```ts
 import * as it from "https://deno.land/x/itsudeno";
 
 for (const chain of ["input", "output"]) {
-  await it.mod.net.ip.firewall({
+  await it.modules.net.ip.firewall({
     _: `Set default policy for firewall for ${chain}`,
     _using:"ssh",
     _as: "root",
@@ -88,9 +90,9 @@ Modules are built to be **idempotent**, **cross-platform**, **previewable**, **c
 ### 🍖 Mighty executors
 
 *Itsudeno* handles module executions through the concept of executors.
-They are in charge of packaging modules into a small JavaScript payloads and connecting to target host to run the bundled scripts.
+They are in charge of packaging modules into small JavaScript payloads and connecting to target host to run these bundled scripts.
 
-There are no operating system restrictions for *Itsudeno* control node, except that it must be able to run [deno](https://github.com/denoland/deno).
+There are no operating system restrictions for *Itsudeno* control node, except that it must be able to run [Deno](https://github.com/denoland/deno).
 
 ```yml
 - _: Say hello using SSH
@@ -104,7 +106,7 @@ There are no operating system restrictions for *Itsudeno* control node, except t
 *Itsudeno* handles module outputs through the concept of reporters. For convenience, a default one is provided which should cover most use cases, though it is possible to switch to more complex ones.
 
 ```yml
-## Ping example.org ############################################################
+## Set file content ############################################################
 - my.itsudeno.host:
     content: "hello world" → "hello itsudeno"
     md5: "5eb63bbbe01eeed093cb22bb8f5acdc3" → "a66afc978304bf6dc01bd684dc211bad"
@@ -119,7 +121,7 @@ Hosts can be targetted in several ways, like **hostname**, **ip ranges**, and **
 Additional filtering can be performed through **traits**, which are collected automatically at runtime and contain various characteristics like operating system, services, etc.
 
 ```yml
-- _: Targets hosts in group "webservers" discovered as "debian" hosts
+- _: Targets hosts in group "webservers" discovered as "debian" hosts on runtime
   targets: webservers (debian)
   tasks:
     - flow.noop: # Do something
@@ -140,7 +142,7 @@ Additional filtering can be performed through **traits**, which are collected au
 
 *Itsudeno* provides multiple interfaces to manage hosts, such as command-line interface, web API and a web-based user interface.
 
-*(more informations about this section will be available at a later date)*
+>  ℹ️ *(more informations about this section will be available at a later date)*
 
 # 🦑 License
 
@@ -151,39 +153,6 @@ Copyright (c) 2021-present Simon Lecoq (lowlighter)
 
 ## 🍙 Contributing
 
-To report a bug, fill an [issue](https://github.com/lowlighter/itsudeno/issues) describing it.
-To suggest new features or request help, check out [discussions](https://github.com/lowlighter/itsudeno/discussions) instead.
-
-To contribute, submit a [pull request](https://github.com/lowlighter/itsudeno/pulls).
-Be sure to read both [ARCHITECTURE.md](/ARCHITECTURE.md) and [CONTRIBUTING.md](/CONTRIBUTING.md) to understand how *Itsudeno* is organized.
-
-# 🎉 Progress towards initial release
-
-- [ ] .github
-  - [ ] contributing
-  - [ ] architecture
-  - [ ] workflows
-- [ ] core
-  - [ ] internal
-    - [x] builder
-    - [ ] documenter
-    - [x] testing
-  - [x] executors
-  - [x] modules
-  - [ ] inventories
-  - [x] vaults
-  - [ ] reporters
-  - [x] tools
-  - [ ] setup
-- [x] executors
-  - [x] local
-  - [x] ssh
-- [ ] modules
-  - [x] log
-  - [x] net.ping
-- [ ] inventories
-  - [ ] local
-- [x] vaults
-  - [x] local
-- [ ] reporters
-  - [ ] console
+* To report a bug, fill an [issue](https://github.com/lowlighter/itsudeno/issues) describing it.
+* To suggest new features or request help, check out [discussions](https://github.com/lowlighter/itsudeno/discussions) instead.
+* To contribute, submit a [pull request](https://github.com/lowlighter/itsudeno/pulls).
