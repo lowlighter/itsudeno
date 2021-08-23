@@ -1,0 +1,33 @@
+//deno-lint-ignore-file ban-unused-ignore no-empty-interface (auto-generated)
+/*
+ * THIS FILE IS AUTO-GENERATED, PLEASE DO NOT EDIT
+ */
+
+//Imports
+import {Inventory} from "@core/inventories"
+
+/** <%= mod.about %> */
+export abstract class <%= mod.classname %> extends Inventory<raw, args> {
+  /** Constructor */
+  constructor(args?: raw) {
+    super(<%= mod.classname %>, args)
+  }
+
+  /** Url */
+  static readonly url = import.meta.url
+
+  /** Definition */
+  static readonly definition = <%- JSON.stringify(mod.definition) %>
+
+}
+export {<%= mod.classname %> as Inventory}
+
+/** Input arguments */
+export interface raw {
+<%= generate(mod.definition.args, "raw") %>
+}
+
+/** Validated and transformed arguments */
+export interface args {
+<%= generate(mod.definition.args, "args") %>
+}

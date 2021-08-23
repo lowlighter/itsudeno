@@ -1,0 +1,12 @@
+/*
+ * THIS FILE IS AUTO-GENERATED, PLEASE DO NOT EDIT
+ */
+
+//Imports
+<% for (const mod of mods) { %>import {<%= mod.classname %>} from "@generated/<%= mod.path %>/mod.ts"
+<% } %>
+
+//Exports
+export const <%= section %> = {
+  <% for (const mod of mods) { %>"<%= mod.index %>":<%= mod.classname %>,
+<% } %>}

@@ -1,0 +1,66 @@
+//deno-lint-ignore-file ban-unused-ignore no-empty-interface (auto-generated)
+/*
+ * THIS FILE IS AUTO-GENERATED, PLEASE DO NOT EDIT
+ */
+
+//Imports
+import {Module} from "@core/modules"
+import type {before as _before, initialized as _initialized, mcall, outcome as _outcome} from "@core/modules"
+import type {loose} from "@types"
+
+/** <%= mod.about %> */
+export class <%= mod.classname %> extends Module<raw, args, past, result> {
+  /** Constructor */
+  constructor() {
+    super(<%= mod.classname %>)
+  }
+
+  /** Execute module */
+  static async call(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
+    const instance = await new this().ready
+    return instance.call(args, context)
+  }
+
+  /** Arguments validator */
+  static async prevalidate(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
+    const instance = await new this().ready
+    return instance.prevalidate(args, {context})
+  }
+
+  /** Url */
+  static readonly url = import.meta.url
+
+  /** Definition */
+  static readonly definition = <%- JSON.stringify(mod.definition) %>
+
+}
+export {<%= mod.classname %> as Module}
+
+/** Input arguments */
+export interface raw {
+<%= generate(mod.definition.args, "raw") %>
+}
+
+/** Validated and transformed arguments */
+export interface args {
+<%= generate(mod.definition.args, "args") %>
+}
+
+/** Module target initializated (before execution) */
+export type initialized = _initialized<raw, args>
+
+/** Past state */
+export interface past extends result {
+<%= generate(mod.definition.past, "past") %>
+}
+
+/** Module target status (after probing) */
+export type before = _before<raw, args, past>
+
+/** Resulting state */
+export interface result {
+<%= generate(mod.definition.result, "result") %>
+}
+
+/** Module outcome */
+export type outcome = _outcome<raw, args, past, result>

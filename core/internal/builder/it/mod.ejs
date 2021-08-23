@@ -1,0 +1,9 @@
+/*
+ * THIS FILE IS AUTO-GENERATED, PLEASE DO NOT EDIT
+ */
+
+//Imports
+<% for (const implementation of mod.implementations) { %>import "@<%= mod.path %>/<%= implementation %>"
+<% } %>
+//Exports
+export {<%= mod.classname %>} from "@generated/<%= mod.path %>/it.ts"
