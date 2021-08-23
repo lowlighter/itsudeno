@@ -1,0 +1,27 @@
+description: |
+  Console reporter
+  Outputs module outcome through console
+
+args:
+  report:
+    description: Report options
+    type:
+      changes:
+        description: Report changes
+        type: boolean
+        default: true
+      result:
+        description: Report results
+        type: boolean
+        default: true
+      skipped:
+        description: Report skipped executions
+        type: boolean
+        default: true
+      success:
+        description: Report successful executions
+        type: boolean
+        default: true
+
+maintainers:
+  - lowlighter
