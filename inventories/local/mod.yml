@@ -1,0 +1,14 @@
+description: |
+  Local inventory
+  Stores hosts locally
+
+args:
+  path:
+    description: Inventory file path
+    type: string
+    match:
+      - filepath
+    default: ${it.settings.inventories.local.path}
+
+maintainers:
+  - lowlighter
