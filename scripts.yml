@@ -12,11 +12,13 @@ allow:
 imap: imports.json
 unstable: true
 scripts:
+  cli:
+    cmd: deno run interfaces/cli/mod.ts
   build:
     desc: Build app
     cmd:
-      # - deno run core/internal/builder/definition.ts
-      # - dprint fmt --config .github/config/dprint.json core/generated/**/*
+      - deno run core/internal/builder/definition.ts
+      - dprint fmt --config .github/config/dprint.json core/generated/**/*
   test:
     desc: Run tests
     cmd:
@@ -27,7 +29,7 @@ scripts:
     cmd: deno lint
   fmt:
     desc: Format code
-    cmd: # dprint fmt --config .github/config/dprint.json
+    cmd: dprint fmt --config .github/config/dprint.json
   fmt-check:
     desc: Format code (check)
-    cmd: # dprint check --config .github/config/dprint.json
+    cmd: dprint check --config .github/config/dprint.json
