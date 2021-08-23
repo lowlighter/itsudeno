@@ -1,0 +1,6 @@
+- _: log message
+  args:
+    message: itsudeno
+  failed: false
+  result:
+    message: itsudeno

@@ -1,0 +1,18 @@
+description: |
+  Log a message
+
+args:
+  message:
+    description: Message to log
+    type: string
+    required: true
+    aliases:
+      - msg
+past: ~
+result:
+  message:
+    description: Message logged
+    type: string
+
+maintainers:
+  - lowlighter
