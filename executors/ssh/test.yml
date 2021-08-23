@@ -1,0 +1,15 @@
+#- _: echo itsudeno
+#  module:
+#    name: log
+#    args:
+#      message: itsudeno
+#  args:
+#      host: #
+#      port: #
+#      key: #
+#  failed: false
+#  result:
+#    code: 0
+#    module:
+#      result:
+#        message: itsudeno

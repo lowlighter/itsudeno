@@ -1,0 +1,25 @@
+description: |
+  Run command through SSH
+
+args:
+  host:
+    description: Remote host
+    required: true
+    type: string
+  login:
+    description: Login user
+    type: string
+    default: root
+  password:
+    description: Login password
+    type: string
+  key:
+    description: Identity file
+    type: string
+  port:
+    description: Remote port
+    type: number
+    default: 22
+
+maintainers:
+  - lowlighter
