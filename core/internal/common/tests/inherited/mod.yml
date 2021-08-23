@@ -1,0 +1,6 @@
+description: inherited
+args:
+  bar:
+    description: bar
+    type: boolean
+    default: false
