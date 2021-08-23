@@ -1,4 +1,5 @@
-//deno-lint-ignore-file no-unused-vars (for some reason `safe` is detected as unused but this isn't the case)
+//deno-lint-ignore-file no-unused-vars
+//(for some reason `safe` is detected as unused but this isn't the case)
 //Imports
 import {Logger} from "@tools/log"
 import {renderToString} from "x/dejs@0.10.0/mod.ts"

@@ -30,7 +30,7 @@ export const is = Object.assign(function(query: string, x: unknown) {
   symbol(x: unknown): x is unknown {
     return typeof x === "symbol"
   },
-  //deno-lint-ignore ban-types (intended)
+  //deno-lint-ignore ban-types
   function(x: unknown): x is Function {
     return typeof x === "function"
   },

@@ -18,8 +18,10 @@ export function access<T = unknown>(object: unknown, path: string, {set, deleted
           (object as loose)[key] = set
         break
       }
-      //deno-lint-ignore no-extra-semi
-      ;(object as loose)[key] ??= {}
+      else {
+        //deno-lint-ignore no-extra-semi
+        ;(object as loose)[key] ??= {}
+      }
     }
     //Continue traversal
     if (!(key in (object as loose)))

@@ -53,10 +53,11 @@ Inventory.register(
       const queried = this.parse(queries)
       for (const {groups} of queried) {
         //Seems there are some issues with dndb so the filtering below is not optimized, but ideally $all should be used
-        //deno-lint-ignore no-extra-semi
-        ;[...await this.#inventory.find({}) as Array<{k: string, g: string[], d: loose, e: loose}>]
-          .filter(({k, g}) => groups.includes(k) || groups.every(group => g.includes(group)))
-          .map(({k, g, d, e}) => hosts.add(this.instantiate(k, {name: k, groups: g, data: d, executors: e}).name))
+        await Promise.all(
+          [...await this.#inventory.find({}) as Array<{k: string, g: string[], d: loose, e: loose}>]
+            .filter(({k, g}) => groups.includes(k) || groups.every(group => g.includes(group)))
+            .map(({k, g, d, e}) => hosts.add(this.instantiate(k, {name: k, groups: g, data: d, executors: e}).name)),
+        )
       }
       log.vvv(`found ${hosts.size} results for query ${JSON.stringify(queried)}`)
       return [...hosts].sort()

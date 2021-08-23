@@ -1,4 +1,4 @@
-//deno-lint-ignore-file ban-unused-ignore no-empty-interface (auto-generated)
+//deno-lint-ignore-file ban-unused-ignore no-empty-interface
 /*
  * THIS FILE IS AUTO-GENERATED, PLEASE DO NOT EDIT
  */

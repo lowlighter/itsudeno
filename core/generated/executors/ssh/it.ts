@@ -1,5 +1,5 @@
-//deno-lint-ignore-file ban-unused-ignore (auto-generated)
-//deno-lint-ignore-file no-empty-interface (auto-generated)
+//deno-lint-ignore-file ban-unused-ignore
+//deno-lint-ignore-file no-empty-interface
 /*
  * THIS FILE IS AUTO-GENERATED, PLEASE DO NOT EDIT
  */

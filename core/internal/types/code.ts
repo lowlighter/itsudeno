@@ -1,4 +1,4 @@
-//deno-lint-ignore no-explicit-any (intended)
+//deno-lint-ignore no-explicit-any
 type notyping = any
 
 /** Friend class (used to access protected and private properties of a class) */

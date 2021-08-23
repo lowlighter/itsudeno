@@ -9,7 +9,7 @@ import type {infered, loose} from "@types"
 const log = new Logger(import.meta.url)
 
 /** Validate a set of arguments against a specs definition */
-//deno-lint-ignore ban-types (intended)
+//deno-lint-ignore ban-types
 export async function validate<T extends {}, U = T>(args: T | null, definition: definitions | null, {mode = "input", strategy = "delayed", strict = false, context = {}}: {mode?: mode, strategy?: strategy, strict?: boolean, context?: loose}) {
   const report = new Report({strategy, strict})
   const validated = {} as loose
