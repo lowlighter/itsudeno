@@ -1,0 +1,9 @@
+- _: ping 8.8.8.8
+  args:
+    host: 8.8.8.8
+    packets: 5
+  failed: false
+  result:
+    host: 8.8.8.8
+    ip: 8.8.8.8
+    transmitted: 5

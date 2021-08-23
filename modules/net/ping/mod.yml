@@ -1,0 +1,49 @@
+description: |
+  Ping an host using ICMP
+
+args:
+  host:
+    description: Host to ping
+    type: string
+    required: true
+    examples:
+      - itsudeno.land
+      - 8.8.8.8
+  packets:
+    description: Number of packets to send
+    type: number
+    match:
+      - positive
+      - integer
+      - nonzero
+    default: 4
+past: ~
+result:
+  host:
+    description: Pinged host
+    type: string
+    examples:
+      - itsudeno.land
+  ip:
+    description: Pinged host ip address
+    type: string
+    optional: true
+    examples:
+      - 172.67.154.242
+  transmitted:
+    description: Number of transmitted packets
+    type: number
+    match:
+      - positive
+      - integer
+  received:
+    description: Number of received packets
+    type: number
+    match:
+      - positive
+      - integer
+  loss:
+    description: Loss percentage
+    type: number
+    match:
+      - percentage
