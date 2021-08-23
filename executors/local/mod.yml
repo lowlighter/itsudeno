@@ -1,0 +1,23 @@
+description: |
+  Run command locally
+
+args:
+  shell:
+    description: Shell
+    type:
+      executable:
+        description: Shell executable
+        type: string
+        match:
+          - filepath
+        default: ${{windows:"powershell.exe"}[os] ?? "/bin/sh"}
+      type:
+        description: Shell type
+        type: string
+        values:
+          - posix
+          - powershell
+        default: ${{windows:"powershell"}[os] ?? "posix"}
+
+maintainers:
+  - lowlighter
