@@ -1,0 +1,22 @@
+description: |
+  Local vault
+  Stores secrets locally and encrypt them with AES cipher
+
+args:
+  key:
+    description: AES cipher key
+    type: string
+    match:
+      - length(16)
+      - length(24)
+      - length(32)
+    default: ${it.settings.vaults.local.key}
+  path:
+    description: Vault file path
+    type: string
+    match:
+      - filepath
+    default: ${it.settings.vaults.local.path}
+
+maintainers:
+  - lowlighter
