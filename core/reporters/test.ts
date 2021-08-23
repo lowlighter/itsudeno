@@ -1,4 +1,5 @@
 //Imports
+import {Executor} from "@core/executors"
 import {Module} from "@core/modules"
 import {esm} from "@tools/internal"
 import {is} from "@tools/is"
@@ -25,7 +26,9 @@ for (const [type, Reporter] of Object.entries(Reporters) as test) {
 
     test("report outcome", async () => {
       const reporter = await setup()
-      reporter.report((Module as test).outcome({name: "itsudeno", meta: {module: esm(import.meta.url), target: "localhost", mode: "apply"}, args: {}}))
+      const outcome = (Executor as test).outcome({module: {name: "itsudeno", args: {}, target: "localhost"}, meta: {executor: esm(import.meta.url), scope: "test", target: "localhost"}, args: {}})
+      outcome.result.module = (Module as test).outcome({name: "itsudeno", meta: {module: esm(import.meta.url), target: "localhost", mode: "apply"}, args: {}})
+      reporter.report(outcome)
     })
   })
 }

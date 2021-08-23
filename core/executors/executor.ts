@@ -156,6 +156,6 @@ export abstract class Executor<raw, args> extends Common<definition> {
 
   /** Create an empty executor result */
   private static outcome<raw, args>({meta, args, module}: {meta: meta, args: args, module: payload}): outcome<raw, args> {
-    return {meta, args, module, error: null, failed: false, success: true, completed: null} as outcome<raw, args>
+    return {meta, args, module, result: {}, error: null, failed: false, success: true, completed: null} as outcome<raw, args>
   }
 }
