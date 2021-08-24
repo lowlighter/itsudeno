@@ -5,8 +5,8 @@ import {deepmerge} from "@tools/std"
 import type {infered} from "@types"
 const log = new Logger(import.meta.url)
 
-//Load config file
-const path = resolve(".itsudeno/config.yml")
+//Load settings file
+const path = resolve(".itsudeno/settings.yml")
 log.info(`loading settings from ${path}`)
 
 /** Settings */
