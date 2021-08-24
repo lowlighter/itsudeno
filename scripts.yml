@@ -16,7 +16,9 @@ scripts:
     cmd: deno run interfaces/cli/mod.ts
   build:
     desc: Build app
-    cmd: deno run core/internal/builder/definition.ts
+    cmd:
+      - deno run core/internal/builder/definition.ts
+      - deno run core/internal/builder/documentation.ts
   test:
     desc: Run tests
     cmd:
