@@ -9,6 +9,7 @@ import type {strategy} from "@tools/validate"
 import {stripColor} from "std/fmt/colors.ts"
 import {toFileUrl} from "std/path/mod.ts"
 import {ItsudenoError} from "@errors"
+import {Executors} from "@executors"
 import {Modules} from "@modules"
 import type {loose} from "@types"
 const log = new Logger(import.meta.url)
@@ -80,11 +81,22 @@ export abstract class Executor<raw, args> extends Common<definition> {
       outcome.args = {raw: args} as ({raw: raw} & args)
       Object.assign(outcome.args, await this.prevalidate(args, {context}))
 
-      //Bundle payload
-      const payload = await this.bundle(module, context)
+      //Resolve module context
+      if (!(module.name in Modules))
+        throw new ItsudenoError.Module(`unknown module: ${module.name}`)
+      const Module = Modules[module.name as keyof typeof Modules]
+      module.args = await Module.prevalidate(module.args, context)
 
-      //Apply executor
-      outcome.result = await Executor.prototype.apply.call(this, outcome, payload)
+      //Controller execution
+      if ((Module.definition as loose).controller) {
+        log.v(`${this.name} → (module execution forced on controller)`)
+        outcome.result = {code: 0, stdout: "", stderr: "", module: await Module.call(module.args)}
+      }
+      //Remote execution
+      else {
+        const payload = await this.bundle(module)
+        outcome.result = await Executor.prototype.apply.call(this, outcome, payload)
+      }
     }
     //Handle errors
     catch (error) {
@@ -100,12 +112,7 @@ export abstract class Executor<raw, args> extends Common<definition> {
   }
 
   /** Bundle payload */
-  private async bundle({name, args}: payload, context: loose) {
-    //Resolve context
-    if (!(name in Modules))
-      throw new ItsudenoError.Module(`unknown module: ${name}`)
-    args = await Modules[name as keyof typeof Modules].prevalidate(args, context)
-
+  private async bundle({name, args}: payload) {
     //Create payload
     const content = `import {Modules} from "@modules";["<${this.scope}>", JSON.stringify(await Modules['${name}'].call(${JSON.stringify(args)})), "</${this.scope}>"].map(line => console.log(line))`
     log.vvv(`preparing payload: ${content}`)

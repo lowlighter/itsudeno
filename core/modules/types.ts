@@ -7,6 +7,8 @@ export interface definition {
   description: string
   /** Inherited definition */
   inherits?: string
+  /** Whether execution is forced on controller */
+  controller?: boolean
   /** Arguments */
   args: _definition<input> | null
   /** Past state */
