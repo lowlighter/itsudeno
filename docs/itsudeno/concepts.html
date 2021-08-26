@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Itsudeno concepts</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css">
+  </head>
+  <body>
+
+    <div class="Header mb-6">
+      <div class="Header-item">
+        <a href="#" class="Header-link h3">🍣 Itsudeno</a>
+      </div>
+      <div class="Header-item Header-item--full"></div>
+      <details class="details-reset details-overlay mx-3">
+        <summary class="btn" aria-haspopup="true">
+          Menu
+        </summary>
+        <div class="SelectMenu">
+          <div class="SelectMenu-modal">
+            <div class="SelectMenu-list">
+              <a class="SelectMenu-item" role="menuitem" href="/itsudeno">Itsudeno</a>
+              <a class="SelectMenu-item" role="menuitem" href="/modules">Modules</a>
+              <a class="SelectMenu-item" role="menuitem" href="/executors">Executors</a>
+              <a class="SelectMenu-item" role="menuitem" href="/inventories">Inventories</a>
+              <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
+              <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE">License</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </details>
+      <div class="Header-item">
+        <input class="form-control Header-input" type="text" placeholder="Search"/>
+      </div>
+    </div>
+
+    <div class="container-lg p-4">
+
+<h2 id="about-itsudeno-components">About Itsudeno components</h2>
+<p><em>Itsudeno</em> is composed of modules, executors, inventories, vaults and reporters.</p>
+<p>Each component is defined by a specification (<code>mod.yml</code>) describing its supported arguments (along with typing, description, constraints, etc.).</p>
+<h3 id="modules">Modules</h3>
+<p>Modules are payloads that are bundled, sent and executed on target hosts through executors.
+They are used to apply configuration or execute action on target hosts.</p>
+<h3 id="executors">Executors</h3>
+<p>Executors are the links between <em>Itsudeno</em> controller and target hosts.
+They bundle, send and execute payload on target hosts.</p>
+<h3 id="inventories">Inventories</h3>
+<p>Inventories are used to store target hosts.
+They can be queried to retrieve a subset of hosts.</p>
+<h3 id="vaults">Vaults</h3>
+<p>Vaults are used to store secrets.
+They can be used to store passwords, token and other sensible data.</p>
+<h3 id="reporters">Reporters</h3>
+<p>Reporters are used to handle modules outcome.
+They can be used to print it to console, or to send them to a remote server.</p>
+<h3 id="interfaces">Interfaces</h3>
+<p>Interfaces are used to interact with <em>Itsudeno</em>.</p>
+<h2 id="about-itsudeno-syntaxes">About Itsudeno syntaxes</h2>
+<p><em>Itsudeno</em> offers two syntaxes.</p>
+<h3 id="yaml-syntax">YAML syntax</h3>
+<p>This syntax is based on the concept of tasks, which are described by a module, an executor, an inventory, a vault, a reporter along with a target host.</p>
+<p>It hides complexity and is usually recommended.</p>
+<h3 id="typescript-syntax">TypeScript syntax</h3>
+<p>This syntax uses directly <em>Itsudeno</em> components and is mostly intended for power users.</p>
+
+    </div>
+  </body>
+</html>
