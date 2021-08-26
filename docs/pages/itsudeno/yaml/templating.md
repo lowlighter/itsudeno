@@ -34,14 +34,14 @@ All features supported by JavaScript can be used, meaning that complex operation
 
 Files templating in *Itsudeno* is performed with EJS (learn more about EJS syntax [here](https://ejs.co/)).
 
-Basically, control blocks (`<% % %>`) are used to embed control statements while templated blocks (`<% %= %>`, `< %- %>`) are used to outputs returned value:
+Basically, control blocks (`<%- "<"+"% %"+">" %>`) are used to embed control statements while templated blocks(`<%- "<"+"%= %"+">" %>`, `<%- "<"+"%- %"+">" %>`) are used to outputs returned value:
 
 ```yml
 - _: Heads or Tails?
   file.content:
     path: /tmp/example
     content: |
-      <% for (let i = 0; i < 10; i++) { %>
-        Attempt <%= i %>: <%= Math.random() > 0.5 ? "Heads" : "Tails" %>
-      <% } %>
+      <%- "<"+"%" %> for (let i = 0; i < 10; i++) { <%- "%"+">" %>
+        Attempt <%- "<"+"%=" %> i <%- "%"+">" %>: <%- "<"+"%=" %> Math.random() > 0.5 ? "Heads" : "Tails" <%- "%"+">" %>
+      <%- "<"+"%" %> } <%- "%"+">" %>
 ```
