@@ -1,0 +1,58 @@
+description: |
+  Wait a certain amount of time before continuing
+
+controller: true
+
+args:
+  days:
+    description: Days
+    type: number
+    match:
+      - positive
+      - nonzero
+    default: 0
+    alias:
+      - d
+  hours:
+    description: Hours
+    type: number
+    match:
+      - positive
+      - nonzero
+    default: 0
+    alias:
+      - h
+  minutes:
+    description: Minutes
+    type: number
+    match:
+      - positive
+      - nonzero
+    default: 0
+    alias:
+      - m
+      - min
+  seconds:
+    description: Seconds
+    type: number
+    match:
+      - positive
+      - nonzero
+    default: 0
+    alias:
+      - s
+      - sec
+  milliseconds:
+    description: Seconds
+    type: number
+    match:
+      - positive
+      - nonzero
+    default: 0
+    alias:
+      - ms
+past: ~
+result: ~
+
+maintainers:
+  - lowlighter
