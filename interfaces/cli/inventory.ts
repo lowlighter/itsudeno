@@ -79,9 +79,7 @@ export const cli = {
           }
           case "delete": {
             if (host.groups.includes(group)) {
-              console.log(host.groups)
               host.groups.splice(host.groups.indexOf(group), 1)
-              console.log(host.groups)
               log.vvv(`${host.name}: removed from group ${group}`)
             }
             continue
