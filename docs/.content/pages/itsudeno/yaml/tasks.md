@@ -5,11 +5,11 @@ title: Itsudeno tasks
 ## About tasks
 
 An *Itsudeno* task is a small [YAML](https://yaml.org/) snippet which is composed of:
-- A [module identifier](/about/yaml/modules), which define which payload will be executed on target host
-- An [module executor](/about/yaml/executor), which tell how to connect, send and execute module payload on target host
-- A [module reporter](/about/yaml/reporters), which handles module output
-- An [inventory](/about/yaml/inventories), which contains targets hosts
-- A [vault](/about/yaml/vaults), which contains secrets
+- A [module identifier](/modules), which define which payload will be executed on target host
+- An [module executor](/executors), which tell how to connect, send and execute module payload on target host
+- A [module reporter](/reporters), which handles module output
+- An [inventory](/inventories), which contains targets hosts
+- A [vault](/vaults), which contains secrets
 
 Here's an example, where the target host will ping its loopback address:
 ```yml
@@ -44,7 +44,7 @@ Tasks can also be defined by passing an array instead:
         msg: hello world
 ```
 
-The latter syntax is mostly used to create [scopes](/about/yaml/scopes)
+The latter syntax is mostly used to create [scopes](/yaml/scopes)
 
 ### Specifying *Itsudeno* components
 
@@ -54,7 +54,7 @@ Used executor, inventory, vault and reporter can be specified using the followin
 - `vault` for vaults
 - `report` for reporters
 
-Note that as noted in [setup](/about/setup), these must be setup in settings in order to be used.
+Note that as noted in [setup](/setup), these must be setup in settings in order to be used.
 
 ```yml
 - _: Say hello world using "ssh" executor and report it to "console"

@@ -6,7 +6,7 @@ title: Itsudeno concepts
 
 *Itsudeno* is composed of modules, executors, inventories, vaults and reporters.
 
-Each component is defined by a specification (`mod.yml`) describing its supported arguments (along with typing, description, constraints, etc.).
+Each component is defined by a [specification (`mod.yml`)](/specifications) describing its supported arguments (along with typing, description, constraints, etc.).
 
 ### Modules
 
