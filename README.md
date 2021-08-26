@@ -2,7 +2,7 @@
 
 > ⚠️ This project is in active development and will be available at a later date.
 >
-> ℹ️ Progress towards initial release can be tracked [here](https://github.com/lowlighter/itsudeno/discussions/3)
+> ℹ️ Progress can be tracked [here](https://github.com/lowlighter/itsudeno/discussions/3)
 
 *Itsudeno* is a scriptable IT automation system written in [TypeScript](https://github.com/Microsoft/TypeScript) and running on [Deno](https://github.com/denoland/deno).
 It can be used to easily deploy and configure applications, services and networks on target hosts.
@@ -56,10 +56,10 @@ File templating use [EJS (Embedded JavaScript templating)](https://ejs.co/).
     command: echo ${["hello", "bonjour", "你好", "こんにちは"][~~(4*Math.random())]}
 
 - _: Template a file content with EJS
-  files.template:
+  fs.file:
     content: |
-      <% for (const word of ["hello", "bonjour", "你好", "こんにちは"]) { %>
-      <%= word %>
+      <% for (let i = 0; i < 10; i++) { %>
+        Attempt <%= i %>: <%= Math.random() > 0.5 ? "Heads" : "Tails" %>
       <% } %>
 ```
 
@@ -71,10 +71,7 @@ Modules are built to be **idempotent**, **cross-platform**, **previewable**, **c
 
 ```js
 {
-  "name": "modules.log",
-  "changes": {
-    "policy": "drop"
-  },
+  "name": "net.ip.firewall",
   "past": {
     "policy": "accept"
   },
@@ -90,9 +87,9 @@ Modules are built to be **idempotent**, **cross-platform**, **previewable**, **c
 ### 🍖 Mighty executors
 
 *Itsudeno* handles module executions through the concept of executors.
-They are in charge of packaging modules into small JavaScript payloads and connecting to target host to run these bundled scripts.
+They bundle modules into JavaScript payload, and send and execute them on target hosts.
 
-There are no operating system restrictions for *Itsudeno* control node, except that it must be able to run [Deno](https://github.com/denoland/deno).
+There are no operating system limitations for both *Itsudeno* controller and target hosts, except that they must be able to run [Deno](https://github.com/denoland/deno).
 
 ```yml
 - _: Say hello using SSH
@@ -107,10 +104,12 @@ There are no operating system restrictions for *Itsudeno* control node, except t
 
 ```yml
 ## Set file content ############################################################
-- my.itsudeno.host:
-    content: "hello world" → "hello itsudeno"
-    md5: "5eb63bbbe01eeed093cb22bb8f5acdc3" → "a66afc978304bf6dc01bd684dc211bad"
-    permissions: rwxrwxrwx → rw-rw-r-
+- fs.file:
+  my.itsudeno.host:
+    changes:
+      content: "hello world" → "hello itsudeno"
+      md5: "5eb63bbbe01eeed093cb22bb8f5acdc3" → "a66afc978304bf6dc01bd684dc211bad"
+      permissions: rwxrwxrwx → rw-rw-r-
 ```
 
 ## 🍡 Flexible inventories
@@ -124,7 +123,7 @@ Additional filtering can be performed through **traits**, which are collected au
 - _: Targets hosts in group "webservers" discovered as "debian" hosts on runtime
   targets: webservers (debian)
   tasks:
-    - flow.noop: # Do something
+    - control.noop: # Do something
 ```
 
 ## 🍢 Secured secrets with vaults
