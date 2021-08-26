@@ -12,19 +12,19 @@ import type {infered, loose} from "@types"
 const log = new Logger(import.meta.url)
 
 //Load pages
-for await (const {path} of glob("docs/pages/**/*.md"))
+for await (const {path} of glob("docs/.content/pages/**/*.md"))
   await build(path, {type: "page"})
 
 //Load components
 const indexes = new Map<string, infered>()
 for (const section of ["executors", "vaults", "modules", "inventories", "reporters"]) {
   for await (const {path} of glob(`${section}/**/mod.yml`))
-    await build(`docs/partials/${section}/mod.md`, {type: section, context: {mod: await Common.about(path)}})
+    await build(`docs/.content/partials/${section}/mod.md`, {type: section, context: {mod: await Common.about(path)}})
 }
 
 //Load components list
 for (const [section, list] of indexes.entries())
-  await build(`docs/partials/${section}/index.md`, {type: `list/${section}`, context: {list: [...Object.values(list)]}})
+  await build(`docs/.content/partials/${section}/index.md`, {type: `list/${section}`, context: {list: [...Object.values(list)]}})
 
 /** Build pages */
 async function build(path: string, {type, context = {}}: {type: string, context?: loose}) {
@@ -77,7 +77,7 @@ async function build(path: string, {type, context = {}}: {type: string, context?
 
 /** Resolve a path within project documentation directory */
 function resolve(path: string) {
-  return _resolve(`docs/generated/${_resolve(path, {full: false}).replace(/^docs.pages./, "").replace(/.md$/, ".html").replace(/(?<!\.(?:md|html))$/, ".html")}`)
+  return _resolve(`docs/${_resolve(path, {full: false}).replace(/^docs\/\.content\/pages\//, "").replace(/.md$/, ".html").replace(/(?<!\.(?:md|html))$/, ".html")}`)
 }
 
 /** Include a partial template */
@@ -89,5 +89,5 @@ async function partial(path: string, context: loose = {}) {
       },
     },
   })
-  return await template(await read(`docs/partials/${path}`), context, {mode: "ejs"})
+  return await template(await read(`docs/.content/partials/${path}`), context, {mode: "ejs"})
 }
