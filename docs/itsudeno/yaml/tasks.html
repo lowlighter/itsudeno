@@ -44,11 +44,11 @@
 <p>An <em>Itsudeno</em> task is a small <a href="https://yaml.org/">YAML</a> snippet which is composed of:</p>
 
 <ul>
-<li>A <a href="/about/yaml/modules">module identifier</a>, which define which payload will be executed on target host</li>
-<li>An <a href="/about/yaml/executor">module executor</a>, which tell how to connect, send and execute module payload on target host</li>
-<li>A <a href="/about/yaml/reporters">module reporter</a>, which handles module output</li>
-<li>An <a href="/about/yaml/inventories">inventory</a>, which contains targets hosts</li>
-<li>A <a href="/about/yaml/vaults">vault</a>, which contains secrets</li>
+<li>A <a href="/modules">module identifier</a>, which define which payload will be executed on target host</li>
+<li>An <a href="/executors">module executor</a>, which tell how to connect, send and execute module payload on target host</li>
+<li>A <a href="/reporters">module reporter</a>, which handles module output</li>
+<li>An <a href="/inventories">inventory</a>, which contains targets hosts</li>
+<li>A <a href="/vaults">vault</a>, which contains secrets</li>
 </ul>
 <p>Here&#39;s an example, where the target host will ping its loopback address:</p>
 
@@ -78,7 +78,7 @@ Underscores (<code>_</code>) are used to give them a human friendly name.</p>
       log:
         msg: hello world
 </code></pre>
-<p>The latter syntax is mostly used to create <a href="/about/yaml/scopes">scopes</a></p>
+<p>The latter syntax is mostly used to create <a href="/yaml/scopes">scopes</a></p>
 <h3 id="specifying-itsudeno-components">Specifying <em>Itsudeno</em> components</h3>
 <p>Used executor, inventory, vault and reporter can be specified using the following keywords:</p>
 
@@ -88,7 +88,7 @@ Underscores (<code>_</code>) are used to give them a human friendly name.</p>
 <li><code>vault</code> for vaults</li>
 <li><code>report</code> for reporters</li>
 </ul>
-<p>Note that as noted in <a href="/about/setup">setup</a>, these must be setup in settings in order to be used.</p>
+<p>Note that as noted in <a href="/setup">setup</a>, these must be setup in settings in order to be used.</p>
 
 <pre><code class="lang-yml">- _: Say hello world using &quot;ssh&quot; executor and report it to &quot;console&quot;
   using: ssh
