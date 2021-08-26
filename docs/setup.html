@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Itsudeno setup</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
-    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css">
+    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^17.6.1/dist/primer.css">
+    <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
 
@@ -21,12 +22,16 @@
         <div class="SelectMenu">
           <div class="SelectMenu-modal">
             <div class="SelectMenu-list">
-              <a class="SelectMenu-item" role="menuitem" href="/itsudeno">Itsudeno</a>
+              <a class="SelectMenu-title" role="menuitem" href="/">Itsudeno</a>
+              <a class="SelectMenu-item" role="menuitem" href="/yaml">YAML syntax</a>
+              <a class="SelectMenu-item" role="menuitem" href="/typescript">TypeScript syntax</a>
+              <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="/modules">Modules</a>
               <a class="SelectMenu-item" role="menuitem" href="/executors">Executors</a>
               <a class="SelectMenu-item" role="menuitem" href="/inventories">Inventories</a>
               <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
               <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
+              <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE">License</a>
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno">GitHub</a>
             </div>

@@ -15,6 +15,7 @@ Itsudeno is a scriptable IT automation system written in TypeScript and running 
 
 * [Tasks](/yaml/tasks)
 * [Templating](/yaml/templating)
+* [Scopes](/yaml/scopes)
 
 ## TypeScript Syntax
 
