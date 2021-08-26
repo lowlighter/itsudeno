@@ -1,4 +1,8 @@
 - _: Hello itsudeno!
   using: local
+  control.noop:
+
+- _: Hello itsudeno!
+  using: local
   log:
     message: Current time is ${new Date()}

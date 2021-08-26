@@ -18,7 +18,7 @@ export class NetPingModule extends Module<raw, args, past, result> {
   /** Execute module */
   static async call(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
     const instance = await new this().ready
-    return instance.call(args, context)
+    return instance.call(args ?? {}, context)
   }
 
   /** Arguments validator */

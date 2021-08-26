@@ -2,6 +2,12 @@
 
 <%= mod.about %>
 
+<% if (mod.definition.controller) { %>
+<div class="flash mt-3 flash-warn">
+This module is always executed on controller, regardless of current executor.
+</div>
+<% } %>
+
 ### Arguments
 
 <% if (mod.definition.args) { %>
