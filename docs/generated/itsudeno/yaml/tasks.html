@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en" data-color-mode="auto" data-light-theme="light" data-dark-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Itsudeno tasks</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
+    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css">
+  </head>
+  <body>
+
+    <div class="Header mb-6">
+      <div class="Header-item">
+        <a href="#" class="Header-link h3">🍣 Itsudeno</a>
+      </div>
+      <div class="Header-item Header-item--full"></div>
+      <details class="details-reset details-overlay mx-3">
+        <summary class="btn" aria-haspopup="true">
+          Menu
+        </summary>
+        <div class="SelectMenu">
+          <div class="SelectMenu-modal">
+            <div class="SelectMenu-list">
+              <a class="SelectMenu-item" role="menuitem" href="/itsudeno">Itsudeno</a>
+              <a class="SelectMenu-item" role="menuitem" href="/modules">Modules</a>
+              <a class="SelectMenu-item" role="menuitem" href="/executors">Executors</a>
+              <a class="SelectMenu-item" role="menuitem" href="/inventories">Inventories</a>
+              <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
+              <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE">License</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </details>
+      <div class="Header-item">
+        <input class="form-control Header-input" type="text" placeholder="Search"/>
+      </div>
+    </div>
+
+    <div class="container-lg p-4">
+
+<h2 id="about-tasks">About tasks</h2>
+<p>An <em>Itsudeno</em> task is a small <a href="https://yaml.org/">YAML</a> snippet which is composed of:</p>
+
+<ul>
+<li>A <a href="/about/yaml/modules">module identifier</a>, which define which payload will be executed on target host</li>
+<li>An <a href="/about/yaml/executor">module executor</a>, which tell how to connect, send and execute module payload on target host</li>
+<li>A <a href="/about/yaml/reporters">module reporter</a>, which handles module output</li>
+<li>An <a href="/about/yaml/inventories">inventory</a>, which contains targets hosts</li>
+<li>A <a href="/about/yaml/vaults">vault</a>, which contains secrets</li>
+</ul>
+<p>Here&#39;s an example, where the target host will ping its loopback address:</p>
+
+<pre><code class="lang-yml">- _: Ping localhost
+  net.ping:
+    host: 127.0.0.1
+</code></pre>
+<h3 id="basic-syntax">Basic syntax</h3>
+<p>Tasks are actually handled through arrays, which is why each one is preceded by an hyphen (<code>-</code>).
+Underscores (<code>_</code>) are used to give them a human friendly name.</p>
+<p>Tasks can be imported in several ways using <code>tasks</code> keyword:</p>
+
+<pre><code class="lang-yml">- _: Import tasks from a relative path to current file
+  tasks: example.yml
+
+- _: Import tasks from an absolute path
+  tasks: /example.yml
+
+- _: Import tasks from an URL
+  tasks: https://deno.land/x/itsudeno/docs/examples/example.yml
+</code></pre>
+<p>Tasks can also be defined by passing an array instead:</p>
+
+<pre><code class="lang-yml">- _: A group of tasks
+  tasks:
+    - _: Say hello world
+      log:
+        msg: hello world
+</code></pre>
+<p>The latter syntax is mostly used to create <a href="/about/yaml/scopes">scopes</a></p>
+<h3 id="specifying-itsudeno-components">Specifying <em>Itsudeno</em> components</h3>
+<p>Used executor, inventory, vault and reporter can be specified using the following keywords:</p>
+
+<ul>
+<li><code>using</code> for executors</li>
+<li><code>inventory</code> for inventories</li>
+<li><code>vault</code> for vaults</li>
+<li><code>report</code> for reporters</li>
+</ul>
+<p>Note that as noted in <a href="/about/setup">setup</a>, these must be setup in settings in order to be used.</p>
+
+<pre><code class="lang-yml">- _: Say hello world using &quot;ssh&quot; executor and report it to &quot;console&quot;
+  using: ssh
+  report: console
+  log:
+    msg: hello world
+</code></pre>
+<p>These are defined for current scope, so any children tasks will inherit from their parent.</p>
+<h3 id="restricting-targets-hosts">Restricting targets hosts</h3>
+<p>A task is executed on all hosts of current inventory matching current query (which defaults to <code>(all)</code>).</p>
+<p>It is possible to restrict targetted hosts using <code>targets</code> keyword with one or more queries:</p>
+
+<pre><code class="lang-yml">- _: Say hello world (linux)
+  targets: linux
+  log:
+    msg: hello world
+
+- _: Say hello world (linux or windows)
+  targets:
+    - linux
+    - windows
+  log:
+    msg: hello world
+</code></pre>
+<h3 id="looping-over-data">Looping over data</h3>
+<p>Repetitive tasks can be factorised using <code>loop:</code> keyword, along with an identifier which will be made available in current scope:</p>
+
+<pre><code class="lang-yml">- _: Loop with item=${item}
+  loop:item:
+    - foo
+    - bar
+  log:
+    msg: ${item}
+</code></pre>
+<p>Multiple loops can be used within the same task, from outer loop to inner loop:</p>
+
+<pre><code class="lang-yml">- _: Loop with foo=${foo} and bar=${bar}
+  loop:foo: # Outer loop
+    - a
+    - b
+  loop:bar: # Inner loop
+    - c
+    - d
+  log:
+    msg: ${foo} ${bar}
+</code></pre>
+
+    </div>
+  </body>
+</html>
