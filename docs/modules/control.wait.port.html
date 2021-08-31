@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Itsudeno setup</title>
+    <title>Modules: control.wait.port</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
     <link rel="stylesheet" href="https://unpkg.com/@primer/css@^17.6.1/dist/primer.css">
     <link rel="stylesheet" href="/styles.css">
@@ -46,26 +46,78 @@
 
     <div class="container-lg p-4 markdown-body">
 
-<h1 id="-setup-deno-runtime">🦕 Setup Deno runtime</h1>
-<p><em>Itsudeno</em> is powered by <a href="https://deno.land">Deno runtime</a>.</p>
-<p>While it can be installed on target hosts using <em>Itsudeno</em> itself (provided that controller is able to connect to them), it must be installed first on controller.</p>
-<p>See this <a href="https://deno.land/manual/getting_started/installation">Deno install guide</a> for more informations.</p>
-<h1 id="-running-itsudeno">🦎 Running Itsudeno</h1>
-<h2 id="-from-source">🦖 From source</h2>
-<p><em>Itsudeno</em> can be run directly from source.</p>
-<p>It is advised to import and use entry points (named <code>mod.ts</code>) though it is actually possible to import any file.</p>
-<p><a href="https://velociraptor.run">Velociraptor</a> can be used to use scripts located in <code>scripts.yml</code>.</p>
-<h2 id="-from-cli">🐉 From CLI</h2>
-<p>To install <code>itsudeno</code> command line interface, use the following command:</p>
+<h2 id="modules-control-wait-port">modules.control.wait.port</h2>
+<p>Wait for a remote port to be responsive</p>
+<h3 id="arguments">Arguments</h3>
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      host
 
-<pre><code>deno install --allow-all --unstable --import-map https://deno.land/x/itsudeno/imports.json --lock https://deno.land/x/itsudeno/lock.json --name itsudeno https://deno.land/x/itsudeno/mod.ts
-</code></pre>
-<p>Use the following command for more informations about <code>itsudeno</code>:</p>
 
-<pre><code>itsudeno help
-</code></pre>
-<h2 id="-from-executable">🥚 From executable</h2>
-<p>Using <a href="https://deno.land/manual/tools/compiler">Deno compiler</a>, it is possible to create standalone <em>Itsudeno</em> executable for quick bootstrapping.</p>
+
+
+
+
+
+        <span class="Counter mr-1">Default: localhost</span>
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string</span>
+
+
+  </div>
+  <div class="Box-row">
+    Remote host
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      port
+
+
+        <span class="Label Label--info">Required</span>
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">number</span>
+
+        <span class="branch-name">port</span>
+
+
+  </div>
+  <div class="Box-row">
+    Remote port
+  </div>
+</div>
+
+
+
+<h3 id="past-state">Past state</h3>
+<blockquote>
+<p>This module does not collect any past state</p>
+</blockquote>
+<h3 id="result">Result</h3>
+<blockquote>
+<p>This module does not return any result</p>
+</blockquote>
+<hr>
+<h4 id="maintainers">Maintainers</h4>
+<blockquote>
+<p>This module does not have any maintainers yet</p>
+</blockquote>
 
     </div>
   </body>

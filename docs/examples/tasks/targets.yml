@@ -1,0 +1,11 @@
+- _: Say hello world (linux)
+  targets: linux
+  log:
+    msg: hello world
+
+- _: Say hello world (linux or windows)
+  targets:
+    - linux
+    - windows
+  log:
+    msg: hello world

@@ -1,0 +1,5 @@
+- _: A group of tasks
+  tasks:
+    - _: Say hello world
+      log:
+        msg: hello world

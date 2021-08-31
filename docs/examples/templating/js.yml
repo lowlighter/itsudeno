@@ -1,0 +1,13 @@
+- _: Print current time
+  log:
+    msg: Current time is ${new Date().toLocaleString()}
+
+- _: Template literals are cool
+    msg: |
+      ${
+        new Array(10).fill(null)
+          .map(() => Math.random())
+          .filter(x => x > 0.7)
+          .sort((a, b) => a - b)
+          .reduce((a, b) => a + b, 0)
+      }

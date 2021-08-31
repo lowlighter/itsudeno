@@ -2,13 +2,13 @@
 title: Itsudeno specifications
 ---
 
-## About specifications
+# 🟪 Specifications
 
 *Itsudeno* components are defined by a specification (`mod.yml`) describing its supported arguments (along with typing, description, constraints, etc.).
 
 It is used to generate TypeScript type definition, but also to ease arguments and result validation.
 
-### Implicit casting
+## ☯️ Implicit casting
 
 An implicit casting is automatically performed in order to reach expected typing.
 
@@ -28,7 +28,7 @@ This is why templating syntax can be used safely, even though they always return
     packets: ${4} # implicitely casted to a number
 ```
 
-### Values constraints
+## ⛎ Values constraints
 
 Arguments may have additional values constraints, in addition to expected typing.
 
@@ -44,7 +44,7 @@ Some arguments may only have specific values allowed.
 
 > *🚧 Work in progress*
 
-### Required and optional arguments
+## ⚛️ Required and optional arguments
 
 Arguments can be either required (must be provided) or optional (set to `null` or default value if defined).
 
@@ -62,7 +62,7 @@ Arguments can also be mutually exclusive with other arguments, or, on the contra
 
 > *🚧 Work in progress*
 
-### Aliases
+## ♐ Aliases
 
 Arguments may have aliases for convenience.
 

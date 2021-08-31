@@ -1,0 +1,6 @@
+- _: Loop with item=${item}
+  loop:item:
+    - foo
+    - bar
+  log:
+    msg: ${item}

@@ -2,6 +2,6 @@
 title: Itsudeno TypeScript
 ---
 
-## TypeScript Syntax
+# 🍘 TypeScript Syntax
 
 > *🚧 Work in progress*

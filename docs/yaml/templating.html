@@ -12,7 +12,7 @@
 
     <div class="Header mb-6">
       <div class="Header-item">
-        <a href="#" class="Header-link h3">🍣 Itsudeno</a>
+        <a href="/" class="Header-link h3">🍣 Itsudeno</a>
       </div>
       <div class="Header-item Header-item--full"></div>
       <details class="details-reset details-overlay mx-3">
@@ -22,7 +22,8 @@
         <div class="SelectMenu">
           <div class="SelectMenu-modal">
             <div class="SelectMenu-list">
-              <a class="SelectMenu-title" role="menuitem" href="/">Itsudeno</a>
+              <a class="SelectMenu-item" role="menuitem" href="/">Itsudeno</a>
+              <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="/yaml">YAML syntax</a>
               <a class="SelectMenu-item" role="menuitem" href="/typescript">TypeScript syntax</a>
               <hr class="SelectMenu-divider">
@@ -32,8 +33,8 @@
               <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
               <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
               <hr class="SelectMenu-divider">
-              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE">License</a>
-              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno">GitHub</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE" target="_blank">License</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno" target="_blank">GitHub</a>
             </div>
           </div>
         </div>
@@ -43,46 +44,24 @@
       </div>
     </div>
 
-    <div class="container-lg p-4">
+    <div class="container-lg p-4 markdown-body">
 
-<h2 id="about-templating">About templating</h2>
+<h1 id="-about-templating">✍️ About templating</h1>
 <p><em>Itsudeno</em> uses two templating systems:</p>
 
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">JavaScript template literals</a></li>
 <li><a href="https://ejs.co/">Embedded JavaScript templating (EJS)</a> <em>(for files)</em></li>
 </ul>
-<h3 id="javascript-template-literals">JavaScript template literals</h3>
+<h2 id="-javascript-template-literals">🖊️ JavaScript template literals</h2>
 <p>Templating in <em>Itsudeno</em> is implicit which is why no backticks (<code>\``) are required unlike JavaScript.
 Content between a dollar sign and curly brackets (</code>${}`) will be automatically templated unless escaped.</p>
-<p>All features supported by JavaScript can be used, meaning that complex operations can be achieved easily:</p>
-
-<pre><code class="lang-yml">- _: Print current time
-  log:
-    msg: Current time is ${new Date().toLocaleString()}
-
-- _: Template literals are cool
-    msg: |
-      ${
-        new Array(10).fill(null)
-          .map(() =&gt; Math.random())
-          .filter(x =&gt; x &gt; 0.7)
-          .sort((a, b) =&gt; a - b)
-          .reduce((a, b) =&gt; a + b, 0)
-      }
-</code></pre>
-<h3 id="embedded-javascript-templating-ejs-">Embedded JavaScript templating (EJS)</h3>
+<p>All features supported by JavaScript can be used, meaning that complex operations can be achieved easily:
+[object Promise]</p>
+<h2 id="-embedded-javascript-templating-ejs-">🖋️ Embedded JavaScript templating (EJS)</h2>
 <p>Files templating in <em>Itsudeno</em> is performed with EJS (learn more about EJS syntax <a href="https://ejs.co/">here</a>).</p>
-<p>Basically, control blocks (<code>&lt;% %&gt;</code>) are used to embed control statements while templated blocks(<code>&lt;%= %&gt;</code>, <code>&lt;%- %&gt;</code>) are used to outputs returned value:</p>
-
-<pre><code class="lang-yml">- _: Heads or Tails?
-  file.content:
-    path: /tmp/example
-    content: |
-      &lt;% for (let i = 0; i &lt; 10; i++) { %&gt;
-        Attempt &lt;%= i %&gt;: &lt;%= Math.random() &gt; 0.5 ? &quot;Heads&quot; : &quot;Tails&quot; %&gt;
-      &lt;% } %&gt;
-</code></pre>
+<p>Basically, control blocks (<code>&lt;% %&gt;</code>) are used to embed control statements while templated blocks(<code>&lt;%= %&gt;</code>, <code>&lt;%- %&gt;</code>) are used to outputs returned value:
+[object Promise]</p>
 
     </div>
   </body>

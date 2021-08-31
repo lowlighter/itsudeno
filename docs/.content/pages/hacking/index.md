@@ -2,6 +2,6 @@
 title: Itsudeno hacking
 ---
 
-## Hacking
+# 🍳 Hacking
 
 > *🚧 Work in progress*

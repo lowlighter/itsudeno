@@ -1,0 +1,7 @@
+- _: Heads or Tails?
+  file.content:
+    path: /tmp/example
+    content: |
+      <% for (let i = 0; i < 10; i++) { %>
+        Attempt <%= i %>: <%= Math.random() > 0.5 ? "Heads" : "Tails" %>
+      <% } %>

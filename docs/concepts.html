@@ -12,7 +12,7 @@
 
     <div class="Header mb-6">
       <div class="Header-item">
-        <a href="#" class="Header-link h3">🍣 Itsudeno</a>
+        <a href="/" class="Header-link h3">🍣 Itsudeno</a>
       </div>
       <div class="Header-item Header-item--full"></div>
       <details class="details-reset details-overlay mx-3">
@@ -22,7 +22,8 @@
         <div class="SelectMenu">
           <div class="SelectMenu-modal">
             <div class="SelectMenu-list">
-              <a class="SelectMenu-title" role="menuitem" href="/">Itsudeno</a>
+              <a class="SelectMenu-item" role="menuitem" href="/">Itsudeno</a>
+              <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="/yaml">YAML syntax</a>
               <a class="SelectMenu-item" role="menuitem" href="/typescript">TypeScript syntax</a>
               <hr class="SelectMenu-divider">
@@ -32,8 +33,8 @@
               <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
               <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
               <hr class="SelectMenu-divider">
-              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE">License</a>
-              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno">GitHub</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE" target="_blank">License</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno" target="_blank">GitHub</a>
             </div>
           </div>
         </div>
@@ -43,34 +44,34 @@
       </div>
     </div>
 
-    <div class="container-lg p-4">
+    <div class="container-lg p-4 markdown-body">
 
-<h2 id="about-itsudeno-components">About Itsudeno components</h2>
+<h1 id="about-itsudeno-components">About Itsudeno components</h1>
 <p><em>Itsudeno</em> is composed of modules, executors, inventories, vaults and reporters.</p>
 <p>Each component is defined by a <a href="/specifications">specification (<code>mod.yml</code>)</a> describing its supported arguments (along with typing, description, constraints, etc.).</p>
-<h3 id="modules">Modules</h3>
+<h2 id="modules">Modules</h2>
 <p>Modules are payloads that are bundled, sent and executed on target hosts through executors.
 They are used to apply configuration or execute action on target hosts.</p>
-<h3 id="executors">Executors</h3>
+<h2 id="executors">Executors</h2>
 <p>Executors are the links between <em>Itsudeno</em> controller and target hosts.
 They bundle, send and execute payload on target hosts.</p>
-<h3 id="inventories">Inventories</h3>
+<h2 id="inventories">Inventories</h2>
 <p>Inventories are used to store target hosts.
 They can be queried to retrieve a subset of hosts.</p>
-<h3 id="vaults">Vaults</h3>
+<h2 id="vaults">Vaults</h2>
 <p>Vaults are used to store secrets.
 They can be used to store passwords, token and other sensible data.</p>
-<h3 id="reporters">Reporters</h3>
+<h2 id="reporters">Reporters</h2>
 <p>Reporters are used to handle modules outcome.
 They can be used to print it to console, or to send them to a remote server.</p>
-<h3 id="interfaces">Interfaces</h3>
+<h2 id="interfaces">Interfaces</h2>
 <p>Interfaces are used to interact with <em>Itsudeno</em>.</p>
-<h2 id="about-itsudeno-syntaxes">About Itsudeno syntaxes</h2>
+<h1 id="about-itsudeno-syntaxes">About Itsudeno syntaxes</h1>
 <p><em>Itsudeno</em> offers two syntaxes.</p>
-<h3 id="yaml-syntax">YAML syntax</h3>
+<h2 id="yaml-syntax">YAML syntax</h2>
 <p>This syntax is based on the concept of tasks, which are described by a module, an executor, an inventory, a vault, a reporter along with a target host.</p>
 <p>It hides complexity and is usually recommended.</p>
-<h3 id="typescript-syntax">TypeScript syntax</h3>
+<h2 id="typescript-syntax">TypeScript syntax</h2>
 <p>This syntax uses directly <em>Itsudeno</em> components and is mostly intended for power users.</p>
 
     </div>

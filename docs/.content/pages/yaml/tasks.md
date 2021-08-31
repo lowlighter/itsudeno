@@ -2,7 +2,7 @@
 title: Itsudeno tasks
 ---
 
-## About tasks
+# 🟦 Tasks
 
 An *Itsudeno* task is a small [YAML](https://yaml.org/) snippet which is composed of:
 - A [module identifier](/modules), which define which payload will be executed on target host
@@ -12,41 +12,22 @@ An *Itsudeno* task is a small [YAML](https://yaml.org/) snippet which is compose
 - A [vault](/vaults), which contains secrets
 
 Here's an example, where the target host will ping its loopback address:
-```yml
-- _: Ping localhost
-  net.ping:
-    host: 127.0.0.1
-```
+<%- example("tasks/example.yml") %>
 
-### Basic syntax
+## #️⃣ Basic syntax
 
 Tasks are actually handled through arrays, which is why each one is preceded by an hyphen (`-`).
 Underscores (`_`) are used to give them a human friendly name.
 
 Tasks can be imported in several ways using `tasks` keyword:
-```yml
-- _: Import tasks from a relative path to current file
-  tasks: example.yml
-
-- _: Import tasks from an absolute path
-  tasks: /example.yml
-
-- _: Import tasks from an URL
-  tasks: https://deno.land/x/itsudeno/docs/examples/example.yml
-```
+<%- example("tasks/tasks_import.yml") %>
 
 Tasks can also be defined by passing an array instead:
-```yml
-- _: A group of tasks
-  tasks:
-    - _: Say hello world
-      log:
-        msg: hello world
-```
+<%- example("tasks/tasks_group.yml") %>
 
 The latter syntax is mostly used to create [scopes](/yaml/scopes)
 
-### Specifying *Itsudeno* components
+## 🔣 Specifying *Itsudeno* components
 
 Used executor, inventory, vault and reporter can be specified using the following keywords:
 - `using` for executors
@@ -55,57 +36,21 @@ Used executor, inventory, vault and reporter can be specified using the followin
 - `report` for reporters
 
 Note that as noted in [setup](/setup), these must be setup in settings in order to be used.
-
-```yml
-- _: Say hello world using "ssh" executor and report it to "console"
-  using: ssh
-  report: console
-  log:
-    msg: hello world
-```
+<%- example("tasks/components.yml") %>
 
 These are defined for current scope, so any children tasks will inherit from their parent.
 
-### Restricting targets hosts
+## 🔛 Restricting targets hosts
 
 A task is executed on all hosts of current inventory matching current query (which defaults to `(all)`).
 
 It is possible to restrict targetted hosts using `targets` keyword with one or more queries:
-```yml
-- _: Say hello world (linux)
-  targets: linux
-  log:
-    msg: hello world
+<%- example("tasks/targets.yml") %>
 
-- _: Say hello world (linux or windows)
-  targets:
-    - linux
-    - windows
-  log:
-    msg: hello world
-```
-
-### Looping over data
+## 🔁 Looping over data
 
 Repetitive tasks can be factorised using `loop:` keyword, along with an identifier which will be made available in current scope:
-```yml
-- _: Loop with item=${item}
-  loop:item:
-    - foo
-    - bar
-  log:
-    msg: ${item}
-```
+<%- example("tasks/loop_simple.yml") %>
 
 Multiple loops can be used within the same task, from outer loop to inner loop:
-```yml
-- _: Loop with foo=${foo} and bar=${bar}
-  loop:foo: # Outer loop
-    - a
-    - b
-  loop:bar: # Inner loop
-    - c
-    - d
-  log:
-    msg: ${foo} ${bar}
-```
+<%- example("tasks/loop_nested.yml") %>

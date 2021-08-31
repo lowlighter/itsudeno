@@ -12,7 +12,7 @@
 
     <div class="Header mb-6">
       <div class="Header-item">
-        <a href="#" class="Header-link h3">🍣 Itsudeno</a>
+        <a href="/" class="Header-link h3">🍣 Itsudeno</a>
       </div>
       <div class="Header-item Header-item--full"></div>
       <details class="details-reset details-overlay mx-3">
@@ -22,7 +22,8 @@
         <div class="SelectMenu">
           <div class="SelectMenu-modal">
             <div class="SelectMenu-list">
-              <a class="SelectMenu-title" role="menuitem" href="/">Itsudeno</a>
+              <a class="SelectMenu-item" role="menuitem" href="/">Itsudeno</a>
+              <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="/yaml">YAML syntax</a>
               <a class="SelectMenu-item" role="menuitem" href="/typescript">TypeScript syntax</a>
               <hr class="SelectMenu-divider">
@@ -32,8 +33,8 @@
               <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
               <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
               <hr class="SelectMenu-divider">
-              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE">License</a>
-              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno">GitHub</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE" target="_blank">License</a>
+              <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno" target="_blank">GitHub</a>
             </div>
           </div>
         </div>
@@ -43,9 +44,9 @@
       </div>
     </div>
 
-    <div class="container-lg p-4">
+    <div class="container-lg p-4 markdown-body">
 
-<h2 id="about-tasks">About tasks</h2>
+<h1 id="-tasks">🟦 Tasks</h1>
 <p>An <em>Itsudeno</em> task is a small <a href="https://yaml.org/">YAML</a> snippet which is composed of:</p>
 
 <ul>
@@ -55,36 +56,17 @@
 <li>An <a href="/inventories">inventory</a>, which contains targets hosts</li>
 <li>A <a href="/vaults">vault</a>, which contains secrets</li>
 </ul>
-<p>Here&#39;s an example, where the target host will ping its loopback address:</p>
-
-<pre><code class="lang-yml">- _: Ping localhost
-  net.ping:
-    host: 127.0.0.1
-</code></pre>
-<h3 id="basic-syntax">Basic syntax</h3>
+<p>Here&#39;s an example, where the target host will ping its loopback address:
+[object Promise]</p>
+<h2 id="-basic-syntax">#️⃣ Basic syntax</h2>
 <p>Tasks are actually handled through arrays, which is why each one is preceded by an hyphen (<code>-</code>).
 Underscores (<code>_</code>) are used to give them a human friendly name.</p>
-<p>Tasks can be imported in several ways using <code>tasks</code> keyword:</p>
-
-<pre><code class="lang-yml">- _: Import tasks from a relative path to current file
-  tasks: example.yml
-
-- _: Import tasks from an absolute path
-  tasks: /example.yml
-
-- _: Import tasks from an URL
-  tasks: https://deno.land/x/itsudeno/docs/examples/example.yml
-</code></pre>
-<p>Tasks can also be defined by passing an array instead:</p>
-
-<pre><code class="lang-yml">- _: A group of tasks
-  tasks:
-    - _: Say hello world
-      log:
-        msg: hello world
-</code></pre>
+<p>Tasks can be imported in several ways using <code>tasks</code> keyword:
+[object Promise]</p>
+<p>Tasks can also be defined by passing an array instead:
+[object Promise]</p>
 <p>The latter syntax is mostly used to create <a href="/yaml/scopes">scopes</a></p>
-<h3 id="specifying-itsudeno-components">Specifying <em>Itsudeno</em> components</h3>
+<h2 id="-specifying-itsudeno-components">🔣 Specifying <em>Itsudeno</em> components</h2>
 <p>Used executor, inventory, vault and reporter can be specified using the following keywords:</p>
 
 <ul>
@@ -93,53 +75,18 @@ Underscores (<code>_</code>) are used to give them a human friendly name.</p>
 <li><code>vault</code> for vaults</li>
 <li><code>report</code> for reporters</li>
 </ul>
-<p>Note that as noted in <a href="/setup">setup</a>, these must be setup in settings in order to be used.</p>
-
-<pre><code class="lang-yml">- _: Say hello world using &quot;ssh&quot; executor and report it to &quot;console&quot;
-  using: ssh
-  report: console
-  log:
-    msg: hello world
-</code></pre>
+<p>Note that as noted in <a href="/setup">setup</a>, these must be setup in settings in order to be used.
+[object Promise]</p>
 <p>These are defined for current scope, so any children tasks will inherit from their parent.</p>
-<h3 id="restricting-targets-hosts">Restricting targets hosts</h3>
+<h2 id="-restricting-targets-hosts">🔛 Restricting targets hosts</h2>
 <p>A task is executed on all hosts of current inventory matching current query (which defaults to <code>(all)</code>).</p>
-<p>It is possible to restrict targetted hosts using <code>targets</code> keyword with one or more queries:</p>
-
-<pre><code class="lang-yml">- _: Say hello world (linux)
-  targets: linux
-  log:
-    msg: hello world
-
-- _: Say hello world (linux or windows)
-  targets:
-    - linux
-    - windows
-  log:
-    msg: hello world
-</code></pre>
-<h3 id="looping-over-data">Looping over data</h3>
-<p>Repetitive tasks can be factorised using <code>loop:</code> keyword, along with an identifier which will be made available in current scope:</p>
-
-<pre><code class="lang-yml">- _: Loop with item=${item}
-  loop:item:
-    - foo
-    - bar
-  log:
-    msg: ${item}
-</code></pre>
-<p>Multiple loops can be used within the same task, from outer loop to inner loop:</p>
-
-<pre><code class="lang-yml">- _: Loop with foo=${foo} and bar=${bar}
-  loop:foo: # Outer loop
-    - a
-    - b
-  loop:bar: # Inner loop
-    - c
-    - d
-  log:
-    msg: ${foo} ${bar}
-</code></pre>
+<p>It is possible to restrict targetted hosts using <code>targets</code> keyword with one or more queries:
+[object Promise]</p>
+<h2 id="-looping-over-data">🔁 Looping over data</h2>
+<p>Repetitive tasks can be factorised using <code>loop:</code> keyword, along with an identifier which will be made available in current scope:
+[object Promise]</p>
+<p>Multiple loops can be used within the same task, from outer loop to inner loop:
+[object Promise]</p>
 
     </div>
   </body>

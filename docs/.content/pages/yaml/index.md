@@ -2,8 +2,8 @@
 title: Itsudeno YAML
 ---
 
-## YAML Syntax
+# 🍙 YAML Syntax
 
 * [Tasks](/yaml/tasks)
 * [Templating](/yaml/templating)
-* [Templating](/yaml/scopes)
+* [Scopes](/yaml/scopes)

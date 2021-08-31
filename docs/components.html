@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Itsudeno hosts</title>
+    <title>Itsudeno components</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
     <link rel="stylesheet" href="https://unpkg.com/@primer/css@^17.6.1/dist/primer.css">
     <link rel="stylesheet" href="/styles.css">
@@ -46,18 +46,52 @@
 
     <div class="container-lg p-4 markdown-body">
 
-<h2 id="about-hosts">About hosts</h2>
-<p>An <em>Itsudeno</em> host is an abstraction of a machine, containing:</p>
+<h1 id="-itsudeno-components">🍱 Itsudeno components</h1>
+<p><em>Itsudeno</em> is composed of modules, executors, reporters, inventories and vaults.</p>
+<p>Each component is defined by a <a href="/specifications">specification (<code>mod.yml</code>)</a> describing its supported arguments, along with typing, description, constraints, examples, etc.</p>
+<h2 id="-modules">🥡 Modules</h2>
+<p>Modules can be used to apply templated configuration, create users and files, install packages, make API calls, execute scripts, etc. on target hosts.</p>
+<p>They are composed of three methods:</p>
+
+<ul>
+<li><code>past()</code>, used to collect state before applying any editions</li>
+<li><code>check()</code>, used to preview editions without applying them</li>
+<li><code>apply()</code>, used to apply editions</li>
+</ul>
+<p>They are bundled, sent and executed on target hosts using executors.</p>
+<p>They try to respect <strong>idempotency</strong> when it is possible, meaning that running the same module with same arguments multiple times will have the same result as running it exactly once.</p>
+<p><a href="/modules">See modules list</a></p>
+<h3 id="-executors">🍖 Executors</h3>
+<p>Executors are the links between <em>Itsudeno</em> controller and target hosts.
+They bundle, send and execute payload on target hosts.</p>
+<p><a href="/executors">See executors list</a></p>
+<h3 id="-reporters">🥠 Reporters</h3>
+<p>Reporters are used to handle modules outcome.
+They can be used to print it to console, send it to a remote server, etc.</p>
+<p><a href="/reporters">See reporters list</a></p>
+<h2 id="-inventories">🍡 Inventories</h2>
+<p>Inventories are used to store target hosts.
+They can be queried to retrieve a subset of hosts.</p>
+<p><a href="/inventories">See inventories list</a></p>
+<h3 id="-hosts">🍠 Hosts</h3>
+<p>Hosts are abstraction of inventories entries</p>
+<p>They have:</p>
 
 <ul>
 <li>An unique <code>name</code></li>
 <li>One or more <code>groups</code></li>
+<li>One or more <code>traits</code> (at run-time)</li>
 <li>Connection parameters used by <code>executors</code></li>
 <li>Various user-defined <code>data</code></li>
 </ul>
-<blockquote>
-<p><em>🚧 Work in progress</em></p>
-</blockquote>
+<p>Names, groups and traits are used to query hosts from inventories.</p>
+<h2 id="-vaults">🍢 Vaults</h2>
+<p>Vaults are used to store secrets.
+They can be used to store passwords, token and other sensible data.</p>
+<p><a href="/vaults">See vaults list</a></p>
+<h2 id="-interfaces">🍜 Interfaces</h2>
+<p>Interfaces are used to interact with <em>Itsudeno</em> in various ways, like command-line, API endpoints, etc.</p>
+<p><a href="/interfaces">See interfaces list</a></p>
 
     </div>
   </body>

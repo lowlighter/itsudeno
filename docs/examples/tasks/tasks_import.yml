@@ -1,0 +1,8 @@
+- _: Import tasks from a relative path to current file
+  tasks: example.yml
+
+- _: Import tasks from an absolute path
+  tasks: /example.yml
+
+- _: Import tasks from an URL
+  tasks: https://deno.land/x/itsudeno/docs/examples/example.yml

@@ -1,7 +1,0 @@
-- _: Ping ${host}
-  using: local
-  loop:host:
-    - google.com
-    - github.com
-  net.ping:
-    host: ${host}

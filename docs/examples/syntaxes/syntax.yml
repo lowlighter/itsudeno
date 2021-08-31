@@ -1,0 +1,9 @@
+- _: Set default policy for firewall for ${chain}
+  using: ssh
+  as: root
+  loop:chain:
+    - input
+    - output
+  net.ip.firewall:
+    chain: ${chain}
+    policy: drop

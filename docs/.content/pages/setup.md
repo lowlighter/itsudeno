@@ -2,45 +2,36 @@
 title: Itsudeno setup
 ---
 
-## About setup
+# 🦕 Setup Deno runtime
 
-*Itsudeno* requires that both controller and targets hosts support [Deno runtime](https://deno.land).
+*Itsudeno* is powered by [Deno runtime](https://deno.land).
 
 While it can be installed on target hosts using *Itsudeno* itself (provided that controller is able to connect to them), it must be installed first on controller.
 
-See this [Deno install guide](https://deno.land/manual/getting_started/installation) to setup it.
+See this [Deno install guide](https://deno.land/manual/getting_started/installation) for more informations.
 
-To install `itsudeno` on controller, use the following command:
+# 🦎 Running Itsudeno
+
+## 🦖 From source
+
+*Itsudeno* can be run directly from source.
+
+It is advised to import and use entry points (named `mod.ts`) though it is actually possible to import any file.
+
+[Velociraptor](https://velociraptor.run) can be used to use scripts located in `scripts.yml`.
+
+## 🐉 From CLI
+
+To install `itsudeno` command line interface, use the following command:
 ```
 deno install --allow-all --unstable --import-map https://deno.land/x/itsudeno/imports.json --lock https://deno.land/x/itsudeno/lock.json --name itsudeno https://deno.land/x/itsudeno/mod.ts
 ```
 
-## About settings
-
-*Itsudeno* uses a settings file for customization.
-
-Each executors, inventories, vaults and reporters needs to be configured in order to be usable with *Itsudeno* when using YAML syntax.
-
-View their respective documentation and specifications to learn more about supported arguments.
-
-Configuration is similar for each one:
-- An `identifier` that will be available to use in YAML tasks syntax
-- A `type` which tell which kind of executor, inventory, vault or reporter is used
-- Other supported arguments
-
-```yml
-executors:
-  executor-identifier:
-    type: (executor type, e.g. ssh, local, etc.)
-    # ... other arguments
-inventories:
-  # ...
-vaults:
-  # ...
-reporters:
-  # ...
+Use the following command for more informations about `itsudeno`:
+```
+itsudeno help
 ```
 
-Note that order **does** matter, the first executor, inventory, vault or reporter of each respective section will also be labeled and available under `default` name, which is the one used by tasks by default.
+## 🥚 From executable
 
-For TypeScript users, settings are optional since it is possible to directly instantiate executors, inventories, vaults and reporters.
+Using [Deno compiler](https://deno.land/manual/tools/compiler), it is possible to create standalone *Itsudeno* executable for quick bootstrapping.

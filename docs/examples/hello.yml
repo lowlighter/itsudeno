@@ -1,0 +1,4 @@
+- _: Hello itsudeno!
+  using: local
+  log:
+    message: Current time is ${new Date()}

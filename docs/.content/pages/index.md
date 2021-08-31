@@ -1,26 +1,38 @@
 ---
 title: Itsudeno documentation
-description: Itsudeno documentation home page
 ---
 
-## Welcome to *Itsudeno* documentation
+# 🍣 Welcome to *Itsudeno* documentation
 
 Itsudeno is a scriptable IT automation system written in TypeScript and running on Deno. It can be used to easily deploy and configure applications, services and networks on target hosts.
 
-* [Concepts](/concepts)
+* [Components](/components)
 * [Setup](/setup)
+* [Settings](/settings)
 * [Specifications](/specifications)
+* [Syntaxes](/syntaxes)
 
-## YAML Syntax
+## 🍥 Syntaxes
+
+### 🍙 YAML Syntax
 
 * [Tasks](/yaml/tasks)
 * [Templating](/yaml/templating)
 * [Scopes](/yaml/scopes)
 
-## TypeScript Syntax
+### 🍘 TypeScript Syntax
 
 > *🚧 Work in progress*
 
-## Hacking
+## 🍱 Components
+
+* [Modules](/modules)
+* [Executors](/executors)
+* [Reporters](/reporters)
+* [Inventories](/inventories)
+* [Vaults](/vaults)
+* [Interfaces](/interfaces)
+
+## 🍳 Hacking
 
 > *🚧 Work in progress*

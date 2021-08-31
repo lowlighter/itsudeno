@@ -1,0 +1,5 @@
+- _: Say hello world using "ssh" executor and report it to "console"
+  using: ssh
+  report: console
+  log:
+    msg: hello world

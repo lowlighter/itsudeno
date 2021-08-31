@@ -1,0 +1,9 @@
+- _: Loop with foo=${foo} and bar=${bar}
+  loop:foo: # Outer loop
+    - a
+    - b
+  loop:bar: # Inner loop
+    - c
+    - d
+  log:
+    msg: ${foo} ${bar}

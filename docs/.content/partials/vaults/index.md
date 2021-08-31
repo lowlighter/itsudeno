@@ -2,7 +2,7 @@
 title: Itsudeno vaults
 ---
 
-# Vaults
+# 🍢 Vaults
 
 <% for (const mod of list ) { %>
 * [<%= mod.index %>](/vaults/<%= mod.index %>): *<%= mod.about %>*

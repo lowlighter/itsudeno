@@ -2,7 +2,7 @@
 title: Itsudeno reporters
 ---
 
-# Reporters
+# 🥠 Reporters
 
 <% for (const mod of list ) { %>
 * [<%= mod.index %>](/reporters/<%= mod.index %>): *<%= mod.about %>*

@@ -2,7 +2,7 @@
 title: Itsudeno inventories
 ---
 
-# Inventories
+# 🍡 Inventories
 
 <% for (const mod of list ) { %>
 * [<%= mod.index %>](/inventories/<%= mod.index %>): *<%= mod.about %>*
