@@ -88,6 +88,13 @@ async function partial(path: string, context: loose = {}) {
         return partial(`components/${name}.ejs`, context)
       },
     },
+    example
   })
   return await template(await read(`docs/.content/partials/${path}`), context, {mode: "ejs"})
+}
+
+/** Include an example */
+async function example(name: string) {
+  const {language = ""} = name.match(/\.(?<language>\w+)$/)?.groups ?? {}
+  return `${"```"}${language}\n${await read(`docs/examples/${name}`)}\n${"```"}`
 }
