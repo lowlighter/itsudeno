@@ -19,7 +19,7 @@ Executor.register(
         }
         //Powershell
         case "powershell": {
-          const deno = `Start-Process -FilePath "deno" -UseNewEnvironment -Wait -NoNewWindow -ArgumentList "run", "--allow-all", "--unstable", "--no-check", "-"`
+          const deno = `Start-Process -FilePath "deno" -Wait -NoNewWindow -ArgumentList "run", "--allow-all", "--unstable", "--no-check", "-"`
           const command = `${shell.executable} -Nologo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command '${deno}'`
           return this.return(await run(command, {stdin: payload}))
         }
