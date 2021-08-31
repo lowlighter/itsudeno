@@ -1,4 +1,4 @@
-## <%= mod.name %>
+# <%= mod.name %>
 
 <%= mod.about %>
 
@@ -8,7 +8,7 @@ This module is always executed on controller, regardless of current executor.
 </div>
 <% } %>
 
-### Arguments
+## Arguments
 
 <% if (mod.definition.args) { %>
 <% for (const [name, arg] of Object.entries(mod.definition.args)) { %>
@@ -18,7 +18,7 @@ This module is always executed on controller, regardless of current executor.
 > This module does not accept any arguments
 <% } %>
 
-### Past state
+## Past state
 
 <% if (mod.definition.past) { %>
 <% for (const [name, arg] of Object.entries(mod.definition.past)) { %>
@@ -28,7 +28,7 @@ This module is always executed on controller, regardless of current executor.
 > This module does not collect any past state
 <% } %>
 
-### Result
+## Result
 
 <% if (mod.definition.result) { %>
 <% for (const [name, arg] of Object.entries(mod.definition.result)) { %>
@@ -40,7 +40,7 @@ This module is always executed on controller, regardless of current executor.
 
 ___
 
-#### Maintainers
+### Maintainers
 
 <% if (mod.maintainers) { for (const maintainer of mod.maintainers) { %>
 * [![<%= maintainer %>](https://github.com/<%= maintainer %>.png?v=3&s=64)](https://github.com/<%= maintainer %>)

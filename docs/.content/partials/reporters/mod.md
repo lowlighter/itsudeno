@@ -1,8 +1,8 @@
-## <%= mod.name %>
+# <%= mod.name %>
 
 <%= mod.about %>
 
-### Arguments
+## Arguments
 
 <% if (mod.definition.args) { %>
 <% for (const [name, arg] of Object.entries(mod.definition.args)) { %>
@@ -14,7 +14,7 @@
 
 ___
 
-#### Maintainers
+### Maintainers
 
 <% if (mod.maintainers) { for (const maintainer of mod.maintainers) { %>
 * [![<%= maintainer %>](https://github.com/<%= maintainer %>.png?v=3&s=64)](https://github.com/<%= maintainer %>)
