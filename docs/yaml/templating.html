@@ -32,6 +32,7 @@
               <a class="SelectMenu-item" role="menuitem" href="/inventories">Inventories</a>
               <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
               <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
+              <a class="SelectMenu-item" role="menuitem" href="/interfaces">Interfaces</a>
               <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE" target="_blank">License</a>
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno" target="_blank">GitHub</a>
@@ -54,14 +55,36 @@
 <li><a href="https://ejs.co/">Embedded JavaScript templating (EJS)</a> <em>(for files)</em></li>
 </ul>
 <h2 id="-javascript-template-literals">🖊️ JavaScript template literals</h2>
-<p>Templating in <em>Itsudeno</em> is implicit which is why no backticks (<code>\``) are required unlike JavaScript.
+<p>Templating in <em>Itsudeno</em> is implicit which is why no backticks (<code><code>&lt;/code&gt;) are required unlike JavaScript.
 Content between a dollar sign and curly brackets (</code>${}`) will be automatically templated unless escaped.</p>
-<p>All features supported by JavaScript can be used, meaning that complex operations can be achieved easily:
-[object Promise]</p>
+<p>All features supported by JavaScript can be used, meaning that complex operations can be achieved easily:</p>
+
+<pre><code class="lang-yml">- _: Print current time
+  log:
+    msg: Current time is ${new Date().toLocaleString()}
+
+- _: Template literals are cool
+    msg: |
+      ${
+        new Array(10).fill(null)
+          .map(() =&gt; Math.random())
+          .filter(x =&gt; x &gt; 0.7)
+          .sort((a, b) =&gt; a - b)
+          .reduce((a, b) =&gt; a + b, 0)
+      }
+</code></pre>
 <h2 id="-embedded-javascript-templating-ejs-">🖋️ Embedded JavaScript templating (EJS)</h2>
 <p>Files templating in <em>Itsudeno</em> is performed with EJS (learn more about EJS syntax <a href="https://ejs.co/">here</a>).</p>
-<p>Basically, control blocks (<code>&lt;% %&gt;</code>) are used to embed control statements while templated blocks(<code>&lt;%= %&gt;</code>, <code>&lt;%- %&gt;</code>) are used to outputs returned value:
-[object Promise]</p>
+<p>Basically, control blocks (<code>&lt;% %&gt;</code>) are used to embed control statements while templated blocks(<code>&lt;%= %&gt;</code>, <code>&lt;%- %&gt;</code>) are used to outputs returned value:</p>
+
+<pre><code class="lang-yml">- _: Heads or Tails?
+  file.content:
+    path: /tmp/example
+    content: |
+      &lt;% for (let i = 0; i &lt; 10; i++) { %&gt;
+        Attempt &lt;%= i %&gt;: &lt;%= Math.random() &gt; 0.5 ? &quot;Heads&quot; : &quot;Tails&quot; %&gt;
+      &lt;% } %&gt;
+</code></pre>
 
     </div>
   </body>

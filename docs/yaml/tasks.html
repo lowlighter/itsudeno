@@ -32,6 +32,7 @@
               <a class="SelectMenu-item" role="menuitem" href="/inventories">Inventories</a>
               <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
               <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
+              <a class="SelectMenu-item" role="menuitem" href="/interfaces">Interfaces</a>
               <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE" target="_blank">License</a>
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno" target="_blank">GitHub</a>
@@ -56,15 +57,34 @@
 <li>An <a href="/inventories">inventory</a>, which contains targets hosts</li>
 <li>A <a href="/vaults">vault</a>, which contains secrets</li>
 </ul>
-<p>Here&#39;s an example, where the target host will ping its loopback address:
-[object Promise]</p>
+<p>Here&#39;s an example, where the target host will ping its loopback address:</p>
+
+<pre><code class="lang-yml">- _: Ping localhost
+  net.ping:
+    host: 127.0.0.1
+</code></pre>
 <h2 id="-basic-syntax">#️⃣ Basic syntax</h2>
 <p>Tasks are actually handled through arrays, which is why each one is preceded by an hyphen (<code>-</code>).
 Underscores (<code>_</code>) are used to give them a human friendly name.</p>
-<p>Tasks can be imported in several ways using <code>tasks</code> keyword:
-[object Promise]</p>
-<p>Tasks can also be defined by passing an array instead:
-[object Promise]</p>
+<p>Tasks can be imported in several ways using <code>tasks</code> keyword:</p>
+
+<pre><code class="lang-yml">- _: Import tasks from a relative path to current file
+  tasks: example.yml
+
+- _: Import tasks from an absolute path
+  tasks: /example.yml
+
+- _: Import tasks from an URL
+  tasks: https://deno.land/x/itsudeno/docs/examples/example.yml
+</code></pre>
+<p>Tasks can also be defined by passing an array instead:</p>
+
+<pre><code class="lang-yml">- _: A group of tasks
+  tasks:
+    - _: Say hello world
+      log:
+        msg: hello world
+</code></pre>
 <p>The latter syntax is mostly used to create <a href="/yaml/scopes">scopes</a></p>
 <h2 id="-specifying-itsudeno-components">🔣 Specifying <em>Itsudeno</em> components</h2>
 <p>Used executor, inventory, vault and reporter can be specified using the following keywords:</p>
@@ -75,18 +95,53 @@ Underscores (<code>_</code>) are used to give them a human friendly name.</p>
 <li><code>vault</code> for vaults</li>
 <li><code>report</code> for reporters</li>
 </ul>
-<p>Note that as noted in <a href="/setup">setup</a>, these must be setup in settings in order to be used.
-[object Promise]</p>
+<p>Note that as noted in <a href="/setup">setup</a>, these must be setup in settings in order to be used.</p>
+
+<pre><code class="lang-yml">- _: Say hello world using &quot;ssh&quot; executor and report it to &quot;console&quot;
+  using: ssh
+  report: console
+  log:
+    msg: hello world
+</code></pre>
 <p>These are defined for current scope, so any children tasks will inherit from their parent.</p>
 <h2 id="-restricting-targets-hosts">🔛 Restricting targets hosts</h2>
 <p>A task is executed on all hosts of current inventory matching current query (which defaults to <code>(all)</code>).</p>
-<p>It is possible to restrict targetted hosts using <code>targets</code> keyword with one or more queries:
-[object Promise]</p>
+<p>It is possible to restrict targetted hosts using <code>targets</code> keyword with one or more queries:</p>
+
+<pre><code class="lang-yml">- _: Say hello world (linux)
+  targets: linux
+  log:
+    msg: hello world
+
+- _: Say hello world (linux or windows)
+  targets:
+    - linux
+    - windows
+  log:
+    msg: hello world
+</code></pre>
 <h2 id="-looping-over-data">🔁 Looping over data</h2>
-<p>Repetitive tasks can be factorised using <code>loop:</code> keyword, along with an identifier which will be made available in current scope:
-[object Promise]</p>
-<p>Multiple loops can be used within the same task, from outer loop to inner loop:
-[object Promise]</p>
+<p>Repetitive tasks can be factorised using <code>loop:</code> keyword, along with an identifier which will be made available in current scope:</p>
+
+<pre><code class="lang-yml">- _: Loop with item=${item}
+  loop:item:
+    - foo
+    - bar
+  log:
+    msg: ${item}
+</code></pre>
+<p>Multiple loops can be used within the same task, from outer loop to inner loop:</p>
+
+<pre><code class="lang-yml">- _: Loop with foo=${foo} and bar=${bar}
+  loop:foo: # Outer loop
+    - a
+    - b
+  loop:bar: # Inner loop
+    - c
+    - d
+  log:
+    msg: ${foo} ${bar}
+</code></pre>
 
     </div>
   </body>

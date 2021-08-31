@@ -32,6 +32,7 @@
               <a class="SelectMenu-item" role="menuitem" href="/inventories">Inventories</a>
               <a class="SelectMenu-item" role="menuitem" href="/vaults">Vaults</a>
               <a class="SelectMenu-item" role="menuitem" href="/reporters">Reporters</a>
+              <a class="SelectMenu-item" role="menuitem" href="/interfaces">Interfaces</a>
               <hr class="SelectMenu-divider">
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno/blob/main/LICENSE" target="_blank">License</a>
               <a class="SelectMenu-item" role="menuitem" href="https://github.com/lowlighter/itsudeno" target="_blank">GitHub</a>
@@ -51,11 +52,33 @@
 <h2 id="-yaml-syntax">🍙 YAML syntax</h2>
 <p>This syntax is based on the concept of tasks, which are described by a module, an executor, an inventory, a vault, a reporter and a target host.</p>
 <p>Control statements are also supported (loops, conditionals, includes, etc.) which allow for complex execution runs:</p>
-<p>[object Promise]</p>
+
+<pre><code class="lang-yml">- _: Set default policy for firewall for ${chain}
+  using: ssh
+  as: root
+  loop:chain:
+    - input
+    - output
+  net.ip.firewall:
+    chain: ${chain}
+    policy: drop
+</code></pre>
 <p>It is recommended for most usages and should be able to cover most use cases.</p>
 <h2 id="-typescript-syntax">🍘 🍥 TypeScript syntax</h2>
 <p>This syntax uses <em>Itsudeno</em> components directly, and is mostly intended for power users.</p>
-<p>[object Promise]</p>
+
+<pre><code class="lang-ts">import * as it from &quot;https://deno.land/x/itsudeno&quot;;
+
+for (const chain of [&quot;input&quot;, &quot;output&quot;]) {
+  await it.modules.net.ip.firewall({
+    _: `Set default policy for firewall for ${chain}`,
+    _using:&quot;ssh&quot;,
+    _as: &quot;root&quot;,
+    chain,
+    policy: &quot;drop&quot;,
+  });
+}
+</code></pre>
 
     </div>
   </body>

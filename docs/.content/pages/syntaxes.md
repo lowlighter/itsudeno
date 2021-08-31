@@ -12,7 +12,7 @@ This syntax is based on the concept of tasks, which are described by a module, a
 
 Control statements are also supported (loops, conditionals, includes, etc.) which allow for complex execution runs:
 
-<%- example("syntaxes/syntax.yml") %>
+<%- await example("syntaxes/syntax.yml") %>
 
 It is recommended for most usages and should be able to cover most use cases.
 
@@ -20,4 +20,4 @@ It is recommended for most usages and should be able to cover most use cases.
 
 This syntax uses *Itsudeno* components directly, and is mostly intended for power users.
 
-<%- example("syntaxes/syntax.ts") %>
+<%- await example("syntaxes/syntax.ts") %>

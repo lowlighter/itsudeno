@@ -12,7 +12,7 @@ An *Itsudeno* task is a small [YAML](https://yaml.org/) snippet which is compose
 - A [vault](/vaults), which contains secrets
 
 Here's an example, where the target host will ping its loopback address:
-<%- example("tasks/example.yml") %>
+<%- await example("tasks/example.yml") %>
 
 ## #️⃣ Basic syntax
 
@@ -20,10 +20,10 @@ Tasks are actually handled through arrays, which is why each one is preceded by 
 Underscores (`_`) are used to give them a human friendly name.
 
 Tasks can be imported in several ways using `tasks` keyword:
-<%- example("tasks/tasks_import.yml") %>
+<%- await example("tasks/tasks_import.yml") %>
 
 Tasks can also be defined by passing an array instead:
-<%- example("tasks/tasks_group.yml") %>
+<%- await example("tasks/tasks_group.yml") %>
 
 The latter syntax is mostly used to create [scopes](/yaml/scopes)
 
@@ -36,7 +36,7 @@ Used executor, inventory, vault and reporter can be specified using the followin
 - `report` for reporters
 
 Note that as noted in [setup](/setup), these must be setup in settings in order to be used.
-<%- example("tasks/components.yml") %>
+<%- await example("tasks/components.yml") %>
 
 These are defined for current scope, so any children tasks will inherit from their parent.
 
@@ -45,12 +45,12 @@ These are defined for current scope, so any children tasks will inherit from the
 A task is executed on all hosts of current inventory matching current query (which defaults to `(all)`).
 
 It is possible to restrict targetted hosts using `targets` keyword with one or more queries:
-<%- example("tasks/targets.yml") %>
+<%- await example("tasks/targets.yml") %>
 
 ## 🔁 Looping over data
 
 Repetitive tasks can be factorised using `loop:` keyword, along with an identifier which will be made available in current scope:
-<%- example("tasks/loop_simple.yml") %>
+<%- await example("tasks/loop_simple.yml") %>
 
 Multiple loops can be used within the same task, from outer loop to inner loop:
-<%- example("tasks/loop_nested.yml") %>
+<%- await example("tasks/loop_nested.yml") %>
