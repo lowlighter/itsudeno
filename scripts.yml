@@ -10,8 +10,14 @@ license:
 imap: imports.json
 unstable: true
 lock: lock.json
+noCheck: true # to remove
 scripts:
   cli:
+    lock: ~
+    desc:
+    allow:
+      - read
+      - write
     cmd: deno run interfaces/cli/mod.ts
   build:
     lock: ~

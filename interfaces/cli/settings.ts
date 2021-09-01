@@ -7,6 +7,6 @@ export const cli = {
   /** Show settings */
   //deno-lint-ignore require-await
   async show() {
-    return stringify(settings)
+    console.log(stringify(settings))
   },
 }

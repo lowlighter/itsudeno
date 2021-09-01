@@ -1,5 +1,6 @@
 //Imports
 import {cli as inventory} from "@interfaces/cli/inventory.ts"
+import {cli as vault} from "@interfaces/cli/vault.ts"
 import {cli as run} from "@interfaces/cli/run.ts"
 import {cli as settings} from "@interfaces/cli/settings.ts"
 import {throws} from "@tools/flow"
@@ -28,46 +29,76 @@ export async function cli(args: string[]) {
       .command(
         "inventory <action>",
         new Command()
-          .description("manage inventory")
+          .description("manage inventories")
           .command(
-            "get",
+            "get <targets...:string>",
             new Command()
               .description("get hosts")
-              .option("-i, --inventory <inventory:string>", "inventory name", {default: "default"})
-              .option("-t, --targets <query:string>", "target hosts (can be specified multiple times)", {default: "(all)", collect: true})
-              //.option("-c, --collect-traits", "allow remote connections to collect traits")
+              .option("-I, --inventory <inventory:string>", "inventory name", {default: "default"})
+              .option("-t, --traits", "allow remote connections to collect traits")
               .example("get all hosts", "itsudeno inventory get")
-              .example("get hosts by groups", "itsudeno inventory get --targets servers")
-              .example("get hosts by groups and traits", "itsudeno inventory get --collect-traits --targets 'servers (debian)'")
+              .example("get hosts by groups", "itsudeno inventory get group")
+              .example("get hosts by groups and traits", "itsudeno inventory get 'group (trait)' --traits")
               .action(execute(inventory.get)),
           )
           .command(
-            "set",
+            "set <targets...:string>",
             new Command()
               .description("set or update hosts")
-              .option("-i, --inventory <inventory:string>", "inventory name", {default: "default"})
-              .option("-t, --targets <query:string>", "target hosts (can be specified multiple times)", {collect: true, conflicts: ["add"]})
-              //.option("-c, --collect-traits", "allow remote connections to collect traits")
-              .option("-a, --add <host:string>", "add host (can be specified multiple times)", {collect: true, conflicts: ["targets"]})
+              .option("-I, --inventory <inventory:string>", "inventory name", {default: "default"})
+              .option("-t, --traits", "allow remote connections to collect traits")
+              .option("-a, --add", "add hosts if they do not exists (targets should be hostname when using this option)")
               .option("-p, --property <property:string>", "set or update property (can be specified multiple times)", {collect: true, value: parse.bind(null, {action: "set"})})
               .option("-P, --delete-property <property:string>", "delete property (can be specified multiple times)", {collect: true, value: parse.bind(null, {action: "delete", values: false})})
               .option("-g, --group <group:string>", "add host to group (can be specified multiple times)", {collect: true, value: parse.bind(null, {action: "set", values: false})})
               .option("-G, --delete-group <group:string>", "delete host from group (can be specified multiple times)", {collect: true, value: parse.bind(null, {action: "delete", values: false})})
               .option("-y, --yes", "skip confirmation prompt")
-              .example("add new host", "itsudeno inventory set --add example.org --property ssh.user=root --property ssh.port:number=22")
-              .example("update hosts by groups", "itsudeno inventory set --targets servers --property hello=world")
+              .example("add new host", "itsudeno inventory set example.org --add --property ssh.user=root --property ssh.port:number=22")
+              .example("update hosts by groups", "itsudeno inventory set group --property hello=world")
               .action(execute(inventory.set)),
           )
           .command(
-            "delete",
+            "delete <targets...:string>",
             new Command()
               .description("delete hosts")
-              .option("-i, --inventory <inventory:string>", "inventory name", {default: "default"})
-              .option("-t, --targets <query:string>", "target hosts", {required: true, collect: true})
-              //.option("-c, --collect-traits", "allow remote connections to collect traits")
+              .option("-I, --inventory <inventory:string>", "inventory name", {default: "default"})
+              .option("-t, --traits", "allow remote connections to collect traits")
               .option("-y, --yes", "skip confirmation prompt")
-              .example("delete host", "itsudeno inventory delete --targets example.org")
+              .example("delete host", "itsudeno inventory delete example.org")
+              .example("delete hosts by groups", "itsudeno inventory delete group")
               .action(execute(inventory.delete)),
+          ),
+      )
+      .command(
+        "vault <action>",
+        new Command()
+          .description("manage vaults")
+          .command(
+            "get <secret:string>",
+            new Command()
+              .description("get secrets")
+              .option("-V, --vault <vault:string>", "vault name", {default: "default"})
+              .example("get secret", "itsudeno vault get secret")
+              .action(execute(vault.get)),
+          )
+          .command(
+            "set <secret:string>",
+            new Command()
+              .description("update secrets")
+              .option("-V, --vault <vault:string>", "vault name", {default: "default"})
+              .option("-y, --yes", "skip confirmation prompt")
+              .option("-v, --value", "set value without prompt", {depends:["yes"]})
+              .example("add new secret", "itsudeno vault set secret")
+              .action(execute(vault.set)),
+          )
+          .command(
+            "delete <secret:string>",
+            new Command()
+              .description("delete secrets")
+              .option("-V, --vault <vault:string>", "vault name", {default: "default"})
+              .option("-y, --yes", "skip confirmation prompt")
+              .example("delete secret", "itsudeno vault delete secret")
+              .action(execute(vault.delete)),
           ),
       )
       .command(

@@ -13,7 +13,7 @@ const log = new Logger(import.meta.url)
 /** Cli bindings */
 export const cli = {
   /** Get hosts */
-  async get({inventory = "default", targets = ""}) {
+  async get({inventory = "default"}, targets = []) {
     //Query hosts
     const hosts = await it.inventories[inventory].query(targets)
     if (!hosts.length) {
@@ -25,12 +25,12 @@ export const cli = {
     console.log(stringify(hosts as infered))
   },
   /** Set hosts */
-  async set({inventory = "default", targets = "", add = [], property: properties = [], deleteProperty: deletedProperties = [], group: groups = [], deleteGroup: deletedGroups = [], yes = false}) {
+  async set({inventory = "default", property: properties = [], deleteProperty: deletedProperties = [], group: groups = [], deleteGroup: deletedGroups = [], yes = false}, targets = []) {
     //Query hosts
     const hosts = []
-    if (add.length) {
-      const names = new Set(add)
-      if (names.size < add.length)
+    if (targets.length) {
+      const names = new Set(targets)
+      if (names.size < targets.length)
         log.warn(`some hosts were specified multiple times, ignoring...`)
       for (const name of names) {
         if (await it.inventories[inventory].has(name))
@@ -93,7 +93,7 @@ export const cli = {
     }
   },
   /** Delete hosts */
-  async delete({inventory = "default", targets = "", yes = false}) {
+  async delete({inventory = "default", yes = false}, targets = []) {
     //Query hosts
     const hosts = await it.inventories[inventory].query(targets)
     if (!hosts.length) {
