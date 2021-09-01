@@ -50,17 +50,25 @@ export interface args {
 export type initialized = _initialized<raw, args>
 
 /** Past state */
+<% if (mod.definition.past) { %>
 export interface past extends result {
 <%= generate(mod.definition.past, "past") %>
 }
+<% } else { %>
+export type past = null
+<% } %>
 
 /** Module target status (after probing) */
 export type before = _before<raw, args, past>
 
 /** Resulting state */
+<% if (mod.definition.result) { %>
 export interface result {
 <%= generate(mod.definition.result, "result") %>
 }
+<% } else { %>
+export type result = null
+<% } %>
 
 /** Module outcome */
 export type outcome = _outcome<raw, args, past, result>
