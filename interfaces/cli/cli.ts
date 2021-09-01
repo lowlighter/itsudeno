@@ -1,8 +1,8 @@
 //Imports
 import {cli as inventory} from "@interfaces/cli/inventory.ts"
-import {cli as vault} from "@interfaces/cli/vault.ts"
 import {cli as run} from "@interfaces/cli/run.ts"
 import {cli as settings} from "@interfaces/cli/settings.ts"
+import {cli as vault} from "@interfaces/cli/vault.ts"
 import {throws} from "@tools/flow"
 import {Logger} from "@tools/log"
 import {to} from "@tools/to"
@@ -87,7 +87,7 @@ export async function cli(args: string[]) {
               .description("update secrets")
               .option("-V, --vault <vault:string>", "vault name", {default: "default"})
               .option("-y, --yes", "skip confirmation prompt")
-              .option("-v, --value", "set value without prompt", {depends:["yes"]})
+              .option("-v, --value", "set value without prompt", {depends: ["yes"]})
               .example("add new secret", "itsudeno vault set secret")
               .action(execute(vault.set)),
           )

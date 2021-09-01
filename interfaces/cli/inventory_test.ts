@@ -9,7 +9,7 @@ await new Suite(import.meta.url)
   .group("inventory", test => {
     test("set new host", async () => {
       await it.inventories.default.delete("example.org")
-      await cli(["inventory", "set", "example.org",  "--add", "--group", "foo", "--property", "foo.bar:boolean=true", "--yes"])
+      await cli(["inventory", "set", "example.org", "--add", "--group", "foo", "--property", "foo.bar:boolean=true", "--yes"])
       assertEquals(await it.inventories.default.get("example.org"), new Host(null, {name: "example.org", groups: ["foo"], data: {foo: {bar: true}}}))
     })
     test("set new host (error, already exists)", async () => {

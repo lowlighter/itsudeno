@@ -1,15 +1,9 @@
 //Imports
-import {Host} from "@core/inventories"
 import {it} from "@core/setup"
 import {is} from "@tools/is"
-import {Logger} from "@tools/log"
-import {access} from "@tools/objects"
-import {stringify} from "std/encoding/yaml.ts"
 import {gray, italic} from "std/fmt/colors.ts"
 import {Confirm, Input} from "x/cliffy@v0.19.5/mod.ts"
 import {ItsudenoError} from "@errors"
-import type {infered} from "@types"
-const log = new Logger(import.meta.url)
 
 /** Cli bindings */
 export const cli = {
