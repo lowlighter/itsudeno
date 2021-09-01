@@ -50,6 +50,7 @@ async function check<T>(args: T, definition: definitions | null, {validated, rep
         const alias = aliases.shift()! as keyof typeof args
         args[key as keyof typeof args] = args[alias]
         delete args[alias]
+        log.vvvv(`"${key}" populated by alias "${alias}"`)
       }
     }
 
@@ -105,19 +106,32 @@ async function check<T>(args: T, definition: definitions | null, {validated, rep
       report.add(new ItsudenoError.Validation(`"${key}" is deprecated (${deprecated})`), {warning: true})
 
     //Recursive check for sub-definitions
-    const {type} = schema
+    let {type} = schema
     let value = args[key as keyof typeof args] as unknown ?? null
     if (is.object(type)) {
       if (is.null(value))
         value = {}
       if (!is.object(value)) {
-        report.add(new ItsudenoError.Validation(`"${key}" must be of type object (got ${value === null ? "null" : typeof value} instead)`), {warning})
+        report.add(new ItsudenoError.Validation(`"${key}" must match nested type definition (got ${value === null ? "null" : typeof value} instead)`), {warning})
         if ((mode === "output") && (!report.strict))
           validated[key] = value
         continue
       }
+      log.vvvv(`"${key}" is a nested type, applying recursive checks`)
       check(value, type, {validated: validated[key] = {}, defaults: defaults[key] as loose ?? {}, report, mode, context})
       continue
+    }
+
+    //Handle array and objects types
+    const array = /\[\]$/.test(type)
+    const object = /\{\}$/.test(type)
+    if (array) {
+      log.vvvv(`"${key}" is of type array[], altering future checks behaviour for this key`)
+      type = (type as string).replace(/\[\]$/, "")
+    }
+    if (object) {
+      log.vvvv(`"${key}" is of type object{}, altering future checks behaviour for this key`)
+      type = (type as string).replace(/\{\}$/, "")
     }
 
     //Ensure type guards and converters are defined
@@ -140,8 +154,10 @@ async function check<T>(args: T, definition: definitions | null, {validated, rep
     }
 
     //Template value if possible
-    if (is.string(value))
+    if (is.string(value)) {
+      log.vvvv(`"${key}" applying implicit safe templating as given value is type of string`)
       value = await template(value, context, {safe: true, mode: "js", warn: true})
+    }
 
     //Set default value if needed
     const {default: defaulted} = schema
@@ -152,8 +168,27 @@ async function check<T>(args: T, definition: definitions | null, {validated, rep
 
     //Type conversion
     try {
-      if ((!is.void(value)) && (!is.null(value)))
-        value = to[type as keyof typeof to](value) ?? null
+      if ((!is.void(value)) && (!is.null(value))) {
+        //Apply conversion for each value for arrays (and implicitely convert single value to array if needed)
+        if (array) {
+          if (!is.array(value)) {
+            log.vvvv(`"${key}" was implictely converted into array to match exepected type`)
+            value = [value]
+          }
+          value = (value as unknown[]).map(value => to[type as keyof typeof to](value) ?? null)
+        }
+        //Apply conversion for each value for objects
+        else if (object) {
+          if (!is.object(value)) {
+            report.add(new ItsudenoError.Validation(`"${key}" must be of an object of ${type} (got ${typeof value} instead)`), {warning})
+            continue
+          }
+          value = Object.fromEntries(Object.entries(value as loose ?? {}).map(([key, value]) => [key, to[type as keyof typeof to](value) ?? null]))
+        }
+        //Apply conversion for primitives
+        else
+          value = to[type as keyof typeof to](value) ?? null
+      }
     }
     catch {
       //Ignore errors
@@ -172,43 +207,61 @@ async function check<T>(args: T, definition: definitions | null, {validated, rep
       continue
     }
 
-    //Type check
-    if (!is[type as keyof typeof is](value)) {
-      report.add(new ItsudenoError.Validation(`"${key}" must be of type ${type} (got ${typeof value} instead)`), {warning})
-      if (warning)
-        validated[key] = value
-      continue
-    }
-    //Type constraints
-    if (match.length) {
-      let valid = false
-      matching:
-      for (const guards of match) {
-        for (const guard of guards) {
-          if (!is(guard, value))
-            continue matching
+    //Value checks
+    {
+      let values = [...[value].entries()] as Array<[unknown, unknown]>
+      let register = ({value}:loose) => validated[key] = value
+      if (array) {
+        values = [...(value as unknown[]).entries()]
+        validated[key] = []
+        register = ({value}:loose) => (validated[key] as unknown[]).push(value)
+      }
+      if (object) {
+        values = [...Object.entries(value as loose)]
+        validated[key] = {}
+        register = ({key, value}:loose) => validated[key as keyof typeof validated] = value
+      }
+      for (const [key, value] of values) {
+
+        //Type check
+        if (!is[type as keyof typeof is](value)) {
+          report.add(new ItsudenoError.Validation(`"${key}" must be of type ${type} (got ${typeof value} instead)`), {warning})
+          if (warning)
+            register({key, value})
+          continue
         }
-        valid = true
-      }
-      if (!valid) {
-        report.add(new ItsudenoError.Validation(`"${key}" does not satisfy any additional type constraints sets`), {warning})
-        if (warning)
-          validated[key] = value
-        continue
+        //Type constraints
+        if (match.length) {
+          let valid = false
+          matching:
+          for (const guards of match) {
+            for (const guard of guards) {
+              if (!is(guard, value))
+                continue matching
+            }
+            valid = true
+          }
+          if (!valid) {
+            report.add(new ItsudenoError.Validation(`"${key}" does not satisfy any additional type constraints sets`), {warning})
+            if (warning)
+              register({key, value})
+            continue
+          }
+        }
+
+        //Allowed values check
+        const {values = [] as string[]} = schema
+        if ((values.length) && (!(values as unknown[]).includes(value))) {
+          report.add(new ItsudenoError.Validation(`"${key}" must be one of ${JSON.stringify(values)} (got ${value} instead)`), {warning})
+          if (warning)
+            register({key, value})
+          continue
+        }
+
+        //Store checked value
+        register({key, value})
       }
     }
-
-    //Allowed values check
-    const {values = [] as string[]} = schema
-    if ((values.length) && (!(values as unknown[]).includes(value))) {
-      report.add(new ItsudenoError.Validation(`"${key}" must be one of ${JSON.stringify(values)} (got ${value} instead)`), {warning})
-      if (warning)
-        validated[key] = value
-      continue
-    }
-
-    //Store checked value
-    validated[key] = value
   }
 
   //Forbid unsupported keys
@@ -228,7 +281,10 @@ async function defaults(definition: definitions | null, {context, args, report}:
       object[key] = await defaults(value.type, {context, args, report}, object)
     else if ("default" in value) {
       try {
-        object[key] = await template(value.default, deepmerge(deepmerge(object, context), args))
+        if (typeof value.default === "string")
+          object[key] = await template(value.default, deepmerge(deepmerge(object, context), args))
+        else
+          object[key] = value.default
       }
       catch (error) {
         report.add(new ItsudenoError.Validation(`"${key}" default value could not be templated correctly: ${error.message}`), {warning: true})

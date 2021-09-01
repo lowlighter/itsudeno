@@ -7,6 +7,11 @@ export const to = {
   any(x: unknown) {
     return x
   },
+  object(x: unknown) {
+    if (is.object(x))
+      return x
+    throw new ItsudenoError.Unsupported(`unsupported type conversion to object: ${JSON.stringify(x)}`)
+  },
   boolean(x: unknown) {
     if (is.boolean(x))
       return x
