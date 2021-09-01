@@ -41,7 +41,7 @@ for (const mode of ["input", "output"] as test) {
 
     test(`type check for nested type`, async () => assertEquals(await validate({foo: {bar: true}}, {foo: {type: {bar: {type: "boolean"}}}} as test, {mode}), {foo: {bar: true}}))
     if (mode === "input")
-      test(`error, wrong type for nested type`, () => assertThrowsAsync(() => validate({foo: "bar"}, {foo: {type: {bar: {type: "boolean"}}}} as test, {mode}), ItsudenoError.Validation, "must be of type"))
+      test(`error, wrong type for nested type`, () => assertThrowsAsync(() => validate({foo: "bar"}, {foo: {type: {bar: {type: "boolean"}}}} as test, {mode}), ItsudenoError.Validation, "must match nested type definition"))
 
     test(`type check with additional constraints (and)`, async () => assertEquals(await validate({foo: 1}, {foo: {type: "number", match: [["integer", "positive"]]}} as test, {mode}), {foo: 1}))
     test(`type check with additional constraints (or)`, async () => assertEquals(await validate({foo: 1}, {foo: {type: "number", match: [["integer", "negative"], ["integer", "positive"]]}} as test, {mode}), {foo: 1}))

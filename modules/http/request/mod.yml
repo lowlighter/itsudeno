@@ -40,7 +40,7 @@ result:
     description: Whether response URL has been redirected
     type: boolean
   status:
-    description:
+    description: Response status
     type:
       code:
         description: Response status code

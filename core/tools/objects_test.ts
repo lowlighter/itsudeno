@@ -1,6 +1,6 @@
 //Imports
 import {access, clone, deepfreeze} from "@tools/objects"
-import {assertEquals, assertThrows, Suite, test} from "@testing"
+import {assertEquals, assertThrows, Suite} from "@testing"
 
 //Tests
 await new Suite(import.meta.url, "objects")

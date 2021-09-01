@@ -64,7 +64,7 @@ function generate(definition: definitions | null, mode: string, {output = [] as 
     return ""
 
   //Process definition schemas
-  for (const [key, {type, description, required = false, default: defaulted, optional = false, aliases = []}] of Object.entries(definition)) {
+  for (let [key, {type, description, required = false, default: defaulted, optional = false, aliases = []}] of Object.entries(definition)) {
     output.push(`/** ${description ?? `(${key})`} */`)
 
     //Recursive typing generation
@@ -74,6 +74,10 @@ function generate(definition: definitions | null, mode: string, {output = [] as 
       output.push(`}`)
       continue
     }
+
+    //Handle maps type
+    if (/\{\}$/.test(type))
+      type = `{[key:string]:${(type as string).replace(/\{\}$/, "")}}`
 
     //Handle mode
     switch (mode) {

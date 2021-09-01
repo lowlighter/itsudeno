@@ -1,0 +1,6 @@
+- _: wait 1.5 seconds
+  args:
+    s: 1
+    ms: 500
+  failed: false
+  result: ~

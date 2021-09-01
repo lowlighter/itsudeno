@@ -1,0 +1,4 @@
+- _: noop
+  args: ~
+  failed: false
+  result: ~

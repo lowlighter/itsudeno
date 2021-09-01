@@ -3,7 +3,7 @@
     url: https://example.org
   failed: false
   result:
-    url: https://example.org
+    url: https://example.org/
     status:
       code: 200
       text: OK

@@ -26,8 +26,14 @@ scripts:
     desc: Bundle app
     cmd: deno bundle mod.ts
   test:
+    noCheck: true
     lock: ~
     desc: Run tests
+    allow:
+      - read
+      - net
+      - write
+      - run
     cmd:
       - deno test --coverage=.coverage
       # - deno coverage .coverage
@@ -44,7 +50,7 @@ scripts:
   serve-docs:
     desc: Serve documentation
     allow:
-      - net
       - read
+      - net
     cmd:
       - deno run https://deno.land/std/http/file_server.ts docs --port 4649 --no-dotfiles

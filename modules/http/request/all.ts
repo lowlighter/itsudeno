@@ -2,6 +2,7 @@
 import {Module} from "@generated/modules/http/request/it.ts"
 import type {before, result} from "@generated/modules/http/request/it.ts"
 import {Logger} from "@tools/log"
+import type {loose, uninitialized} from "@types"
 const log = new Logger(import.meta.url)
 
 /** Generic implementation */
@@ -10,7 +11,7 @@ Module.register(
   class extends Module {
 
     /** Controller */
-    controller:AbortController
+    controller = null as uninitialized as AbortController
 
     /** Check configuration changes */
     async check(result: before) {
@@ -23,7 +24,7 @@ Module.register(
       this.controller = new AbortController()
       const options = {
         method,
-        body,
+        body:JSON.stringify(body),
         headers,
         cache:["no-cache", "force-cache"][+cache] as RequestCache,
         redirect:["manual", "follow"][+redirects] as RequestRedirect,
@@ -32,7 +33,7 @@ Module.register(
 
       //Remove body from GET and HEAD requests
       if (["GET", "HEAD"].includes(method))
-        delete options.body
+        delete (options as loose).body
 
       //Perform http request
       const result = {url, redirected:false, status:{code:NaN, text:""}, text:"", data:null} as result
