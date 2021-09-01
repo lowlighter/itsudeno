@@ -1,0 +1,64 @@
+description: |
+  Perform an HTTP request
+
+args:
+  url:
+    description: Request URL
+    type: string
+    required: true
+  method:
+    description: Request method
+    type: string
+    default: GET
+  headers:
+    description: Request headers
+    type: string{}
+    default: {}
+  body:
+    description: Request body
+    type: string{}
+    default: {}
+  cache:
+    description: Use cache
+    type: boolean
+    default: false
+  redirects:
+    description: Follow redirections
+    type: boolean
+    default: true
+  status:
+    description: Allowed reponse status codes
+    type: number[]
+    default: [200]
+
+past: ~
+result:
+  url:
+    description: Response URL
+    type: string
+  redirected:
+    description: Whether response URL has been redirected
+    type: boolean
+  status:
+    description:
+    type:
+      code:
+        description: Response status code
+        type: number
+      text:
+        description: Response status text
+        type: string
+  text:
+    description: Response text
+    type: string
+  data:
+    description: Response data (if JSON parseable)
+    type: object
+    optional: true
+
+maintainers:
+  - lowlighter
+
+
+
+
