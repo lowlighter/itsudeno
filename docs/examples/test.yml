@@ -1,0 +1,7 @@
+- _: Hello itsudeno!
+  using: local
+  http.request:
+    url: https://example.org
+    body:
+      hello: world
+      test: ok

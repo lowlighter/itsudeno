@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Itsudeno modules</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
-    <link rel="stylesheet" href="https://unpkg.com/@primer/css@^17.6.1/dist/primer.css">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/vendors/primer.css">
   </head>
   <body>
 
@@ -85,5 +84,16 @@
 </table>
 
     </div>
+    <script src="/vendors/highlight.min.js"></script>
+    <script>
+      if (document.querySelector("code")) {
+        const theme =  window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "-dark" : ""
+        const link = document.createElement("link")
+        link.setAttribute("rel", "stylesheet")
+        link.setAttribute("href", `/vendors/github${theme}.min.css`)
+        document.querySelector("head").append(link)
+        hljs.highlightAll()
+      }
+    </script>
   </body>
 </html>
