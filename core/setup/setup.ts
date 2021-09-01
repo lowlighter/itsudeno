@@ -3,6 +3,7 @@ import type {Executor} from "@core/executors"
 import type {Inventory} from "@core/inventories"
 import type {Reporter} from "@core/reporters"
 import type {Vault} from "@core/vaults"
+import {cli} from "@interfaces/cli"
 import {is} from "@tools/is"
 import {ItsudenoError} from "@errors"
 import {Executors} from "@executors"
@@ -11,7 +12,6 @@ import {Reporters} from "@reporters"
 import {settings} from "@settings"
 import type {infered} from "@types"
 import {Vaults} from "@vaults"
-import {cli} from "@interfaces/cli"
 
 //Load executors
 const executors = new Proxy({} as {[key: string]: Executor<infered, infered>}, {
@@ -92,5 +92,5 @@ export const it = {
   inventories,
   vaults,
   reporters,
-  cli
+  cli,
 } as const

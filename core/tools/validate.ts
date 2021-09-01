@@ -186,8 +186,9 @@ async function check<T>(args: T, definition: definitions | null, {validated, rep
           value = Object.fromEntries(Object.entries(value as loose ?? {}).map(([key, value]) => [key, to[type as keyof typeof to](value) ?? null]))
         }
         //Apply conversion for primitives
-        else
+        else {
           value = to[type as keyof typeof to](value) ?? null
+        }
       }
     }
     catch {
@@ -210,19 +211,18 @@ async function check<T>(args: T, definition: definitions | null, {validated, rep
     //Value checks
     {
       let values = [...[value].entries()] as Array<[unknown, unknown]>
-      let register = ({value}:loose) => validated[key] = value
+      let register = ({value}: loose) => validated[key] = value
       if (array) {
         values = [...(value as unknown[]).entries()]
         validated[key] = []
-        register = ({value}:loose) => (validated[key] as unknown[]).push(value)
+        register = ({value}: loose) => (validated[key] as unknown[]).push(value)
       }
       if (object) {
         values = [...Object.entries(value as loose)]
         validated[key] = {}
-        register = ({key, value}:loose) => validated[key as keyof typeof validated] = value
+        register = ({key, value}: loose) => validated[key as keyof typeof validated] = value
       }
       for (const [key, value] of values) {
-
         //Type check
         if (!is[type as keyof typeof is](value)) {
           report.add(new ItsudenoError.Validation(`"${key}" must be of type ${type} (got ${typeof value} instead)`), {warning})

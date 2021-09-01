@@ -8,11 +8,11 @@ import {Module} from "@core/modules"
 import type {before as _before, initialized as _initialized, mcall, outcome as _outcome} from "@core/modules"
 import type {loose} from "@types"
 
-/** Log a message */
-export class LogModule extends Module<raw, args, past, result> {
+/** Wait for a remote port to be responsive */
+export class ControlWaitPortModule extends Module<raw, args, past, result> {
   /** Constructor */
   constructor() {
-    super(LogModule)
+    super(ControlWaitPortModule)
   }
 
   /** Execute module */
@@ -31,22 +31,24 @@ export class LogModule extends Module<raw, args, past, result> {
   static readonly url = import.meta.url
 
   /** Definition */
-  static readonly definition = {"description": "Log a message\n", "controller": true, "args": {"message": {"description": "Message to log", "type": "string", "required": true, "aliases": ["msg"]}}, "past": null, "result": {"message": {"description": "Message logged", "type": "string"}}, "maintainers": ["lowlighter"]}
+  static readonly definition = {"description": "Wait for a remote port to be responsive\n", "args": {"host": {"description": "Remote host", "type": "string", "default": "localhost"}, "port": {"description": "Remote port", "type": "number", "required": true, "match": ["port"]}}, "past": null, "result": null, "maintainers": ["lowlighter"]}
 }
-export {LogModule as Module}
+export {ControlWaitPortModule as Module}
 
 /** Input arguments */
 export interface raw {
-  /** Message to log */
-  message?: string
-  /** Message to log (alias for message) */
-  msg?: string
+  /** Remote host */
+  host?: string | null
+  /** Remote port */
+  port?: number
 }
 
 /** Validated and transformed arguments */
 export interface args {
-  /** Message to log */
-  message: string
+  /** Remote host */
+  host: string
+  /** Remote port */
+  port: number
 }
 
 /** Module target initializated (before execution) */
@@ -61,10 +63,7 @@ export type before = _before<raw, args, past>
 
 /** Resulting state */
 
-export interface result {
-  /** Message logged */
-  message: string
-}
+export type result = null
 
 /** Module outcome */
 export type outcome = _outcome<raw, args, past, result>

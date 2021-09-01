@@ -88,7 +88,7 @@ async function partial(path: string, context: loose = {}) {
         return partial(`components/${name}.ejs`, context)
       },
     },
-    example
+    example,
   })
   return await template(await read(`docs/.content/partials/${path}`), context, {mode: "ejs"})
 }

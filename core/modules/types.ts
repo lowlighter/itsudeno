@@ -24,7 +24,7 @@ export type mode = "apply" | "check"
 export type diff = {[key: string]: diff | {past?: unknown, current: unknown}}
 
 /** Module call */
-export interface mcall<raw, args, past extends result|null, result> {
+export interface mcall<raw, args, past extends result | null, result> {
   /** Name */
   _?: string
   /** Changed state override */
@@ -72,7 +72,7 @@ export interface before<raw, args, past> extends initialized<raw, args> {
 }
 
 /** Module target status (after execution) */
-export interface applied<raw, args, past extends result|null, result> extends before<raw, args, past> {
+export interface applied<raw, args, past extends result | null, result> extends before<raw, args, past> {
   /** Changes list */
   changes: diff
   /** State after execution */
@@ -82,7 +82,7 @@ export interface applied<raw, args, past extends result|null, result> extends be
 }
 
 /** Module outcome */
-export interface outcome<raw, args, past extends result|null, result> extends applied<raw, args, past, result> {
+export interface outcome<raw, args, past extends result | null, result> extends applied<raw, args, past, result> {
   /** Name */
   name: string
   /** Whether changes were reported */

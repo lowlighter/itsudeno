@@ -12,7 +12,7 @@ export const is = Object.assign(function(query: string, x: unknown) {
   return (access(is as infered, path) as infered)(x, ...eval(`[${args}]`))
 }, {
   //Unknown asserts
-  unknown(_:unknown) {
+  unknown(_: unknown) {
     return true
   },
   //Void asserts

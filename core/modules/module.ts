@@ -17,7 +17,7 @@ const log = new Logger(import.meta.url)
  * It is designed to centralize all logic in a single place (correct typing, implementation autoloading, validations, etc.)
  * Only `module.past()`, `module.check()` and `module.apply()` needs to be actually implemented in child classes.
  */
-export abstract class Module<raw, args, past extends result|null, result> extends Common<definition> {
+export abstract class Module<raw, args, past extends result | null, result> extends Common<definition> {
   /** Collect past state */
   protected async past(result?: initialized<raw, args>) {
     log.v(`${this.name} → past`)
@@ -129,7 +129,7 @@ export abstract class Module<raw, args, past extends result|null, result> extend
   }
 
   /** Create an empty module result */
-  private static outcome<raw, args, past extends result|null, result>({name, meta, args}: {name: string, meta: meta, args: args}): outcome<raw, args, past, result> {
+  private static outcome<raw, args, past extends result | null, result>({name, meta, args}: {name: string, meta: meta, args: args}): outcome<raw, args, past, result> {
     return {name, meta, args, changes: {}, past: {}, result: {}, error: null, changed: false, applied: false, skipped: false, failed: false, success: true, completed: null} as unknown as outcome<raw, args, past, result>
   }
 }

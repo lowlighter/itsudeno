@@ -80,15 +80,15 @@ export interface args {
 export type initialized = _initialized<raw, args>
 
 /** Past state */
-export interface past extends result {
-}
+
+export type past = null
 
 /** Module target status (after probing) */
 export type before = _before<raw, args, past>
 
 /** Resulting state */
-export interface result {
-}
+
+export type result = null
 
 /** Module outcome */
 export type outcome = _outcome<raw, args, past, result>
