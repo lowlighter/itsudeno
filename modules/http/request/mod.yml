@@ -12,11 +12,11 @@ args:
     default: GET
   headers:
     description: Request headers
-    type: string{}
+    type: unknown{}
     default: {}
   body:
     description: Request body
-    type: string{}
+    type: unknown{}
     default: {}
   cache:
     description: Use cache
@@ -53,7 +53,7 @@ result:
     type: string
   data:
     description: Response data (if JSON parseable)
-    type: object
+    type: unknown{}
     optional: true
 
 maintainers:

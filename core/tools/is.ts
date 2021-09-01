@@ -11,6 +11,10 @@ export const is = Object.assign(function(query: string, x: unknown) {
     throw new ItsudenoError.Internal(`bad assertion query: ${query}`)
   return (access(is as infered, path) as infered)(x, ...eval(`[${args}]`))
 }, {
+  //Unknown asserts
+  unknown(_:unknown) {
+    return true
+  },
   //Void asserts
   void: Object.assign(function(x: unknown): x is undefined {
     return x === undefined
@@ -27,9 +31,11 @@ export const is = Object.assign(function(query: string, x: unknown) {
       return is.null(x) || (x === "null")
     },
   }),
+  //Symbol asserts
   symbol(x: unknown): x is unknown {
     return typeof x === "symbol"
   },
+  //Function asserts
   //deno-lint-ignore ban-types
   function(x: unknown): x is Function {
     return typeof x === "function"

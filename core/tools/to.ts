@@ -7,6 +7,9 @@ export const to = {
   any(x: unknown) {
     return x
   },
+  unknown(x: unknown) {
+    return x
+  },
   object(x: unknown) {
     if (is.object(x))
       return x
