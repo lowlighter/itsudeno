@@ -45,6 +45,15 @@ export abstract class Module<raw, args, past extends result, result> extends Com
     return await module.prototype.apply.call(this, result) as result
   }
 
+  /** Cleanup */
+  protected async cleanup() {
+    log.v(`${this.name} → cleanup`)
+    const module = this.autoload({os: Deno.build.os})
+    if (Module.prototype.cleanup === module.prototype.cleanup)
+      return
+    await module.prototype.cleanup.call(this)
+  }
+
   /** Arguments validator */
   async prevalidate(args?: raw, {context, strategy, strict}: {context?: loose, strategy?: strategy, strict?: boolean} = {}) {
     log.v(`${this.name} → prevalidate`)
@@ -111,7 +120,12 @@ export abstract class Module<raw, args, past extends result, result> extends Com
       outcome.completed = new Date()
       outcome.success = !outcome.failed
     }
-    return outcome
+    try {
+      return outcome
+    }
+    finally {
+      this.cleanup().catch(() => null)
+    }
   }
 
   /** Create an empty module result */
