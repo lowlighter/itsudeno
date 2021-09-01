@@ -12,6 +12,7 @@ export const enum level {
   v = 4,
   vv = 5,
   vvv = 6,
+  vvvv = 7,
   all = 255,
 }
 
@@ -29,7 +30,7 @@ export class Logger {
 
   /** Constructor */
   constructor(url: string) {
-    this.tag = `[${esm(url)}]`
+    this.tag = `[${esm(url).substring(0, 22).padEnd(22)}]`
   }
 
   /** Format message */
@@ -76,6 +77,12 @@ export class Logger {
   /** Verbose (++) */
   vvv(...args: unknown[]) {
     if (Logger.level >= level.vvv)
+      console.debug(...this.#format(gray, {args}))
+  }
+
+  /** Verbose (+++) */
+  vvvv(...args: unknown[]) {
+    if (Logger.level >= level.vvvv)
       console.debug(...this.#format(gray, {args}))
   }
 }
