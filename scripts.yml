@@ -12,16 +12,20 @@ unstable: true
 lock: lock.json
 noCheck: true # to remove
 scripts:
+  hello:
+    desc: Run hello itsudeno
+    allow:
+      - read
+    cmd: deno run interfaces/cli/mod.ts run docs/examples/hello.yml
   cli:
-    lock: ~
-    desc:
+    desc: Run itsudeno CLI
     allow:
       - read
       - write
     cmd: deno run interfaces/cli/mod.ts
   build:
-    lock: ~
     desc: Build app
+    lock: ~
     allow:
       - read
       - write
@@ -32,14 +36,13 @@ scripts:
     desc: Bundle app
     cmd: deno bundle mod.ts
   test:
-    noCheck: true
-    lock: ~
     desc: Run tests
+    lock: ~
     allow:
       - read
-      - net
       - write
       - run
+      - net
     cmd:
       - deno test --coverage=.coverage
       # - deno coverage .coverage
@@ -50,8 +53,8 @@ scripts:
     desc: Format code
     cmd: dprint fmt --config .github/config/dprint.json
   lock:
-    lock: ~
     desc: Update lock file
+    lock: ~
     cmd: deno cache --lock=lock.json --lock-write mod.ts
   serve-docs:
     desc: Serve documentation
