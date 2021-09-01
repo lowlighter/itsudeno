@@ -9,7 +9,6 @@ import type {strategy} from "@tools/validate"
 import {stripColor} from "std/fmt/colors.ts"
 import {toFileUrl} from "std/path/mod.ts"
 import {ItsudenoError} from "@errors"
-import {Executors} from "@executors"
 import {Modules} from "@modules"
 import type {loose} from "@types"
 const log = new Logger(import.meta.url)
