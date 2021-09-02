@@ -36,7 +36,7 @@ export const is = Object.assign(function(query: string, x: unknown) {
     if (x instanceof URL)
       return true
     try {
-      new URL(x)
+      new URL(x as string)
       return true
     }
     catch {
