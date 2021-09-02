@@ -97,7 +97,7 @@ function generate(definition: definitions | null, mode: string, {output = [] as 
       }
       //Past
       case "past": {
-        output.push(`${key}: ${type}${required ? " | null" : ""}`)
+        output.push(`${key}: ${type}${optional ? " | null" : ""}`)
         break
       }
       //Result

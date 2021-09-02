@@ -17,13 +17,15 @@ export class <%= mod.classname %> extends Module<raw, args, past, result> {
 
   /** Execute module */
   static async call(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const instance = await new this().ready
+    const constructor = this.autoload({os:Deno.build.os})
+    const instance = await new constructor().ready
     return instance.call(args ?? {}, context)
   }
 
   /** Arguments validator */
   static async prevalidate(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const instance = await new this().ready
+    const constructor = this.autoload({os:Deno.build.os})
+    const instance = await new constructor().ready
     return instance.prevalidate(args, {context})
   }
 
@@ -51,7 +53,7 @@ export type initialized = _initialized<raw, args>
 
 /** Past state */
 <% if (mod.definition.past) { %>
-export interface past extends result {
+export interface past {
 <%= generate(mod.definition.past, "past") %>
 }
 <% } else { %>

@@ -17,7 +17,7 @@ const log = new Logger(import.meta.url)
  * It is designed to centralize all logic in a single place (correct typing, implementation autoloading, validations, etc.)
  * Only `module.past()`, `module.check()` and `module.apply()` needs to be actually implemented in child classes.
  */
-export abstract class Module<raw, args, past extends result | null, result> extends Common<definition> {
+export abstract class Module<raw, args, past, result> extends Common<definition> {
   /** Collect past state */
   protected async past(result?: initialized<raw, args>) {
     log.v(`${this.name} → past`)
@@ -57,7 +57,7 @@ export abstract class Module<raw, args, past extends result | null, result> exte
   /** Arguments validator */
   async prevalidate(args?: raw, {context, strategy, strict}: {context?: loose, strategy?: strategy, strict?: boolean} = {}) {
     log.v(`${this.name} → prevalidate`)
-    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context, strategy, strict})
+    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context:{...context, os:Deno.build.os}, strategy, strict})
   }
 
   /** Result validator */
@@ -67,7 +67,7 @@ export abstract class Module<raw, args, past extends result | null, result> exte
   }
 
   /** Execute module */
-  protected async call({_ = this.name, _changed: changed, _failed: failed, _skipped: skipped, _mode: mode = settings.env.mode, ...args}: raw & mcall<raw, args, past, result>, context: loose = {}) {
+  protected async call({_ = this.name, _changed: changed, _failed: failed, _skipped: skipped, _mode: mode = settings.env.mode as mode, ...args}: raw & mcall<raw, args, past, result>, context: loose = {}) {
     //Create empty result and template name
     log.v(`${this.name} → call`)
     const name = await template(_, context, {safe: true})
@@ -129,7 +129,7 @@ export abstract class Module<raw, args, past extends result | null, result> exte
   }
 
   /** Create an empty module result */
-  private static outcome<raw, args, past extends result | null, result>({name, meta, args}: {name: string, meta: meta, args: args}): outcome<raw, args, past, result> {
+  private static outcome<raw, args, past, result>({name, meta, args}: {name: string, meta: meta, args: args}): outcome<raw, args, past, result> {
     return {name, meta, args, changes: {}, past: {}, result: {}, error: null, changed: false, applied: false, skipped: false, failed: false, success: true, completed: null} as unknown as outcome<raw, args, past, result>
   }
 }
