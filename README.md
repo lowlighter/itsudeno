@@ -19,11 +19,11 @@ It can be used to easily deploy and configure applications, services and network
   - [ ] Easily import and create third-party components thanks to EcmaScript dynamic imports
 - [x] 🥮 [Components documentation](https://itsudeno.land) are auto-generated and always up-to-date
 
-Learn more about *Itsudeno project* at [itsudeno.land](https://itsudeno.land)!
-
 > ⚠️ This project is in active development and some features advertised above may not be implemented yet. Progress can be tracked [here](https://github.com/lowlighter/itsudeno/discussions/3)
 
-## 🍙 Hello Itsudeno!
+## 🍥 Hello Itsudeno!
+
+### 🍙 Using YAML
 
 ```yml
 - _: Use Itsudeno with YAML
@@ -33,8 +33,10 @@ Learn more about *Itsudeno project* at [itsudeno.land](https://itsudeno.land)!
     - 你好
     - こんにちは
   log:
-    message: ${hello}! Current date is ${new Date()}
+    message: ${hello}! Current time is ${new Date()}
 ```
+
+### 🍘 Using TypeScript
 
 ```ts
 import * as it from "https://deno.land/x/itsudeno";
@@ -42,18 +44,26 @@ import * as it from "https://deno.land/x/itsudeno";
 for (const hello of ["Hello", "Bonjour", "你好", "こんにちは"]) {
   await it.modules.log({
     _: `Use Itsudeno with TypeScript`,
-    message:`${hello}! Current date is ${new Date()}`
+    message:`${hello}! Current time is ${new Date()}`
   });
 }
 ```
 
-## 🦑 License and contributions
+### 🍶 Try it know!
+
+```
+deno run --allow-all --unstable --no-check --import-map https://deno.land/x/imports.json https://deno.land/x/mod.ts run https://deno.land/x/docs/examples/hello.yml
+```
+
+*`--no-check` is currently needed because of recent changes in web crypto APIs (it will be fixed in future releases)*
+
+## 🦑 Contributions and license
+
+* To report a bug, fill an [issue](https://github.com/lowlighter/itsudeno/issues) describing it.
+* To suggest new features or request help, check out [discussions](https://github.com/lowlighter/itsudeno/discussions) instead.
+* To contribute, submit a [pull request](https://github.com/lowlighter/itsudeno/pulls).
 
 ```
 GNU General Public License v3.0
 Copyright (c) 2021-present Simon Lecoq (lowlighter)
 ```
-
-* To report a bug, fill an [issue](https://github.com/lowlighter/itsudeno/issues) describing it.
-* To suggest new features or request help, check out [discussions](https://github.com/lowlighter/itsudeno/discussions) instead.
-* To contribute, submit a [pull request](https://github.com/lowlighter/itsudeno/pulls).
