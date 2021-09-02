@@ -1,4 +1,10 @@
 - _: Hello itsudeno!
+  targets: (localhost)
   using: local
+  loop:hello:
+    - Hello
+    - Bonjour
+    - 你好
+    - こんにちは
   log:
-    message: Current time is ${new Date()}
+    message: ${hello}! Current time is ${new Date()}

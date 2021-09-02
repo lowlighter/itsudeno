@@ -1,4 +1,5 @@
 //Imports
+import {Host} from "@core/inventories"
 import {it} from "@core/setup"
 import {deepmerge, deferred} from "@tools/std"
 import {template} from "@tools/template"
@@ -59,7 +60,14 @@ export class Scope {
 
   /** Targets hosts */
   get targets() {
-    return (async () => Promise.all([...await this.inventory.query(this.#meta.targets)].map(host => this.inventory.get(host))))()
+    return (async () => {
+      const hosts = await Promise.all([...await this.inventory.query(this.#meta.targets)].map(host => this.inventory.get(host)))
+
+      if (this.#meta.targets.includes("(localhost)"))
+        hosts.push(new Host(null, {name: "(localhost)"}))
+
+      return hosts
+    })()
   }
 
   /** Create new scope from current scope */

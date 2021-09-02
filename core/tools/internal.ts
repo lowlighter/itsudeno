@@ -1,11 +1,11 @@
 //Imports
+import {is} from "@tools/is"
 import {strcase} from "@tools/strings"
 import {parse} from "std/encoding/yaml.ts"
 import {exists as existsAsync, existsSync, expandGlob} from "std/fs/mod.ts"
 import {common, dirname, fromFileUrl, isAbsolute, join} from "std/path/mod.ts"
-import type {loose} from "@types"
 import {ItsudenoError} from "@errors"
-import {is} from "@tools/is"
+import type {loose} from "@types"
 
 /** Itsudeno root path */
 const root = toPath(join(dirname(import.meta.url), "../.."))

@@ -20,7 +20,8 @@ export const cli = {
     console.log(await it.vaults[vault].get(secret))
   },
   /** Set secrets */
-  async set({vault = "default", value = null as primitive|null, yes = false}, secret = "") {
+  //deno-lint-ignore no-unused-vars
+  async set({vault = "default", value = null as primitive | null, yes = false}, secret = "") {
     //Retrieve value
     if (is.null(value)) {
       if (yes)
