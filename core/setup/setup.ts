@@ -5,6 +5,7 @@ import type {Reporter} from "@core/reporters"
 import type {Vault} from "@core/vaults"
 import {cli} from "@interfaces/cli"
 import {is} from "@tools/is"
+import {Logger} from "@tools/log"
 import {ItsudenoError} from "@errors"
 import {Executors} from "@executors"
 import {Inventories} from "@inventories"
@@ -12,7 +13,6 @@ import {Reporters} from "@reporters"
 import {settings} from "@settings"
 import type {infered} from "@types"
 import {Vaults} from "@vaults"
-import {Logger} from "@tools/log"
 const log = new Logger(import.meta.url)
 
 //Load executors
