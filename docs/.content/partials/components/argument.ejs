@@ -1,6 +1,6 @@
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
-    <h3 class="Box-title">
+    <h3 class="Box-title m-0">
       <%= name %>
       <% for (const alias of (arg.aliases ?? [])) { %>
         <span class="Label">Alias: <%= alias %> </span>
@@ -21,7 +21,7 @@
         <span class="Label Label--warning">Deprecated</span>
       <% } %>
       <% if (arg.default) { %>
-        <span class="Counter mr-1">Default: <%= arg.default %></span>
+        <span class="Counter mr-1">Default: <%= JSON.stringify(arg.default) %></span>
       <% } %>
     </h3>
   </div>
