@@ -1,6 +1,6 @@
 {
   "imports": {
-    "std/": "https://deno.land/std@0.104.0/",
+    "std/": "https://deno.land/std@0.106.0/",
     "x/": "https://deno.land/x/",
     "y/": "https://cdn.skypack.dev/",
     "@itsudeno": "./mod.ts",
@@ -32,6 +32,7 @@
     "@core/internal/common":"./core/internal/common/mod.ts",
     "@tools/internal":"./core/tools/internal.ts",
     "@tools/strings":"./core/tools/strings.ts",
+    "@tools/hash":"./core/tools/hash.ts",
     "@tools/objects":"./core/tools/objects.ts",
     "@tools/is":"./core/tools/is.ts",
     "@tools/to":"./core/tools/to.ts",
