@@ -30,11 +30,11 @@ const run = Object.assign(async function run(command: string, {stdin = null, cwd
   finally {
     process?.close()
   }
-},{
+}, {
   async powershell(command: string, options: {stdin?: string | null, cwd?: string, env?: {[key: string]: string}} = {}) {
     command = `powershell.exe -Nologo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command '${command.replace(/'/g, "''")}'`
     return await run(command, options)
-  }
+  },
 })
 
 //Exports

@@ -57,7 +57,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   /** Arguments validator */
   async prevalidate(args?: raw, {context, strategy, strict}: {context?: loose, strategy?: strategy, strict?: boolean} = {}) {
     log.v(`${this.name} → prevalidate`)
-    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context:{...context, os:Deno.build.os}, strategy, strict})
+    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context: {...context, os: Deno.build.os}, strategy, strict})
   }
 
   /** Result validator */

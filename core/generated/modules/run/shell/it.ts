@@ -17,14 +17,14 @@ export class RunShellModule extends Module<raw, args, past, result> {
 
   /** Execute module */
   static async call(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const constructor = this.autoload({os:Deno.build.os})
+    const constructor = this.autoload({os: Deno.build.os})
     const instance = await new constructor().ready
     return instance.call(args ?? {}, context)
   }
 
   /** Arguments validator */
   static async prevalidate(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const constructor = this.autoload({os:Deno.build.os})
+    const constructor = this.autoload({os: Deno.build.os})
     const instance = await new constructor().ready
     return instance.prevalidate(args, {context})
   }
@@ -33,47 +33,60 @@ export class RunShellModule extends Module<raw, args, past, result> {
   static readonly url = import.meta.url
 
   /** Definition */
-  static readonly definition = {"description":"Run a shell command\n","args":{"command":{"description":"Command to run","type":"string","required":true,"aliases":["cmd"],"examples":["echo 'hello world'"]},"environment":{"description":"Environment","type":"string{}","default":{},"aliases":["env"]},"cwd":{"description":"Current working directory","type":"string","match":["filepath"]},"executable":{"description":"Shell executable options","type":{"path":{"description":"Shell executable path","type":"string","match":["filepath"],"default":"${{windows:\"powershell.exe\"}[os] ?? \"/bin/sh\"}"},"options":{"description":"Shell executable options","type":"string","default":"${{windows:\"-Nologo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -\"}[os] ?? \"\"}"}}}},"past":null,"result":{"success":{"description":"Whether command exited with a zero exit code","type":"boolean"},"code":{"description":"Exit code","type":"number"},"stdout":{"description":"Standard output","type":"string"},"stderr":{"description":"Standard error","type":"string"}},"maintainers":["lowlighter"]}
-
+  static readonly definition = {
+    "description": "Run a shell command\n",
+    "args": {
+      "command": {"description": "Command to run", "type": "string", "required": true, "aliases": ["cmd"], "examples": ["echo 'hello world'"]},
+      "environment": {"description": "Environment", "type": "string{}", "default": {}, "aliases": ["env"]},
+      "cwd": {"description": "Current working directory", "type": "string", "match": ["filepath"]},
+      "executable": {
+        "description": "Shell executable options",
+        "type": {"path": {"description": "Shell executable path", "type": "string", "match": ["filepath"], "default": '${{windows:"powershell.exe"}[os] ?? "/bin/sh"}'}, "options": {"description": "Shell executable options", "type": "string", "default": '${{windows:"-Nologo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -"}[os] ?? ""}'}},
+      },
+    },
+    "past": null,
+    "result": {"success": {"description": "Whether command exited with a zero exit code", "type": "boolean"}, "code": {"description": "Exit code", "type": "number"}, "stdout": {"description": "Standard output", "type": "string"}, "stderr": {"description": "Standard error", "type": "string"}},
+    "maintainers": ["lowlighter"],
+  }
 }
 export {RunShellModule as Module}
 
 /** Input arguments */
 export interface raw {
-/** Command to run */
-command?: string
-/** Command to run (alias for command) */
-cmd?: string
-/** Environment */
-environment?: {[key:string]:string} | null
-/** Environment (alias for environment) */
-env?: {[key:string]:string} | null
-/** Current working directory */
-cwd?: string | null
-/** Shell executable options */
-executable?: {
-/** Shell executable path */
-path?: string | null
-/** Shell executable options */
-options?: string | null
-}
+  /** Command to run */
+  command?: string
+  /** Command to run (alias for command) */
+  cmd?: string
+  /** Environment */
+  environment?: {[key: string]: string} | null
+  /** Environment (alias for environment) */
+  env?: {[key: string]: string} | null
+  /** Current working directory */
+  cwd?: string | null
+  /** Shell executable options */
+  executable?: {
+    /** Shell executable path */
+    path?: string | null,
+    /** Shell executable options */
+    options?: string | null,
+  }
 }
 
 /** Validated and transformed arguments */
 export interface args {
-/** Command to run */
-command: string
-/** Environment */
-environment: {[key:string]:string}
-/** Current working directory */
-cwd: string | null
-/** Shell executable options */
-executable: {
-/** Shell executable path */
-path: string
-/** Shell executable options */
-options: string
-}
+  /** Command to run */
+  command: string
+  /** Environment */
+  environment: {[key: string]: string}
+  /** Current working directory */
+  cwd: string | null
+  /** Shell executable options */
+  executable: {
+    /** Shell executable path */
+    path: string,
+    /** Shell executable options */
+    options: string,
+  }
 }
 
 /** Module target initializated (before execution) */
@@ -83,23 +96,21 @@ export type initialized = _initialized<raw, args>
 
 export type past = null
 
-
 /** Module target status (after probing) */
 export type before = _before<raw, args, past>
 
 /** Resulting state */
 
 export interface result {
-/** Whether command exited with a zero exit code */
-success: boolean
-/** Exit code */
-code: number
-/** Standard output */
-stdout: string
-/** Standard error */
-stderr: string
+  /** Whether command exited with a zero exit code */
+  success: boolean
+  /** Exit code */
+  code: number
+  /** Standard output */
+  stdout: string
+  /** Standard error */
+  stderr: string
 }
-
 
 /** Module outcome */
 export type outcome = _outcome<raw, args, past, result>

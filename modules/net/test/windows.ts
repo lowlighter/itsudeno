@@ -1,9 +1,7 @@
 //Imports
 import {Module} from "@generated/modules/net/test/it.ts"
 import type {before} from "@generated/modules/net/test/it.ts"
-import {Logger} from "@tools/log"
 import {run} from "@tools/run"
-const log = new Logger(import.meta.url)
 
 /** Generic implementation */
 Module.register(
@@ -24,6 +22,3 @@ Module.register(
     }
   },
 )
-
-
-

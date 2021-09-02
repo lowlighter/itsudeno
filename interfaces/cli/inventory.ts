@@ -28,7 +28,7 @@ export const cli = {
   async set({inventory = "default", property: properties = [], deleteProperty: deletedProperties = [], group: groups = [], deleteGroup: deletedGroups = [], add = false, yes = false}, targets = []) {
     //Query hosts
     const hosts = []
-    if ((targets.length)&&(add)) {
+    if ((targets.length) && (add)) {
       const names = new Set(targets)
       if (names.size < targets.length)
         log.warn(`some hosts were specified multiple times, ignoring...`)
