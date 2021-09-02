@@ -9,7 +9,7 @@ const decoder = new TextDecoder()
 const encoder = new TextEncoder()
 
 /** Run a raw command on system */
-export async function run(command: string, {stdin = null, cwd, env}: {stdin?: string | null, cwd?: string, env?: {[key: string]: string}} = {}) {
+const run = Object.assign(async function run(command: string, {stdin = null, cwd, env}: {stdin?: string | null, cwd?: string, env?: {[key: string]: string}} = {}) {
   let process
   try {
     log.vvv(`command: ${command}`)
@@ -30,4 +30,12 @@ export async function run(command: string, {stdin = null, cwd, env}: {stdin?: st
   finally {
     process?.close()
   }
-}
+},{
+  async powershell(command: string, options: {stdin?: string | null, cwd?: string, env?: {[key: string]: string}} = {}) {
+    command = `powershell.exe -Nologo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command '${command.replace(/'/g, "''")}'`
+    return await run(command, options)
+  }
+})
+
+//Exports
+export {run}
