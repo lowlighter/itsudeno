@@ -15,6 +15,19 @@ export const to = {
       return x
     throw new ItsudenoError.Unsupported(`unsupported type conversion to object: ${JSON.stringify(x)}`)
   },
+  function(x: unknown) {
+    if (is.function(x))
+      return x
+    if (is.string(x)) {
+      try {
+        return new Function(`return ${x}`)()
+      }
+      catch {
+        //Ignore errors
+      }
+    }
+    throw new ItsudenoError.Unsupported(`unsupported type conversion to function: ${JSON.stringify(x)}`)
+  },
   boolean(x: unknown) {
     if (is.boolean(x))
       return x
