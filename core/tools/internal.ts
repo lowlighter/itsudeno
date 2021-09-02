@@ -4,6 +4,8 @@ import {parse} from "std/encoding/yaml.ts"
 import {exists as existsAsync, existsSync, expandGlob} from "std/fs/mod.ts"
 import {common, dirname, fromFileUrl, isAbsolute, join} from "std/path/mod.ts"
 import type {loose} from "@types"
+import {ItsudenoError} from "@errors"
+import {is} from "@tools/is"
 
 /** Itsudeno root path */
 const root = toPath(join(dirname(import.meta.url), "../.."))
@@ -59,6 +61,16 @@ export function resolve(path: string, {base = "", full = true, output = "file"} 
 export function read(path: string, options: {base?: string, sync: true}): string
 export function read(path: string, options?: {base?: string, sync?: false}): Promise<string>
 export function read(path: string, {base = "", sync = false} = {}) {
+  try {
+    if (is.url.remote(path)) {
+      if (sync)
+        throw new ItsudenoError.Unsupported(`unsupported sync mode when path is an url`)
+      return fetch(path).then(response => response.text())
+    }
+  }
+  catch {
+    //Ignore errors
+  }
   path = resolve(path, {base})
   return sync ? Deno.readTextFileSync(path) : Deno.readTextFile(path)
 }

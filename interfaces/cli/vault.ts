@@ -4,6 +4,7 @@ import {is} from "@tools/is"
 import {gray, italic} from "std/fmt/colors.ts"
 import {Confirm, Input} from "x/cliffy@v0.19.5/mod.ts"
 import {ItsudenoError} from "@errors"
+import type {primitive} from "@types"
 
 /** Cli bindings */
 export const cli = {
@@ -19,7 +20,7 @@ export const cli = {
     console.log(await it.vaults[vault].get(secret))
   },
   /** Set secrets */
-  async set({vault = "default", value = null, yes = false}, secret = "") {
+  async set({vault = "default", value = null as primitive|null, yes = false}, secret = "") {
     //Retrieve value
     if (is.null(value)) {
       if (yes)
@@ -32,7 +33,7 @@ export const cli = {
       throw new ItsudenoError.Aborted("operation aborted by user")
 
     //Update secret
-    await it.vaults[vault].set(secret, value)
+    await it.vaults[vault].set(secret, value! as primitive)
   },
   /** Delete secrets */
   async delete({vault = "default", yes = false}, secret = "") {

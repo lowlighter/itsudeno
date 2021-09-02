@@ -31,6 +31,24 @@ export const is = Object.assign(function(query: string, x: unknown) {
       return is.null(x) || (x === "null")
     },
   }),
+  //URL asserts
+  url: Object.assign(function (x:unknown) {
+    if (x instanceof URL)
+      return true
+    try {
+      new URL(x)
+      return true
+    }
+    catch {
+      return false
+    }
+  }, {
+    remote(x: unknown) {
+      if (is.url(x))
+        return /^https?:$/.test(new URL(x as string).protocol)
+      return false
+    }
+  }),
   //Symbol asserts
   symbol(x: unknown): x is unknown {
     return typeof x === "symbol"
