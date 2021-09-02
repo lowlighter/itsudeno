@@ -12,6 +12,8 @@ import {Reporters} from "@reporters"
 import {settings} from "@settings"
 import type {infered} from "@types"
 import {Vaults} from "@vaults"
+import {Logger} from "@tools/log"
+const log = new Logger(import.meta.url)
 
 //Load executors
 const executors = new Proxy({} as {[key: string]: Executor<infered, infered>}, {
@@ -22,6 +24,7 @@ const executors = new Proxy({} as {[key: string]: Executor<infered, infered>}, {
   },
 })
 if (settings.executors) {
+  log.vvv(`preparing defined executors`)
   const loaded = [] as Array<[string, Executor<infered, infered>]>
   for (const [name, {type, ...args}] of Object.entries(settings.executors)) {
     if (!(type in Executors))
@@ -40,6 +43,7 @@ const inventories = new Proxy({} as {[key: string]: Inventory<infered, infered>}
   },
 })
 if (settings.inventories) {
+  log.vvv(`preparing defined inventories`)
   const loaded = [] as Array<[string, Inventory<infered, infered>]>
   for (const [name, {type, ...args}] of Object.entries(settings.inventories)) {
     if (!(type in Inventories))
@@ -58,6 +62,7 @@ const vaults = new Proxy({} as {[key: string]: Vault<infered, infered>}, {
   },
 })
 if (settings.vaults) {
+  log.vvv(`preparing defined vaults`)
   const loaded = [] as Array<[string, Vault<infered, infered>]>
   for (const [name, {type, ...args}] of Object.entries(settings.vaults)) {
     if (!(type in Vaults))
@@ -76,6 +81,7 @@ const reporters = new Proxy({} as {[key: string]: Reporter<infered, infered>}, {
   },
 })
 if (settings.reporters) {
+  log.vvv(`preparing defined reporters`)
   const loaded = [] as Array<[string, Reporter<infered, infered>]>
   for (const [name, {type, ...args}] of Object.entries(settings.reporters)) {
     if (!(type in Reporters))
@@ -84,6 +90,8 @@ if (settings.reporters) {
   }
   Object.assign(reporters, Object.fromEntries(loaded), {default: loaded[0][1]})
 }
+
+log.vvv(`setup completed`)
 
 /** Configured itsudeno instance */
 export const it = {
