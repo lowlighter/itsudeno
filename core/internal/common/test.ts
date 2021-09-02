@@ -1,7 +1,8 @@
 //Imports
 import {definition, InternalCommonTestsCore} from "@core/internal/common/tests/mod.ts"
 import {Common} from "@core/internal/common"
-import {assert, assertEquals, assertObjectMatch, assertStrictEquals, assertThrowsAsync, Suite, test} from "@testing"
+import {assert, assertEquals, assertObjectMatch, assertStrictEquals, assertThrowsAsync, Suite} from "@testing"
+import type {test} from "@testing"
 
 //Tests
 await new Suite(import.meta.url)
