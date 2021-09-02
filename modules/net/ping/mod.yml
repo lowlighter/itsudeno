@@ -25,7 +25,7 @@ result:
     examples:
       - itsudeno.land
   ip:
-    description: Pinged host ip address
+    description: Pinged host ip address (may be null if dns resolution failed)
     type: string
     optional: true
     examples:
@@ -43,7 +43,10 @@ result:
       - positive
       - integer
   loss:
-    description: Loss percentage
+    description: Packets loss percentage
     type: number
     match:
       - percentage
+
+maintainers:
+  - lowlighter

@@ -13,7 +13,7 @@ args:
 past: ~
 result:
   message:
-    description: Message logged
+    description: Logged message
     type: string
 
 maintainers:
