@@ -116,7 +116,7 @@ export class Common<definition, options = unknown> {
   /** Autoload implementation, using specific one before agnostic one */
   protected static autoload({os}: {os: string}) {
     log.vvv(`${this.name} is loading implementation`)
-    const implementations = this.implementations.get(this.name) ?? new Map()
+    const implementations = this.implementations.get(this.name) ?? this.implementations.get(Object.getPrototypeOf(this).name) ?? new Map()
     for (const implementation of [`${os}.ts`, "all.ts", "mod.ts"]) {
       if (implementations.has(implementation)) {
         log.vvv(`${this.name} loaded ${implementation}`)
