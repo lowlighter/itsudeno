@@ -1,5 +1,6 @@
 //Imports
 import {resolve, yaml} from "@tools/internal"
+import {is} from "@tools/is"
 import {Logger} from "@tools/log"
 import {deepmerge} from "@tools/std"
 import type {infered} from "@types"
@@ -8,6 +9,15 @@ const log = new Logger(import.meta.url)
 //Load settings file
 const path = resolve(".itsudeno/settings.yml")
 log.info(`loading settings from ${path}`)
+const custom = {}
+try {
+  const parsed = await yaml<infered>(path).catch(() => ({}))
+  if (is.object(parsed))
+    Object.assign(custom, parsed)
+}
+catch {
+  log.warn(`failed to load setting from ${path}`)
+}
 
 /** Settings */
 const settings = deepmerge({
@@ -42,5 +52,5 @@ const settings = deepmerge({
   env: {
     mode: "apply",
   },
-}, await yaml<infered>(path).catch(() => ({})) ?? {})
+}, custom)
 export {settings}
