@@ -1,6 +1,6 @@
 //Imports
-import {Module} from "@generated/modules/control/wait/time/it.ts"
-import type {before} from "@generated/modules/control/wait/time/it.ts"
+import {Module} from "@generated/modules/wait/time/it.ts"
+import type {before} from "@generated/modules/wait/time/it.ts"
 import {Logger} from "@tools/log"
 import {delay} from "std/async/delay.ts"
 const log = new Logger(import.meta.url)
