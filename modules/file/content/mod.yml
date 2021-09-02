@@ -1,0 +1,34 @@
+description: |
+  Set file content
+
+args:
+  path:
+    description: File path
+    type: string
+    required: true
+    match:
+      - filepath
+  content:
+    description: Set file content from string
+    type: string
+    required: true
+
+past:
+  content:
+    description: Previous file content
+    type: string
+    optional: true
+  md5:
+    description: MD5 hash
+    type: string
+    optional: true
+result:
+  content:
+    description: File content
+    type: string
+  md5:
+    description: MD5 hash
+    type: string
+
+maintainers:
+  - lowlighter
