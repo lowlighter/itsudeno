@@ -52,7 +52,7 @@ for (const hello of ["Hello", "Bonjour", "你好", "こんにちは"]) {
 ### 🍶 Try it know!
 
 ```
-deno run --allow-all --unstable --no-check --import-map https://deno.land/x/imports.json https://deno.land/x/mod.ts run https://deno.land/x/docs/examples/hello.yml
+deno run --allow-all --unstable --no-check --import-map https://deno.land/x/itsudeno/imports.json https://deno.land/x/itsudeno/mod.ts run https://deno.land/x/itsudeno/docs/examples/hello.yml
 ```
 
 *`--no-check` is currently needed because of recent changes in web crypto APIs (it will be fixed in future releases)*
