@@ -9,10 +9,10 @@ export const enum level {
   warn = 2,
   notice = 3,
   info = 4,
-  v = 4,
-  vv = 5,
-  vvv = 6,
-  vvvv = 7,
+  v = 5,
+  vv = 6,
+  vvv = 7,
+  vvvv = 8,
   all = 255,
 }
 
@@ -23,7 +23,7 @@ export const enum level {
  */
 export class Logger {
   /** Log level */
-  static level = level.all
+  static level = level.info
 
   /** Tag */
   readonly tag: string
