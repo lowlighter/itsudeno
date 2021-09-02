@@ -1,0 +1,19 @@
+description: |
+  Test connection with a remote host (and eventually a remote port)
+
+args:
+  host:
+    description: Remote host
+    type: string
+    default: localhost
+  port:
+    description: Remote port
+    type: number
+    match:
+      - port
+
+past: ~
+result: ~
+
+maintainers:
+  - lowlighter
