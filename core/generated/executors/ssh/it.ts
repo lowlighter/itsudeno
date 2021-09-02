@@ -12,7 +12,7 @@ import type {loose} from "@types"
 /** Run command through SSH */
 export class SshExecutor extends Executor<raw, args> {
   /** Constructor */
-  constructor({defaults}: {defaults?: Partial<raw>} = {}) {
+  constructor({defaults}:{defaults?:Partial<raw>} = {}) {
     super({...SshExecutor, defaults})
   }
 
@@ -24,53 +24,44 @@ export class SshExecutor extends Executor<raw, args> {
 
   /** Prepared executor */
   static async prepare(args: Partial<raw>) {
-    return await new this({defaults: args}).ready
+    return await new this({defaults:args}).ready
   }
 
   /** Url */
   static readonly url = import.meta.url
 
   /** Definition */
-  static readonly definition = {
-    "description": "Run command through SSH\n",
-    "args": {
-      "host": {"description": "Remote host", "required": true, "type": "string"},
-      "login": {"description": "Login user", "type": "string", "default": "root"},
-      "password": {"description": "Login password", "type": "string"},
-      "key": {"description": "Identity file", "type": "string"},
-      "port": {"description": "Remote port", "type": "number", "default": 22},
-    },
-    "maintainers": ["lowlighter"],
-  }
+  static readonly definition = {"description":"Run command through SSH\n","args":{"host":{"description":"Remote host","required":true,"type":"string"},"login":{"description":"Login user","type":"string","default":"root"},"password":{"description":"Login password","type":"string"},"key":{"description":"Identity file","type":"string"},"port":{"description":"Remote port","type":"number","default":22}},"maintainers":["lowlighter"]}
+
 }
 export {SshExecutor as Executor}
 
 /** Arguments */
 export interface raw {
-  /** Remote host */
-  host?: string
-  /** Login user */
-  login?: string | null
-  /** Login password */
-  password?: string | null
-  /** Identity file */
-  key?: string | null
-  /** Remote port */
-  port?: number | null
+/** Remote host */
+host?: string
+/** Login user */
+login?: string | null
+/** Login password */
+password?: string | null
+/** Identity file */
+key?: string | null
+/** Remote port */
+port?: number | null
 }
 
 /** Validated and transformed arguments */
 export interface args {
-  /** Remote host */
-  host: string
-  /** Login user */
-  login: string
-  /** Login password */
-  password: string | null
-  /** Identity file */
-  key: string | null
-  /** Remote port */
-  port: number
+/** Remote host */
+host: string
+/** Login user */
+login: string
+/** Login password */
+password: string | null
+/** Identity file */
+key: string | null
+/** Remote port */
+port: number
 }
 
 /** Executor before execution */

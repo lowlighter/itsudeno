@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Modules: control.wait.time</title>
+    <title>Modules: file.content</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
     <link rel="stylesheet" href="/vendors/primer.css">
   </head>
@@ -39,26 +39,20 @@
           </div>
         </div>
       </details>
-      <div class="Header-item">
-        <input class="form-control Header-input" type="text" placeholder="Search"/>
-      </div>
     </div>
 
     <div class="container-lg p-4 markdown-body">
 
-<h1 id="modules-control-wait-time">modules.control.wait.time</h1>
-<p>Wait a certain amount of time before continuing</p>
-<div class="flash mt-3 flash-warn">
-This module is always executed on controller, regardless of current executor.
-</div>
-
-
+<h1 id="modules-file-content">modules.file.content</h1>
+<p>Set file content</p>
 <h2 id="arguments">Arguments</h2>
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
     <h3 class="Box-title">
-      days
+      path
 
+
+        <span class="Label Label--info">Required</span>
 
 
 
@@ -69,52 +63,24 @@ This module is always executed on controller, regardless of current executor.
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">number</span>
+      <span class="branch-name color-bg-info">string</span>
 
-        <span class="branch-name">positive</span>
-
-        <span class="branch-name">nonzero</span>
+        <span class="branch-name">filepath</span>
 
 
   </div>
   <div class="Box-row">
-    Days
+    File path
   </div>
 </div>
 
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
     <h3 class="Box-title">
-      hours
+      content
 
 
-
-
-
-
-
-    </h3>
-  </div>
-  <div class="Box-row">
-
-      <span class="branch-name color-bg-info">number</span>
-
-        <span class="branch-name">positive</span>
-
-        <span class="branch-name">nonzero</span>
-
-
-  </div>
-  <div class="Box-row">
-    Hours
-  </div>
-</div>
-
-<div class="Box Box--condensed my-2">
-  <div class="Box-header">
-    <h3 class="Box-title">
-      minutes
-
+        <span class="Label Label--info">Required</span>
 
 
 
@@ -125,91 +91,131 @@ This module is always executed on controller, regardless of current executor.
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">number</span>
-
-        <span class="branch-name">positive</span>
-
-        <span class="branch-name">nonzero</span>
+      <span class="branch-name color-bg-info">string</span>
 
 
   </div>
   <div class="Box-row">
-    Minutes
-  </div>
-</div>
-
-<div class="Box Box--condensed my-2">
-  <div class="Box-header">
-    <h3 class="Box-title">
-      seconds
-
-
-
-
-
-
-
-    </h3>
-  </div>
-  <div class="Box-row">
-
-      <span class="branch-name color-bg-info">number</span>
-
-        <span class="branch-name">positive</span>
-
-        <span class="branch-name">nonzero</span>
-
-
-  </div>
-  <div class="Box-row">
-    Seconds
-  </div>
-</div>
-
-<div class="Box Box--condensed my-2">
-  <div class="Box-header">
-    <h3 class="Box-title">
-      milliseconds
-
-
-
-
-
-
-
-    </h3>
-  </div>
-  <div class="Box-row">
-
-      <span class="branch-name color-bg-info">number</span>
-
-        <span class="branch-name">positive</span>
-
-        <span class="branch-name">nonzero</span>
-
-
-  </div>
-  <div class="Box-row">
-    Seconds
+    Set file content from string
   </div>
 </div>
 
 
 
 <h2 id="past-state">Past state</h2>
-<blockquote>
-<p>This module does not collect any past state</p>
-</blockquote>
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      content
+
+
+
+
+
+        <span class="Label Label--success">Optional</span>
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string</span>
+
+
+  </div>
+  <div class="Box-row">
+    Previous file content
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      md5
+
+
+
+
+
+        <span class="Label Label--success">Optional</span>
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string</span>
+
+
+  </div>
+  <div class="Box-row">
+    MD5 hash
+  </div>
+</div>
+
+
+
 <h2 id="result">Result</h2>
-<blockquote>
-<p>This module does not return any result</p>
-</blockquote>
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      content
+
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string</span>
+
+
+  </div>
+  <div class="Box-row">
+    File content
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      md5
+
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string</span>
+
+
+  </div>
+  <div class="Box-row">
+    MD5 hash
+  </div>
+</div>
+
+
+
+<h2 id="supported-platforms">Supported platforms</h2>
+<p>This module contains a generic implementation which should work on most operating systems.</p>
 <hr>
 <h3 id="maintainers">Maintainers</h3>
-
-<ul>
-<li><a href="https://github.com/lowlighter"><img src="https://github.com/lowlighter.png?v=3&amp;s=64" alt="lowlighter"></a></li>
-</ul>
+<p><a href="https://github.com/lowlighter" class="Label Label--primary ml-1">
+  <img class="avatar avatar-2 mx-2 my-1" alt="lowlighter" src="https://github.com/lowlighter.png?v=3&s=64" />
+  lowlighter
+</a></p>
 
     </div>
     <script src="/vendors/highlight.min.js"></script>

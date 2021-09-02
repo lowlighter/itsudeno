@@ -39,9 +39,6 @@
           </div>
         </div>
       </details>
-      <div class="Header-item">
-        <input class="form-control Header-input" type="text" placeholder="Search"/>
-      </div>
     </div>
 
     <div class="container-lg p-4 markdown-body">
@@ -66,16 +63,16 @@
 <h2 id="-typescript-syntax">🍘 🍥 TypeScript syntax</h2>
 <p>This syntax uses <em>Itsudeno</em> components directly, and is mostly intended for power users.</p>
 
-<pre><code class="lang-ts">import * as it from &quot;https://deno.land/x/itsudeno&quot;;
+<pre><code class="lang-ts">import * as it from &quot;https://deno.land/x/itsudeno&quot;
 
 for (const chain of [&quot;input&quot;, &quot;output&quot;]) {
   await it.modules.net.ip.firewall({
     _: `Set default policy for firewall for ${chain}`,
-    _using:&quot;ssh&quot;,
+    _using: &quot;ssh&quot;,
     _as: &quot;root&quot;,
     chain,
     policy: &quot;drop&quot;,
-  });
+  })
 }
 </code></pre>
 

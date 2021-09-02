@@ -4,18 +4,23 @@
 
 //Imports
 import {ControlNoopModule} from "@generated/modules/control/noop/mod.ts"
-import {ControlWaitPortModule} from "@generated/modules/control/wait/port/mod.ts"
-import {ControlWaitTimeModule} from "@generated/modules/control/wait/time/mod.ts"
+import {FileContentModule} from "@generated/modules/file/content/mod.ts"
 import {HttpRequestModule} from "@generated/modules/http/request/mod.ts"
 import {LogModule} from "@generated/modules/log/mod.ts"
 import {NetPingModule} from "@generated/modules/net/ping/mod.ts"
+import {NetTestModule} from "@generated/modules/net/test/mod.ts"
+import {RunShellModule} from "@generated/modules/run/shell/mod.ts"
+import {WaitTimeModule} from "@generated/modules/wait/time/mod.ts"
+
 
 //Exports
 export const Modules = {
-  "control.noop": ControlNoopModule,
-  "control.wait.port": ControlWaitPortModule,
-  "control.wait.time": ControlWaitTimeModule,
-  "http.request": HttpRequestModule,
-  "log": LogModule,
-  "net.ping": NetPingModule,
+  "control.noop":ControlNoopModule,
+"file.content":FileContentModule,
+"http.request":HttpRequestModule,
+"log":LogModule,
+"net.ping":NetPingModule,
+"net.test":NetTestModule,
+"run.shell":RunShellModule,
+"wait.time":WaitTimeModule,
 }

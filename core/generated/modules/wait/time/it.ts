@@ -8,11 +8,11 @@ import {Module} from "@core/modules"
 import type {before as _before, initialized as _initialized, mcall, outcome as _outcome} from "@core/modules"
 import type {loose} from "@types"
 
-/** Log a message */
-export class LogModule extends Module<raw, args, past, result> {
+/** Wait a certain amount of time before continuing */
+export class WaitTimeModule extends Module<raw, args, past, result> {
   /** Constructor */
   constructor() {
-    super(LogModule)
+    super(WaitTimeModule)
   }
 
   /** Execute module */
@@ -33,23 +33,37 @@ export class LogModule extends Module<raw, args, past, result> {
   static readonly url = import.meta.url
 
   /** Definition */
-  static readonly definition = {"description":"Log a message\n","controller":true,"args":{"message":{"description":"Message to log","type":"string","required":true,"aliases":["msg"]}},"past":null,"result":{"message":{"description":"Logged message","type":"string"}},"maintainers":["lowlighter"]}
+  static readonly definition = {"description":"Wait a certain amount of time before continuing\n","controller":true,"args":{"days":{"description":"Days","type":"number","match":["positive","nonzero"],"default":0,"alias":["d"]},"hours":{"description":"Hours","type":"number","match":["positive","nonzero"],"default":0,"alias":["h"]},"minutes":{"description":"Minutes","type":"number","match":["positive","nonzero"],"default":0,"alias":["m","min"]},"seconds":{"description":"Seconds","type":"number","match":["positive","nonzero"],"default":0,"alias":["s","sec"]},"milliseconds":{"description":"Seconds","type":"number","match":["positive","nonzero"],"default":0,"alias":["ms"]}},"past":null,"result":null,"maintainers":["lowlighter"]}
 
 }
-export {LogModule as Module}
+export {WaitTimeModule as Module}
 
 /** Input arguments */
 export interface raw {
-/** Message to log */
-message?: string
-/** Message to log (alias for message) */
-msg?: string
+/** Days */
+days?: number | null
+/** Hours */
+hours?: number | null
+/** Minutes */
+minutes?: number | null
+/** Seconds */
+seconds?: number | null
+/** Seconds */
+milliseconds?: number | null
 }
 
 /** Validated and transformed arguments */
 export interface args {
-/** Message to log */
-message: string
+/** Days */
+days: number
+/** Hours */
+hours: number
+/** Minutes */
+minutes: number
+/** Seconds */
+seconds: number
+/** Seconds */
+milliseconds: number
 }
 
 /** Module target initializated (before execution) */
@@ -65,10 +79,7 @@ export type before = _before<raw, args, past>
 
 /** Resulting state */
 
-export interface result {
-/** Logged message */
-message: string
-}
+export type result = null
 
 
 /** Module outcome */

@@ -38,12 +38,31 @@ This module is always executed on controller, regardless of current executor.
 > This module does not return any result
 <% } %>
 
+## Supported platforms
+
+<% if (!mod.implementations.length) { %>
+> This module does not have any implementations
+<% } %>
+
+<% { const implementations = mod.implementations.filter(implementation => implementation !== "all.ts").map(implementation => implementation.replace(/\.ts$/, "")) %>
+<% if (implementations.length) { %>
+Specific implementations:
+<% for (const implementation of implementations) { %>
+* <%= implementation %>
+<% } %>
+<% } %>
+<% } %>
+
+<% if (mod.implementations.includes("all.ts")) { %>
+This module contains a generic implementation which should work on most operating systems.
+<% } %>
+
 ___
 
 ### Maintainers
 
 <% if (mod.definition.maintainers) { for (const maintainer of mod.definition.maintainers) { %>
-* [![<%= maintainer %>](https://github.com/<%= maintainer %>.png?v=3&s=64)](https://github.com/<%= maintainer %>)
+<%- await use.component("maintainer", {maintainer}) %>
 <% } } else { %>
 > This module does not have any maintainers yet
 <% } %>

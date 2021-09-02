@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Vaults: local</title>
+    <title>Modules: run.shell</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍣</text></svg>">
     <link rel="stylesheet" href="/vendors/primer.css">
   </head>
@@ -43,21 +43,23 @@
 
     <div class="container-lg p-4 markdown-body">
 
-<h1 id="vaults-local">vaults.local</h1>
-<p>Local vault</p>
+<h1 id="modules-run-shell">modules.run.shell</h1>
+<p>Run a shell command</p>
 <h2 id="arguments">Arguments</h2>
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
     <h3 class="Box-title">
-      key
+      command
+
+        <span class="Label">Alias: cmd </span>
+
+
+        <span class="Label Label--info">Required</span>
 
 
 
 
 
-
-
-        <span class="Counter mr-1">Default: ${it.settings.vaults.local.key}</span>
 
     </h3>
   </div>
@@ -65,23 +67,19 @@
 
       <span class="branch-name color-bg-info">string</span>
 
-        <span class="branch-name">length(16)</span>
-
-        <span class="branch-name">length(24)</span>
-
-        <span class="branch-name">length(32)</span>
-
 
   </div>
   <div class="Box-row">
-    AES cipher key
+    Command to run
   </div>
 </div>
 
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
     <h3 class="Box-title">
-      path
+      environment
+
+        <span class="Label">Alias: env </span>
 
 
 
@@ -89,7 +87,31 @@
 
 
 
-        <span class="Counter mr-1">Default: ${it.settings.vaults.local.path}</span>
+        <span class="Counter mr-1">Default: [object Object]</span>
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string{}</span>
+
+
+  </div>
+  <div class="Box-row">
+    Environment
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      cwd
+
+
+
+
+
+
 
     </h3>
   </div>
@@ -102,18 +124,147 @@
 
   </div>
   <div class="Box-row">
-    Vault file path
+    Current working directory
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      executable
+
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">[object Object]</span>
+
+
+  </div>
+  <div class="Box-row">
+    Shell executable options
   </div>
 </div>
 
 
 
+<h2 id="past-state">Past state</h2>
+<blockquote>
+<p>This module does not collect any past state</p>
+</blockquote>
+<h2 id="result">Result</h2>
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      success
+
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">boolean</span>
+
+
+  </div>
+  <div class="Box-row">
+    Whether command exited with a zero exit code
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      code
+
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">number</span>
+
+
+  </div>
+  <div class="Box-row">
+    Exit code
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      stdout
+
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string</span>
+
+
+  </div>
+  <div class="Box-row">
+    Standard output
+  </div>
+</div>
+
+<div class="Box Box--condensed my-2">
+  <div class="Box-header">
+    <h3 class="Box-title">
+      stderr
+
+
+
+
+
+
+
+    </h3>
+  </div>
+  <div class="Box-row">
+
+      <span class="branch-name color-bg-info">string</span>
+
+
+  </div>
+  <div class="Box-row">
+    Standard error
+  </div>
+</div>
+
+
+
+<h2 id="supported-platforms">Supported platforms</h2>
+<p>This module contains a generic implementation which should work on most operating systems.</p>
 <hr>
 <h3 id="maintainers">Maintainers</h3>
-
-<ul>
-<li><a href="https://github.com/lowlighter"><img src="https://github.com/lowlighter.png?v=3&amp;s=64" alt="lowlighter"></a></li>
-</ul>
+<p><a href="https://github.com/lowlighter" class="Label Label--primary ml-1">
+  <img class="avatar avatar-2 mx-2 my-1" alt="lowlighter" src="https://github.com/lowlighter.png?v=3&s=64" />
+  lowlighter
+</a></p>
 
     </div>
     <script src="/vendors/highlight.min.js"></script>
