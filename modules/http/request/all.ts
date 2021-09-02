@@ -24,7 +24,7 @@ Module.register(
       const options = {
         method,
         body: JSON.stringify(body),
-        headers,
+        headers: new Headers(Object.entries(headers) as Array<[string, string]>),
         cache: ["no-cache", "force-cache"][+cache] as RequestCache,
         redirect: ["manual", "follow"][+redirects] as RequestRedirect,
         signal: this.controller.signal,

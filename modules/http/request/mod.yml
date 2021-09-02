@@ -27,17 +27,16 @@ args:
     type: boolean
     default: true
   status:
-    description: Allowed reponse status codes
+    description: Allowed response status codes
     type: number[]
     default: [200]
-
 past: ~
 result:
   url:
     description: Response URL
     type: string
   redirected:
-    description: Whether response URL has been redirected
+    description: Whether a redirection occured
     type: boolean
   status:
     description: Response status
@@ -49,16 +48,12 @@ result:
         description: Response status text
         type: string
   text:
-    description: Response text
+    description: Response data (as text)
     type: string
   data:
-    description: Response data (if JSON parseable)
+    description: Response data (as object, may be null if output was not JSON parseable)
     type: unknown{}
     optional: true
 
 maintainers:
   - lowlighter
-
-
-
-
