@@ -63,7 +63,7 @@
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">string</span>
+      <span class="branch-name text-bold">string</span>
 
 
   </div>
@@ -89,13 +89,13 @@
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">number</span>
+      <span class="branch-name text-bold">number</span>
 
-        <span class="branch-name">positive</span>
+        <span class="branch-name text-italic">positive</span>
 
-        <span class="branch-name">integer</span>
+        <span class="branch-name text-italic">integer</span>
 
-        <span class="branch-name">nonzero</span>
+        <span class="branch-name text-italic">nonzero</span>
 
 
   </div>
@@ -126,7 +126,7 @@
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">string</span>
+      <span class="branch-name text-bold">string</span>
 
 
   </div>
@@ -152,7 +152,7 @@
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">string</span>
+      <span class="branch-name text-bold">string</span>
 
 
   </div>
@@ -176,11 +176,11 @@
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">number</span>
+      <span class="branch-name text-bold">number</span>
 
-        <span class="branch-name">positive</span>
+        <span class="branch-name text-italic">positive</span>
 
-        <span class="branch-name">integer</span>
+        <span class="branch-name text-italic">integer</span>
 
 
   </div>
@@ -204,11 +204,11 @@
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">number</span>
+      <span class="branch-name text-bold">number</span>
 
-        <span class="branch-name">positive</span>
+        <span class="branch-name text-italic">positive</span>
 
-        <span class="branch-name">integer</span>
+        <span class="branch-name text-italic">integer</span>
 
 
   </div>
@@ -232,9 +232,9 @@
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">number</span>
+      <span class="branch-name text-bold">number</span>
 
-        <span class="branch-name">percentage</span>
+        <span class="branch-name text-italic">percentage</span>
 
 
   </div>
@@ -245,13 +245,30 @@
 
 
 
+<h2 id="examples">Examples</h2>
+
+<pre><code class="lang-yml">_: Ping target host
+using: local
+net.ping:
+  host: &amp;#39;${it.target.data.ip}&amp;#39;
+</code></pre>
+
+<pre><code class="lang-yml">_: Ping ip address
+net.ping:
+  host: 127.0.0.1
+</code></pre>
+
+<pre><code class="lang-yml">_: Ping domain
+net.ping:
+  host: itsudeno.land
+</code></pre>
 <h2 id="supported-platforms">Supported platforms</h2>
+<p>This module contains a generic implementation which should work on most operating systems.</p>
 <p>Specific implementations:</p>
 
 <ul>
 <li>windows</li>
 </ul>
-<p>This module contains a generic implementation which should work on most operating systems.</p>
 <hr>
 <h3 id="maintainers">Maintainers</h3>
 <p><a href="https://github.com/lowlighter" class="Label Label--primary ml-1">

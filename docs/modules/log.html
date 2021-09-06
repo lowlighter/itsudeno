@@ -70,7 +70,7 @@ This module is always executed on controller, regardless of current executor.
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">string</span>
+      <span class="branch-name text-bold">string</span>
 
 
   </div>
@@ -101,7 +101,7 @@ This module is always executed on controller, regardless of current executor.
   </div>
   <div class="Box-row">
 
-      <span class="branch-name color-bg-info">string</span>
+      <span class="branch-name text-bold">string</span>
 
 
   </div>
@@ -112,6 +112,19 @@ This module is always executed on controller, regardless of current executor.
 
 
 
+<h2 id="examples">Examples</h2>
+
+<pre><code class="lang-yml">_: Print current time
+targets: (localhost)
+log:
+  message: &amp;#39;Current time is ${new Date()}&amp;#39;
+</code></pre>
+
+<pre><code class="lang-yml">_: Print current host data
+targets: (localhost)
+log:
+  message: &amp;#39;${it.inspect(it.target)}&amp;#39;
+</code></pre>
 <h2 id="supported-platforms">Supported platforms</h2>
 <p>This module contains a generic implementation which should work on most operating systems.</p>
 <hr>

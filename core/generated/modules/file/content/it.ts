@@ -17,15 +17,13 @@ export class FileContentModule extends Module<raw, args, past, result> {
 
   /** Execute module */
   static async call(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const constructor = this.autoload({os: Deno.build.os})
-    const instance = await new constructor().ready
+    const instance = await new (this.autoload())().ready
     return instance.call(args ?? {}, context)
   }
 
   /** Arguments validator */
   static async prevalidate(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const constructor = this.autoload({os: Deno.build.os})
-    const instance = await new constructor().ready
+    const instance = await new (this.autoload())().ready
     return instance.prevalidate(args, {context})
   }
 
@@ -33,30 +31,25 @@ export class FileContentModule extends Module<raw, args, past, result> {
   static readonly url = import.meta.url
 
   /** Definition */
-  static readonly definition = {
-    "description": "Set file content\n",
-    "args": {"path": {"description": "File path", "type": "string", "required": true, "match": ["filepath"]}, "content": {"description": "Set file content from string", "type": "string", "required": true}},
-    "past": {"content": {"description": "Previous file content", "type": "string", "optional": true}, "md5": {"description": "MD5 hash", "type": "string", "optional": true}},
-    "result": {"content": {"description": "File content", "type": "string"}, "md5": {"description": "MD5 hash", "type": "string"}},
-    "maintainers": ["lowlighter"],
-  }
+  static readonly definition = {"description":"Set file content\n","args":{"path":{"description":"File path","type":"string","required":true,"match":["filepath"]},"content":{"description":"Set file content from string","type":"string","required":true}},"past":{"content":{"description":"Previous file content","type":"string","optional":true},"md5":{"description":"MD5 hash","type":"string","optional":true}},"result":{"content":{"description":"File content","type":"string"},"md5":{"description":"MD5 hash","type":"string"}},"maintainers":["lowlighter"]}
+
 }
 export {FileContentModule as Module}
 
 /** Input arguments */
 export interface raw {
-  /** File path */
-  path?: string
-  /** Set file content from string */
-  content?: string
+/** File path */
+path?: string
+/** Set file content from string */
+content?: string
 }
 
 /** Validated and transformed arguments */
 export interface args {
-  /** File path */
-  path: string
-  /** Set file content from string */
-  content: string
+/** File path */
+path: string
+/** Set file content from string */
+content: string
 }
 
 /** Module target initializated (before execution) */
@@ -65,11 +58,12 @@ export type initialized = _initialized<raw, args>
 /** Past state */
 
 export interface past {
-  /** Previous file content */
-  content: string | null
-  /** MD5 hash */
-  md5: string | null
+/** Previous file content */
+content: string | null
+/** MD5 hash */
+md5: string | null
 }
+
 
 /** Module target status (after probing) */
 export type before = _before<raw, args, past>
@@ -77,11 +71,12 @@ export type before = _before<raw, args, past>
 /** Resulting state */
 
 export interface result {
-  /** File content */
-  content: string
-  /** MD5 hash */
-  md5: string
+/** File content */
+content: string
+/** MD5 hash */
+md5: string
 }
+
 
 /** Module outcome */
 export type outcome = _outcome<raw, args, past, result>

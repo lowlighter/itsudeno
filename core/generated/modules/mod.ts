@@ -12,14 +12,15 @@ import {NetTestModule} from "@generated/modules/net/test/mod.ts"
 import {RunShellModule} from "@generated/modules/run/shell/mod.ts"
 import {WaitTimeModule} from "@generated/modules/wait/time/mod.ts"
 
+
 //Exports
 export const Modules = {
-  "control.noop": ControlNoopModule,
-  "file.content": FileContentModule,
-  "http.request": HttpRequestModule,
-  "log": LogModule,
-  "net.ping": NetPingModule,
-  "net.test": NetTestModule,
-  "run.shell": RunShellModule,
-  "wait.time": WaitTimeModule,
+  "control.noop":ControlNoopModule,
+"file.content":FileContentModule,
+"http.request":HttpRequestModule,
+"log":LogModule,
+"net.ping":NetPingModule,
+"net.test":NetTestModule,
+"run.shell":RunShellModule,
+"wait.time":WaitTimeModule,
 }
