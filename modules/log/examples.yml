@@ -1,0 +1,9 @@
+- _: Print current time
+  targets: (localhost)
+  log:
+    message: Current time is ${new Date()}
+
+- _: Print current host data
+  targets: (localhost)
+  log:
+    message: ${it.inspect(it.target)}

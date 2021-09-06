@@ -1,0 +1,10 @@
+- _: Test domain port
+  net.test:
+    host: itsudeno.land
+    port: 443
+
+- _: Test target host ssh connection
+  using: local
+  net.test:
+    host: ${it.target.executors.ssh?.host}
+    port: ${it.target.executors.ssh?.port}

@@ -1,0 +1,12 @@
+- _: Ping target host
+  using: local
+  net.ping:
+    host: ${it.target.data.ip}
+
+- _: Ping ip address
+  net.ping:
+    host: 127.0.0.1
+
+- _: Ping domain
+  net.ping:
+    host: itsudeno.land
