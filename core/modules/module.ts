@@ -21,7 +21,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   /** Collect past state */
   protected async past(result?: initialized<raw, args>) {
     log.v(`${this.name} → past`)
-    const module = this.autoload({os: Deno.build.os})
+    const module = this.autoload()
     if (Module.prototype.past === module.prototype.past)
       return null
     return await module.prototype.past.call(this, result) as past
@@ -30,7 +30,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   /** Check configuration changes */
   protected async check(result: before<raw, args, past>) {
     log.v(`${this.name} → check`)
-    const module = this.autoload({os: Deno.build.os})
+    const module = this.autoload()
     if (Module.prototype.check === module.prototype.check)
       throw new ItsudenoError.Unsupported(`${this.name}: check() is not implemented`)
     return await module.prototype.check.call(this, result) as result
@@ -39,7 +39,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   /** Apply configuration changes */
   protected async apply(result: before<raw, args, past>) {
     log.v(`${this.name} → apply`)
-    const module = this.autoload({os: Deno.build.os})
+    const module = this.autoload()
     if (Module.prototype.apply === module.prototype.apply)
       throw new ItsudenoError.Unsupported(`${this.name}: apply() is not implemented`)
     return await module.prototype.apply.call(this, result) as result
@@ -48,7 +48,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   /** Cleanup */
   protected async cleanup() {
     log.v(`${this.name} → cleanup`)
-    const module = this.autoload({os: Deno.build.os})
+    const module = this.autoload()
     if (Module.prototype.cleanup === module.prototype.cleanup)
       return
     await module.prototype.cleanup.call(this)
@@ -57,13 +57,13 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   /** Arguments validator */
   async prevalidate(args?: raw, {context, strategy, strict}: {context?: loose, strategy?: strategy, strict?: boolean} = {}) {
     log.v(`${this.name} → prevalidate`)
-    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context: {...context, os: Deno.build.os}, strategy, strict})
+    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context, strategy, strict, override: context?.it?.target?.os})
   }
 
   /** Result validator */
-  async postvalidate(args?: result, {strategy, strict}: {strategy?: strategy, strict?: boolean} = {}) {
+  async postvalidate(args?: result, {strategy, strict, override}: {strategy?: strategy, strict?: boolean, override?: string} = {}) {
     log.v(`${this.name} → postvalidate`)
-    return await this.validate<result, result>(args ?? null, this.definition.result, {mode: "output", strategy, strict})
+    return await this.validate<result, result>(args ?? null, this.definition.result, {mode: "output", strategy, strict, override})
   }
 
   /** Execute module */
@@ -110,7 +110,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
         outcome.failed = await failed(outcome)
       //Validate result
       try {
-        await this.postvalidate(outcome.result)
+        await this.postvalidate(outcome.result, {override: context?.it?.target?.os})
       }
       catch {
         outcome.failed = true

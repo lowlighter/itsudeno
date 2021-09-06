@@ -82,7 +82,7 @@ export abstract class Inventory<raw, args> extends Common<definition, raw> {
 
   /** Open inventory */
   static async open<raw>(args?: raw) {
-    const implementation = this.autoload({os: Deno.build.os}) as {new(args?: raw): Inventory<infered, infered>}
+    const implementation = this.autoload() as {new(args?: raw): Inventory<infered, infered>}
     return await new implementation(args).ready
   }
 }

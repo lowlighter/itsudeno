@@ -1,4 +1,5 @@
 //Imports
+import {os} from "@core/setup/os"
 import {esm, exists, glob, resolve, yaml} from "@tools/internal"
 import {is} from "@tools/is"
 import {Logger} from "@tools/log"
@@ -52,8 +53,8 @@ export class Common<definition, options = unknown> {
   }
 
   /** Arguments validator */
-  protected async validate<T, U>(args: T | null, definition: definitions | null, {mode, strategy, strict, context}: {mode?: mode, strategy?: strategy, context?: loose, strict?: boolean} = {}) {
-    return await validate<T, U>(args, definition, {mode, strategy, context, strict})
+  protected async validate<T, U>(args: T | null, definition: definitions | null, {mode, strategy, strict, context, override = os}: {mode?: mode, strategy?: strategy, context?: loose, strict?: boolean, override?: string} = {}) {
+    return await validate<T, U>(args, definition, {mode, strategy, context, strict, override})
   }
 
   /** Generated directory */
@@ -99,6 +100,7 @@ export class Common<definition, options = unknown> {
     const paths = {
       it: resolve(`${Common.generated}${path}/it.ts`),
       mod: resolve(`${Common.generated}${path}/mod.ts`),
+      examples: resolve(`${path}/examples.yml`),
     }
 
     //Load short description
@@ -109,12 +111,12 @@ export class Common<definition, options = unknown> {
   }
 
   /** Autoload implementation, using specific one before agnostic one */
-  protected autoload({os}: {os: string}) {
-    return (this.constructor as typeof Common).autoload({os})
+  protected autoload() {
+    return (this.constructor as typeof Common).autoload()
   }
 
   /** Autoload implementation, using specific one before agnostic one */
-  protected static autoload({os}: {os: string}) {
+  protected static autoload() {
     log.vvv(`${this.name} is loading implementation`)
     const implementations = this.implementations.get(this.name) ?? this.implementations.get(Object.getPrototypeOf(this).name) ?? new Map()
     for (const implementation of [`${os}.ts`, "all.ts", "mod.ts"]) {

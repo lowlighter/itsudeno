@@ -18,7 +18,7 @@ export class <%= mod.classname %> extends Executor<raw, args> {
 
   /** Execute executor */
   static async call(module: payload, args: raw, context = {} as loose) {
-    const instance = await new this().ready
+    const instance = await new (this.autoload())().ready
     return instance.call(module, args, context)
   }
 

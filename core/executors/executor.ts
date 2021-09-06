@@ -54,7 +54,7 @@ export abstract class Executor<raw, args> extends Common<definition> {
   /** Apply executor */
   protected async apply(result: before<raw, args>, payload: string) {
     log.v(`${this.name} → apply`)
-    const executor = this.autoload({os: Deno.build.os})
+    const executor = this.autoload()
     if (Executor.prototype.apply === executor.prototype.apply)
       throw new ItsudenoError.Unsupported(`${this.name}: apply() is not implemented`)
     return await executor.prototype.apply.call(this, result, payload) as result
@@ -63,7 +63,7 @@ export abstract class Executor<raw, args> extends Common<definition> {
   /** Arguments validator */
   protected async prevalidate(args: raw | null, {context, strategy, strict}: {context?: loose, strategy?: strategy, strict?: boolean} = {}) {
     log.v(`${this.name} → prevalidate`)
-    return await this.validate<raw, args>(args, this.definition.args, {mode: "input", context: {...context, os: Deno.build.os}, strategy, strict})
+    return await this.validate<raw, args>(args, this.definition.args, {mode: "input", context, strategy, strict})
   }
 
   /** Execute executor */
@@ -89,7 +89,7 @@ export abstract class Executor<raw, args> extends Common<definition> {
       //Controller execution
       if ((Module.definition as loose).controller) {
         log.v(`${this.name} → (module execution forced on controller)`)
-        outcome.result = {code: 0, stdout: "", stderr: "", module: await Module.call(module.args)}
+        outcome.result = {code: 0, stdout: "", stderr: "", module: await Module.call(module.args, context)}
       }
       //Remote execution
       else {

@@ -17,15 +17,13 @@ export class <%= mod.classname %> extends Module<raw, args, past, result> {
 
   /** Execute module */
   static async call(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const constructor = this.autoload({os:Deno.build.os})
-    const instance = await new constructor().ready
+    const instance = await new (this.autoload())().ready
     return instance.call(args ?? {}, context)
   }
 
   /** Arguments validator */
   static async prevalidate(args: raw & mcall<raw, args, past, result>, context = {} as loose) {
-    const constructor = this.autoload({os:Deno.build.os})
-    const instance = await new constructor().ready
+    const instance = await new (this.autoload())().ready
     return instance.prevalidate(args, {context})
   }
 

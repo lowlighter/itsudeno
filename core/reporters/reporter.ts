@@ -27,7 +27,7 @@ export abstract class Reporter<raw, args> extends Common<definition, raw> {
 
   /** Open reporter */
   static async open<raw>(args?: raw) {
-    const implementation = this.autoload({os: Deno.build.os}) as {new(args?: raw): Reporter<infered, infered>}
+    const implementation = this.autoload() as {new(args?: raw): Reporter<infered, infered>}
     return await new implementation(args).ready
   }
 }
