@@ -5,7 +5,7 @@ import {is} from "@tools/is"
 /** Cli bindings */
 export const cli = {
   /** Run file */
-  async run(_: unknown, file: string) {
-    await run({file: is.url(file) ? file : `${Deno.cwd()}/${file}`})
+  async run({inventory = "default", vault = "default", reporter = "default", targets = "(all)"}, file: string) {
+    await run({file: is.url(file) ? file : `${Deno.cwd()}/${file}`, meta: {inventory, vault, reporter, targets}})
   },
 }

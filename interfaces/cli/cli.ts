@@ -24,6 +24,10 @@ export async function cli(args: string[]) {
         "run <file>",
         new Command()
           .description("run itsudeno file")
+          .option("-I, --inventory <inventory:string>", "inventory name", {default: "default"})
+          .option("-V, --vault <vault:string>", "vault name", {default: "default"})
+          .option("-R, --reporter <reporter:string>", "reporter name", {default: "default"})
+          .option("-T, --targets <targets:string>", "targets query (can be specified multiple times)", {collect: true, default: "(all)"})
           .action(execute(run.run)),
       )
       .command(
