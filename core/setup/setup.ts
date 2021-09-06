@@ -101,4 +101,7 @@ export const it = {
   vaults,
   reporters,
   cli,
+  inspect(x: unknown) {
+    return Deno.inspect(x, {depth: Infinity, getters: true})
+  },
 } as const
