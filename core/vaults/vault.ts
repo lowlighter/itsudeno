@@ -36,7 +36,7 @@ export abstract class Vault<raw, args> extends Common<definition, raw> {
 
   /** Open vault */
   static async open<raw>(args?: raw) {
-    const implementation = this.autoload({os: Deno.build.os}) as {new(args?: raw): Vault<infered, infered>}
+    const implementation = this.autoload() as {new(args?: raw): Vault<infered, infered>}
     return await new implementation(args).ready
   }
 }

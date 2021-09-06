@@ -1,4 +1,5 @@
 //Imports
+import {os} from "@core/setup"
 import {run} from "@tools/run"
 import {assertEquals, assertThrowsAsync, ItsudenoError, Suite} from "@testing"
 
@@ -12,7 +13,7 @@ await new Suite(import.meta.url)
             windows: `powershell -command "Write-Host -NoNewline 'itsudeno'"`,
             darwin: "echo -n 'itsudeno'",
             linux: "echo -n 'itsudeno'",
-          }[Deno.build.os],
+          }[os],
         ),
         {
           success: true,

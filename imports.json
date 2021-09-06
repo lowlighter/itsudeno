@@ -27,6 +27,7 @@
     "@core/modules": "./core/modules/mod.ts",
     "@core/reporters": "./core/reporters/mod.ts",
     "@core/setup": "./core/setup/mod.ts",
+    "@core/setup/os": "./core/setup/os.ts",
     "@core/tasks": "./core/tasks/mod.ts",
     "@core/vaults": "./core/vaults/mod.ts",
     "@core/internal/common":"./core/internal/common/mod.ts",
