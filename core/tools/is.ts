@@ -129,7 +129,7 @@ export const is = Object.assign(function(query: string, x: unknown) {
     },
     port(x: unknown): x is number {
       return is.number(x) && is.number.integer(x) && (x > 0) && (x < 65535)
-    }
+    },
   }),
   //Array asserts
   array: Object.assign(function(x: unknown): x is unknown[] {

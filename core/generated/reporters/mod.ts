@@ -5,8 +5,7 @@
 //Imports
 import {ConsoleReporter} from "@generated/reporters/console/mod.ts"
 
-
 //Exports
 export const Reporters = {
-  "console":ConsoleReporter,
+  "console": ConsoleReporter,
 }

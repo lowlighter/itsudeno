@@ -6,9 +6,8 @@
 import {LocalExecutor} from "@generated/executors/local/mod.ts"
 import {SshExecutor} from "@generated/executors/ssh/mod.ts"
 
-
 //Exports
 export const Executors = {
-  "local":LocalExecutor,
-"ssh":SshExecutor,
+  "local": LocalExecutor,
+  "ssh": SshExecutor,
 }

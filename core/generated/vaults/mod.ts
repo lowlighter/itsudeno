@@ -5,8 +5,7 @@
 //Imports
 import {LocalVault} from "@generated/vaults/local/mod.ts"
 
-
 //Exports
 export const Vaults = {
-  "local":LocalVault,
+  "local": LocalVault,
 }

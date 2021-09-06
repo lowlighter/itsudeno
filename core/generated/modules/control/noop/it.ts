@@ -31,19 +31,16 @@ export class ControlNoopModule extends Module<raw, args, past, result> {
   static readonly url = import.meta.url
 
   /** Definition */
-  static readonly definition = {"description":"No operation\n","controller":true,"args":null,"past":null,"result":null,"maintainers":["lowlighter"]}
-
+  static readonly definition = {"description": "No operation\n", "controller": true, "args": null, "past": null, "result": null, "maintainers": ["lowlighter"]}
 }
 export {ControlNoopModule as Module}
 
 /** Input arguments */
 export interface raw {
-
 }
 
 /** Validated and transformed arguments */
 export interface args {
-
 }
 
 /** Module target initializated (before execution) */
@@ -53,14 +50,12 @@ export type initialized = _initialized<raw, args>
 
 export type past = null
 
-
 /** Module target status (after probing) */
 export type before = _before<raw, args, past>
 
 /** Resulting state */
 
 export type result = null
-
 
 /** Module outcome */
 export type outcome = _outcome<raw, args, past, result>

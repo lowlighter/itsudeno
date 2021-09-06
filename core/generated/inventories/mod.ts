@@ -5,8 +5,7 @@
 //Imports
 import {LocalInventory} from "@generated/inventories/local/mod.ts"
 
-
 //Exports
 export const Inventories = {
-  "local":LocalInventory,
+  "local": LocalInventory,
 }
