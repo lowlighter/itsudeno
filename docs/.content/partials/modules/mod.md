@@ -38,10 +38,26 @@ This module is always executed on controller, regardless of current executor.
 > This module does not return any result
 <% } %>
 
+## Examples
+
+<% if (mod.examples.length) { %>
+<% for (const example of mod.examples) { %>
+```yml
+<%= example %>
+```
+<% } %>
+<% } else { %>
+> No examples were defined
+<% } %>
+
 ## Supported platforms
 
 <% if (!mod.implementations.length) { %>
 > This module does not have any implementations
+<% } %>
+
+<% if (mod.implementations.includes("all.ts")) { %>
+This module contains a generic implementation which should work on most operating systems.
 <% } %>
 
 <% { const implementations = mod.implementations.filter(implementation => implementation !== "all.ts").map(implementation => implementation.replace(/\.ts$/, "")) %>
@@ -51,10 +67,6 @@ Specific implementations:
 * <%= implementation %>
 <% } %>
 <% } %>
-<% } %>
-
-<% if (mod.implementations.includes("all.ts")) { %>
-This module contains a generic implementation which should work on most operating systems.
 <% } %>
 
 ___

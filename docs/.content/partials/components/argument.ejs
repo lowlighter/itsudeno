@@ -29,9 +29,9 @@
     <% if (arg.values?.length) { for (const value of arg.values) { %>
       <span class="branch-name">"<%= value %>"</span>
     <% } } else { %>
-      <span class="branch-name color-bg-info"><%= arg.type %></span>
+      <span class="branch-name text-bold"><%= arg.type %></span>
       <% for (const match of (arg.match ?? [])) { %>
-        <span class="branch-name"><%= [match].flat(Infinity).join(" | ") %></span>
+        <span class="branch-name text-italic"><%= [match].flat(Infinity).join(" | ") %></span>
       <% } %>
     <% } %>
   </div>
