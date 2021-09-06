@@ -1,10 +1,11 @@
 //Imports
 import {Common} from "@core/internal/common"
-import {glob, read, write} from "@tools/internal"
+import {glob, read, write, yaml} from "@tools/internal"
 import {resolve as _resolve} from "@tools/internal"
 import {Logger} from "@tools/log"
 import {ucfirst} from "@tools/strings"
 import {template} from "@tools/template"
+import {stringify} from "std/encoding/yaml.ts"
 import {ensureDir} from "std/fs/mod.ts"
 import {dirname} from "std/path/mod.ts"
 import {Marked} from "x/markdown@v2.0.0/mod.ts"
@@ -18,8 +19,11 @@ for await (const {path} of glob("docs/.content/pages/**/*.md"))
 //Load components
 const indexes = new Map<string, infered>()
 for (const section of ["executors", "vaults", "modules", "inventories", "reporters"]) {
-  for await (const {path} of glob(`${section}/**/mod.yml`))
-    await build(`docs/.content/partials/${section}/mod.md`, {type: section, context: {mod: await Common.about(path)}})
+  for await (const {path} of glob(`${section}/**/mod.yml`)) {
+    const mod = await Common.about(path)
+    mod.examples = (await yaml(mod.paths.examples, {base: "//"}).catch(() => [])).map(stringify)
+    await build(`docs/.content/partials/${section}/mod.md`, {type: section, context: {mod}})
+  }
 }
 
 //Load components list
