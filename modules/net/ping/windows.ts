@@ -17,7 +17,7 @@ Module.register(
       //Parse result
       if (success) {
         const {transmitted, received, loss} = stdout.match(/^\s*Packets: Sent = (?<transmitted>\d+), Received = (?<received>\d+), Lost = \d+ [(](?<loss>\d+)% loss[)]/m)?.groups ?? {}
-        result.ip = stdout.match(/Pinging (?<ip>[.\da-f:]+) with/)?.groups?.ip ?? null
+        result.ip = stdout.match(/Ping statistics for (?<ip>[.\da-f:]+):/)?.groups?.ip ?? null
         result.transmitted = Number(transmitted)
         result.received = Number(received)
         result.loss = Number(loss) / 100
