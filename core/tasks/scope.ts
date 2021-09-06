@@ -1,9 +1,11 @@
 //Imports
 import {Host} from "@core/inventories"
 import {it} from "@core/setup"
+import {Logger} from "@tools/log"
 import {deepmerge, deferred} from "@tools/std"
 import {template} from "@tools/template"
 import type {loose, uninitialized} from "@types"
+const log = new Logger(import.meta.url)
 
 /** Scope */
 export class Scope {
@@ -16,6 +18,7 @@ export class Scope {
   protected async async({meta, context}: {meta: Partial<meta>, context: loose}) {
     this.#meta = deepmerge<meta>(Scope.default, meta)
     this.#context = context
+    this.#context.it = {...it}
     this.name = this.#meta._ ? await template(this.#meta._, context, {safe: true}) : ""
     this.ready.resolve(this)
     return await this.ready as this
@@ -32,6 +35,12 @@ export class Scope {
 
   /** Context */
   #context = {} as loose
+
+  /** Update itsudeno context */
+  assign(context: loose) {
+    Object.assign(this.#context.it, context)
+    return this
+  }
 
   /** Context */
   get context() {
@@ -62,10 +71,10 @@ export class Scope {
   get targets() {
     return (async () => {
       const hosts = await Promise.all([...await this.inventory.query(this.#meta.targets)].map(host => this.inventory.get(host)))
-
-      if (this.#meta.targets.includes("(localhost)"))
-        hosts.push(new Host(null, {name: "(localhost)"}))
-
+      if (this.#meta.targets.includes(Host.local.name)) {
+        log.vv(`adding (localhost) to targets as it is explicitely referenced`)
+        hosts.push(Host.local)
+      }
       return hosts
     })()
   }

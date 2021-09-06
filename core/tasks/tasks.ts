@@ -1,11 +1,13 @@
 //Imports
 import {Scope} from "@core/tasks/scope.ts"
+import {Host} from "@core/inventories"
 import type {outcome} from "@core/modules"
 import type {meta} from "@core/tasks"
 import {yaml} from "@tools/internal"
 import {is} from "@tools/is"
 import {Logger} from "@tools/log"
 import {ItsudenoError} from "@errors"
+import {Executors} from "@executors"
 import type {infered, loose} from "@types"
 const log = new Logger(import.meta.url)
 
@@ -13,10 +15,10 @@ const log = new Logger(import.meta.url)
 const keywords = Scope.keywords
 
 /** Run tasks */
-export async function run({file}: {file: string}) {
+export async function run({file, meta}: {file: string, meta?: meta}) {
   log.info(`import tasks from: ${file}`)
   const tasks = await yaml<loose[]>(file)
-  return _run({outcome: [], scope: await new Scope().ready, tasks})
+  return _run({outcome: [], scope: await new Scope({meta}).ready, tasks})
 }
 
 /** Run tasks (internal method) */
@@ -49,6 +51,7 @@ async function _run({outcome, scope, tasks}: {outcome?: Array<outcome<infered, i
 
       //Execute module on targets
       for (const target of await scope.targets) {
+        scope.assign({target})
         switch (module) {
           //Tasks (multiple modules)
           case "tasks": {
@@ -66,7 +69,11 @@ async function _run({outcome, scope, tasks}: {outcome?: Array<outcome<infered, i
           }
           //Modules
           default: {
-            const outcome = await scope.executor.instance.call({target: target.name, name: module, args}, target.executors[scope.executor.name], scope.context)
+            let outcome
+            if (target.name === Host.local.name)
+              outcome = await Executors.local.call({target: target.name, name: module, args}, {}, scope.context)
+            else
+              outcome = await scope.executor.instance.call({target: target.name, name: module, args}, target.executors[scope.executor.name], scope.context)
             await scope.reporter.report(outcome)
           }
         }
