@@ -46,4 +46,7 @@ export class Host {
 
   /** Inventory */
   readonly #inventory: Inventory<infered, infered> | null
+
+  /** Localhost */
+  static readonly local = new Host(null, {name: "(localhost)"})
 }
