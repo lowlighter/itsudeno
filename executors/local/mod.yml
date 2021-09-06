@@ -10,14 +10,20 @@ args:
         type: string
         match:
           - filepath
-        default: ${{windows:"powershell.exe"}[os] ?? "/bin/sh"}
+        default: /bin/sh
+        overrides:
+          windows:
+            default: powershell.exe
       type:
         description: Shell type
         type: string
         values:
           - posix
           - powershell
-        default: ${{windows:"powershell"}[os] ?? "posix"}
+        default: posix
+        overrides:
+          windows:
+            default: powershell
 
 maintainers:
   - lowlighter

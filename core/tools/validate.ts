@@ -10,9 +10,11 @@ const log = new Logger(import.meta.url)
 
 /** Validate a set of arguments against a specs definition */
 //deno-lint-ignore ban-types
-export async function validate<T extends {}, U = T>(args: T | null, definition: definitions | null, {mode = "input", strategy = "delayed", strict = false, context = {}}: {mode?: mode, strategy?: strategy, strict?: boolean, context?: loose}) {
+export async function validate<T extends {}, U = T>(args: T | null, definition: definitions | null, {mode = "input", strategy = "delayed", strict = false, context = {}, override = ""}: {mode?: mode, strategy?: strategy, strict?: boolean, context?: loose, override?: string}) {
   const report = new Report({strategy, strict})
   const validated = {} as loose
+  log.vvvv(`validating definition with override: ${override || "(none)"}`)
+  definition = overrides(definition, {override})
   if (is.null(await check(args, definition, {validated, mode, report, context, defaults: await defaults(definition, {context, args: args as infered, report})})))
     return null
   report.summary()
@@ -295,6 +297,22 @@ async function defaults(definition: definitions | null, {context, args, report}:
   return object
 }
 
+/** Build overriden definition */
+function overrides(definition: definitions | null, {override}: {override?: string} = {}, object = {} as loose) {
+  if (is.null(definition))
+    return null
+  for (const [key, value] of Object.entries(definition) as infered) {
+    if (is.object(value.type))
+      object[key] = {...value, type: overrides(value.type, {override})}
+    else if ((value.overrides) && (!is.object.empty(value.overrides[override] ?? {})))
+      object[key] = deepmerge(value, value.overrides[override])
+    else
+      object[key] = value
+    delete object[key].overrides
+  }
+  return object
+}
+
 /** Validation reporter */
 class Report {
   /** Current errors */
@@ -371,6 +389,8 @@ export interface input {
   conflicts?: string[]
   /** Required options */
   requires?: string[]
+  /** Overrides */
+  overrides?: {[key: string]: Partial<input>}
 }
 
 /** Output schema */
@@ -389,4 +409,6 @@ export interface output {
   examples?: unknown[]
   /** Deprecated */
   deprecated?: string
+  /** Overrides */
+  overrides?: {[key: string]: Partial<output>}
 }
