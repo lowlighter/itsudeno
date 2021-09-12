@@ -20,8 +20,7 @@ scripts:
   cli:
     desc: Run itsudeno CLI
     allow:
-      - read
-      - write
+      - all
     cmd: deno run interfaces/cli/mod.ts
   build:
     desc: Build app
