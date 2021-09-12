@@ -1,12 +1,12 @@
 //Imports
 import {Host} from "@core/inventories"
 import {it} from "@core/setup"
+import {read} from "@tools/internal"
 import {is} from "@tools/is"
 import {Logger} from "@tools/log"
 import {deepmerge, deferred} from "@tools/std"
 import {template} from "@tools/template"
 import type {loose, uninitialized} from "@types"
-import {read} from "@tools/internal"
 const log = new Logger(import.meta.url)
 
 /** Scope */
@@ -23,8 +23,8 @@ export class Scope {
     this.#context.it = {
       ...it,
       template: async (path: string) => {
-        return await template(await read(path), this.context, {mode:"ejs"})
-      }
+        return await template(await read(path), this.context, {mode: "ejs"})
+      },
     }
     this.name = this.#meta._ ? await template(this.#meta._, context, {safe: true}) : ""
     this.ready.resolve(this)
@@ -94,11 +94,11 @@ export class Scope {
   /** Executors utilitaries */
   readonly executors = {
     /** Executors arguments depending on target host */
-    args:(target:Host) => {
-      if ((this.executor.name === "default")&&(!is.object.with(target.executors, this.executor.name)))
+    args: (target: Host) => {
+      if ((this.executor.name === "default") && (!is.object.with(target.executors, this.executor.name)))
         return target.executors[this.executor.instance.index]
       return target.executors[this.executor.name] ?? {}
-    }
+    },
   }
 
   /** Keywords list and patterns */

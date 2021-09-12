@@ -70,7 +70,7 @@ async function _run({outcome, scope, tasks}: {outcome?: Array<outcome<infered, i
           //Modules
           default: {
             let outcome
-            if ((target.name === Host.local.name)||(scope.executor.instance instanceof Executors.local))
+            if ((target.name === Host.local.name) || (scope.executor.instance instanceof Executors.local))
               outcome = await Executors.local.call({target: target.name, name: module, args}, {}, scope.context)
             else
               outcome = await scope.executor.instance.call({target: target.name, name: module, args}, scope.executors.args(target), scope.context)

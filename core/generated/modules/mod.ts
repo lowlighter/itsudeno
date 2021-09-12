@@ -3,7 +3,6 @@
  */
 
 //Imports
-import {ControlNoopModule} from "@generated/modules/control/noop/mod.ts"
 import {FileContentModule} from "@generated/modules/file/content/mod.ts"
 import {HttpRequestModule} from "@generated/modules/http/request/mod.ts"
 import {LogModule} from "@generated/modules/log/mod.ts"
@@ -14,7 +13,6 @@ import {WaitTimeModule} from "@generated/modules/wait/time/mod.ts"
 
 //Exports
 export const Modules = {
-  "control.noop": ControlNoopModule,
   "file.content": FileContentModule,
   "http.request": HttpRequestModule,
   "log": LogModule,

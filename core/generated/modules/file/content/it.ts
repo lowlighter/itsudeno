@@ -33,8 +33,8 @@ export class FileContentModule extends Module<raw, args, past, result> {
   /** Definition */
   static readonly definition = {
     "description": "Set file content\n",
-    "args": {"path": {"description": "File path", "type": "string", "required": true, "match": ["filepath"]}, "content": {"description": "Set file content from string", "type": "string", "required": true}},
-    "past": {"content": {"description": "Previous file content", "type": "string", "optional": true}, "md5": {"description": "MD5 hash", "type": "string", "optional": true}},
+    "args": {"path": {"description": "File path", "type": "string", "required": true, "match": ["filepath"]}, "content": {"description": "File content", "type": "string", "required": true}},
+    "past": {"content": {"description": "File content (past)", "type": "string", "optional": true}, "md5": {"description": "MD5 hash (past)", "type": "string", "optional": true}},
     "result": {"content": {"description": "File content", "type": "string"}, "md5": {"description": "MD5 hash", "type": "string"}},
     "maintainers": ["lowlighter"],
   }
@@ -45,7 +45,7 @@ export {FileContentModule as Module}
 export interface raw {
   /** File path */
   path?: string
-  /** Set file content from string */
+  /** File content */
   content?: string
 }
 
@@ -53,7 +53,7 @@ export interface raw {
 export interface args {
   /** File path */
   path: string
-  /** Set file content from string */
+  /** File content */
   content: string
 }
 
@@ -63,9 +63,9 @@ export type initialized = _initialized<raw, args>
 /** Past state */
 
 export interface past {
-  /** Previous file content */
+  /** File content (past) */
   content: string | null
-  /** MD5 hash */
+  /** MD5 hash (past) */
   md5: string | null
 }
 

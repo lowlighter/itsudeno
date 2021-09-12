@@ -119,10 +119,11 @@ net.test:
 <pre><code class="lang-yml">_: Test target host ssh connection
 using: local
 net.test:
-  host: &amp;#39;${it.target.executors.ssh?.host}&amp;#39;
-  port: &amp;#39;${it.target.executors.ssh?.port}&amp;#39;
+  host: &#39;${it.target.executors.ssh?.host}&#39;
+  port: &#39;${it.target.executors.ssh?.port}&#39;
 </code></pre>
 <h2 id="supported-platforms">Supported platforms</h2>
+<p>This module contains a generic implementation which should work on most operating systems.</p>
 <p>Specific implementations:</p>
 
 <ul>

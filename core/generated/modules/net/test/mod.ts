@@ -3,6 +3,7 @@
  */
 
 //Imports
+import "@modules/net/test/all.ts"
 import "@modules/net/test/windows.ts"
 
 //Exports

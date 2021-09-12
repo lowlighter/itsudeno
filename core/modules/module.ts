@@ -7,7 +7,7 @@ import {template} from "@tools/template"
 import type {strategy} from "@tools/validate"
 import {ItsudenoError} from "@errors"
 import {settings} from "@settings"
-import type {loose, infered} from "@types"
+import type {infered, loose} from "@types"
 const log = new Logger(import.meta.url)
 
 /**

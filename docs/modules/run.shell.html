@@ -258,9 +258,18 @@
 
 
 <h2 id="examples">Examples</h2>
-<blockquote>
-<p>No examples were defined</p>
-</blockquote>
+
+<pre><code class="lang-yml">_: Execute raw shell command
+run.shell:
+  command: echo &#39;hello itsudeno!&#39;
+</code></pre>
+
+<pre><code class="lang-yml">_: Execute raw shell command with environment variables
+run.shell:
+  command: echo &#39;hello $ITSUDENO!&#39;
+  environment:
+    ITSUDENO: itsudeno
+</code></pre>
 <h2 id="supported-platforms">Supported platforms</h2>
 <p>This module contains a generic implementation which should work on most operating systems.</p>
 <hr>

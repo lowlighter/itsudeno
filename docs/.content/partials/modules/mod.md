@@ -43,7 +43,7 @@ This module is always executed on controller, regardless of current executor.
 <% if (mod.examples.length) { %>
 <% for (const example of mod.examples) { %>
 ```yml
-<%= example %>
+<%- example %>
 ```
 <% } %>
 <% } else { %>
