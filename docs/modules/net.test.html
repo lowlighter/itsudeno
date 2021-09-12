@@ -45,6 +45,20 @@
 
 <h1 id="modules-net-test">modules.net.test</h1>
 <p>Test connection with a remote host (and eventually a remote port)</p>
+<h2 id="examples">Examples</h2>
+
+<pre><code class="lang-yml">_: Test domain port
+net.test:
+  host: itsudeno.land
+  port: 443
+</code></pre>
+
+<pre><code class="lang-yml">_: Test target host ssh connection
+using: local
+net.test:
+  host: &#39;${it.target.executors.ssh?.host}&#39;
+  port: &#39;${it.target.executors.ssh?.port}&#39;
+</code></pre>
 <h2 id="arguments">Arguments</h2>
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
@@ -108,20 +122,6 @@
 <blockquote>
 <p>This module does not return any result</p>
 </blockquote>
-<h2 id="examples">Examples</h2>
-
-<pre><code class="lang-yml">_: Test domain port
-net.test:
-  host: itsudeno.land
-  port: 443
-</code></pre>
-
-<pre><code class="lang-yml">_: Test target host ssh connection
-using: local
-net.test:
-  host: &#39;${it.target.executors.ssh?.host}&#39;
-  port: &#39;${it.target.executors.ssh?.port}&#39;
-</code></pre>
 <h2 id="supported-platforms">Supported platforms</h2>
 <p>This module contains a generic implementation which should work on most operating systems.</p>
 <p>Specific implementations:</p>

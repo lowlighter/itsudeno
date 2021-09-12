@@ -45,6 +45,23 @@
 
 <h1 id="modules-net-ping">modules.net.ping</h1>
 <p>Ping an host using ICMP</p>
+<h2 id="examples">Examples</h2>
+
+<pre><code class="lang-yml">_: Ping target host
+using: local
+net.ping:
+  host: &#39;${it.target.name}&#39;
+</code></pre>
+
+<pre><code class="lang-yml">_: Ping ip address
+net.ping:
+  host: 127.0.0.1
+</code></pre>
+
+<pre><code class="lang-yml">_: Ping domain
+net.ping:
+  host: itsudeno.land
+</code></pre>
 <h2 id="arguments">Arguments</h2>
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
@@ -245,23 +262,6 @@
 
 
 
-<h2 id="examples">Examples</h2>
-
-<pre><code class="lang-yml">_: Ping target host
-using: local
-net.ping:
-  host: &#39;${it.target.name}&#39;
-</code></pre>
-
-<pre><code class="lang-yml">_: Ping ip address
-net.ping:
-  host: 127.0.0.1
-</code></pre>
-
-<pre><code class="lang-yml">_: Ping domain
-net.ping:
-  host: itsudeno.land
-</code></pre>
 <h2 id="supported-platforms">Supported platforms</h2>
 <p>This module contains a generic implementation which should work on most operating systems.</p>
 <p>Specific implementations:</p>

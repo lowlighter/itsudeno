@@ -45,6 +45,22 @@
 
 <h1 id="modules-http-request">modules.http.request</h1>
 <p>Perform an HTTP request</p>
+<h2 id="examples">Examples</h2>
+
+<pre><code class="lang-yml">_: Check that a website is both reachable and returns 200 status code
+http.request:
+  url: &#39;https://httpbin.org/status/200&#39;
+</code></pre>
+
+<pre><code class="lang-yml">_: Perform a POST request with headers and body
+http.request:
+  url: &#39;https://httpbin.org/post&#39;
+  method: POST
+  headers:
+    Content-Type: application/json
+  body:
+    variable: hello itsudeno!
+</code></pre>
 <h2 id="arguments">Arguments</h2>
 <div class="Box Box--condensed my-2">
   <div class="Box-header">
@@ -357,22 +373,6 @@
 
 
 
-<h2 id="examples">Examples</h2>
-
-<pre><code class="lang-yml">_: Check that a website is both reachable and returns 200 status code
-http.request:
-  url: &#39;https://httpbin.org/status/200&#39;
-</code></pre>
-
-<pre><code class="lang-yml">_: Perform a POST request with headers and body
-http.request:
-  url: &#39;https://httpbin.org/post&#39;
-  method: POST
-  headers:
-    Content-Type: application/json
-  body:
-    variable: hello itsudeno!
-</code></pre>
 <h2 id="supported-platforms">Supported platforms</h2>
 <p>This module contains a generic implementation which should work on most operating systems.</p>
 <hr>
