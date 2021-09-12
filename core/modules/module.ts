@@ -7,7 +7,7 @@ import {template} from "@tools/template"
 import type {strategy} from "@tools/validate"
 import {ItsudenoError} from "@errors"
 import {settings} from "@settings"
-import type {loose} from "@types"
+import type {loose, infered} from "@types"
 const log = new Logger(import.meta.url)
 
 /**
@@ -57,7 +57,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   /** Arguments validator */
   async prevalidate(args?: raw, {context, strategy, strict}: {context?: loose, strategy?: strategy, strict?: boolean} = {}) {
     log.v(`${this.name} → prevalidate`)
-    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context, strategy, strict, override: context?.it?.target?.os})
+    return await this.validate<raw, args>(args ?? null, this.definition.args, {mode: "input", context, strategy, strict, override: (context as infered)?.it?.target?.os})
   }
 
   /** Result validator */
@@ -67,7 +67,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
   }
 
   /** Execute module */
-  protected async call({_ = this.name, _changed: changed, _failed: failed, _skipped: skipped, _mode: mode = settings.env.mode as mode, ...args}: raw & mcall<raw, args, past, result>, context: loose = {}) {
+  protected async call({_ = this.name, _changed: changed, _failed: failed, _skipped: skipped, _mode: mode = (settings as infered)?.env?.mode as mode, ...args}: raw & mcall<raw, args, past, result>, context: loose = {}) {
     //Create empty result and template name
     log.v(`${this.name} → call`)
     const name = await template(_, context, {safe: true})
@@ -110,7 +110,7 @@ export abstract class Module<raw, args, past, result> extends Common<definition>
         outcome.failed = await failed(outcome)
       //Validate result
       try {
-        await this.postvalidate(outcome.result, {override: context?.it?.target?.os})
+        await this.postvalidate(outcome.result, {override: (context as infered)?.it?.target?.os})
       }
       catch {
         outcome.failed = true

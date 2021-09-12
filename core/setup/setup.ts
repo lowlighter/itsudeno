@@ -103,5 +103,5 @@ export const it = {
   cli,
   inspect(x: unknown) {
     return Deno.inspect(x, {depth: Infinity, getters: true})
-  },
+  }
 } as const

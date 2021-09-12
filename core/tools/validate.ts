@@ -14,7 +14,7 @@ export async function validate<T extends {}, U = T>(args: T | null, definition: 
   const report = new Report({strategy, strict})
   const validated = {} as loose
   log.vvvv(`validating definition with override: ${override || "(none)"}`)
-  definition = overrides(definition, {override})
+  definition = overrides(definition, {override}) as typeof definition
   if (is.null(await check(args, definition, {validated, mode, report, context, defaults: await defaults(definition, {context, args: args as infered, report})})))
     return null
   report.summary()
@@ -304,11 +304,11 @@ function overrides(definition: definitions | null, {override}: {override?: strin
   for (const [key, value] of Object.entries(definition) as infered) {
     if (is.object(value.type))
       object[key] = {...value, type: overrides(value.type, {override})}
-    else if ((value.overrides) && (!is.object.empty(value.overrides[override] ?? {})))
+    else if ((override) && (value.overrides) && (!is.object.empty(value.overrides[override] ?? {})))
       object[key] = deepmerge(value, value.overrides[override])
     else
       object[key] = value
-    delete object[key].overrides
+    delete (object[key] as loose).overrides
   }
   return object
 }

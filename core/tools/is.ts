@@ -166,4 +166,8 @@ export const is = Object.assign(function(query: string, x: unknown) {
       return false
     },
   }),
+  //Promise asserts
+  promise<T>(x:unknown): x is Promise<T> {
+    return x instanceof Promise
+  },
 })
