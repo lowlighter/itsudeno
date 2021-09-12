@@ -9,16 +9,22 @@ Executor.register(
   class extends Executor {
     /** Apply executor */
     async apply(result: before, payload: string) {
-      const {args: {host, login, port, key}} = result
+      const {args: {host, login, password, port, key}} = result
+
+      //Prepare ssh binary
+      let ssh = ""
+      if (password)
+        ssh += `sshpass -p '${password}' `
+      ssh += "ssh -o StrictHostKeyChecking=no "
 
       //Prepare ssh command
-      let ssh = `ssh ${host} -l ${login} -p ${port} -T`
+      ssh += `${host} -l ${login} -p ${port} -T `
       if (!is.null(key))
-        ssh += ` -i ${key}`
+        ssh += `-i ${key}`
 
       //Prepare command
       const deno = `'deno run --allow-all --unstable --no-check -'`
-      const command = `${ssh} ${deno}`
+      const command = `${ssh.trim()} ${deno}`
 
       return this.return(await run(command, {stdin: payload}))
     }
