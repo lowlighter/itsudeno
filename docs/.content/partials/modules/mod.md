@@ -8,6 +8,18 @@ This module is always executed on controller, regardless of current executor.
 </div>
 <% } %>
 
+## Examples
+
+<% if (mod.examples.length) { %>
+<% for (const example of mod.examples) { %>
+```yml
+<%- example %>
+```
+<% } %>
+<% } else { %>
+> No examples were defined
+<% } %>
+
 ## Arguments
 
 <% if (mod.definition.args) { %>
@@ -36,18 +48,6 @@ This module is always executed on controller, regardless of current executor.
 <% } %>
 <% } else { %>
 > This module does not return any result
-<% } %>
-
-## Examples
-
-<% if (mod.examples.length) { %>
-<% for (const example of mod.examples) { %>
-```yml
-<%- example %>
-```
-<% } %>
-<% } else { %>
-> No examples were defined
 <% } %>
 
 ## Supported platforms
