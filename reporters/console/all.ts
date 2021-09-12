@@ -4,7 +4,7 @@ import {Reporter} from "@generated/reporters/console/it.ts"
 import type {raw} from "@generated/reporters/console/it.ts"
 import {is} from "@tools/is"
 import {stringify} from "std/encoding/yaml.ts"
-import {cyan, green, red, white, yellow} from "std/fmt/colors.ts"
+import {cyan, green, red, yellow} from "std/fmt/colors.ts"
 import type {infered, loose} from "@types"
 
 /** Generic implementation */
@@ -46,7 +46,7 @@ Reporter.register(
           if (((!this.options.skipped) && (module.skipped)) || ((!this.options.success) && (module.success)))
             return
           //Generate report
-          let color = white
+          let color
           const output = {[module.name]: "", [outcome.meta.target]: {}} as loose
           switch (true) {
             //Failed execution
