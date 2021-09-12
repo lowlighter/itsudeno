@@ -1,0 +1,9 @@
+- _: Set file content
+  file.content:
+    path: /tmp/example
+    content: hello itsudeno!
+
+- _: Set file content from a templated local file
+  file.content:
+    path: /tmp/example
+    content: ${await it.template("docs/examples/hello.yml")}

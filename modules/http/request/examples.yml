@@ -1,0 +1,12 @@
+- _: Check that a website is both reachable and returns 200 status code
+  http.request:
+    url: https://httpbin.org/status/200
+
+- _: Perform a POST request with headers and body
+  http.request:
+    url: https://httpbin.org/post
+    method: POST
+    headers:
+      Content-Type: application/json
+    body:
+      variable: hello itsudeno!

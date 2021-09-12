@@ -9,17 +9,17 @@ args:
     match:
       - filepath
   content:
-    description: Set file content from string
+    description: File content
     type: string
     required: true
 
 past:
   content:
-    description: Previous file content
+    description: File content (past)
     type: string
     optional: true
   md5:
-    description: MD5 hash
+    description: MD5 hash (past)
     type: string
     optional: true
 result:

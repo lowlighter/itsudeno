@@ -1,0 +1,9 @@
+- _: Execute raw shell command
+  run.shell:
+    command: echo 'hello itsudeno!'
+
+- _: Execute raw shell command with environment variables
+  run.shell:
+    command: echo 'hello $ITSUDENO!'
+    environment:
+      ITSUDENO: itsudeno

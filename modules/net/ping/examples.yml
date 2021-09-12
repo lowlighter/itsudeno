@@ -1,7 +1,7 @@
 - _: Ping target host
   using: local
   net.ping:
-    host: ${it.target.data.ip}
+    host: ${it.target.name}
 
 - _: Ping ip address
   net.ping:
