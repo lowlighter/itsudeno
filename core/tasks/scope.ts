@@ -1,10 +1,12 @@
 //Imports
 import {Host} from "@core/inventories"
 import {it} from "@core/setup"
+import {is} from "@tools/is"
 import {Logger} from "@tools/log"
 import {deepmerge, deferred} from "@tools/std"
 import {template} from "@tools/template"
 import type {loose, uninitialized} from "@types"
+import {read} from "@tools/internal"
 const log = new Logger(import.meta.url)
 
 /** Scope */
@@ -18,7 +20,12 @@ export class Scope {
   protected async async({meta, context}: {meta: Partial<meta>, context: loose}) {
     this.#meta = deepmerge<meta>(Scope.default, meta)
     this.#context = context
-    this.#context.it = {...it}
+    this.#context.it = {
+      ...it,
+      template: async (path: string) => {
+        return await template(await read(path), this.context, {mode:"ejs"})
+      }
+    }
     this.name = this.#meta._ ? await template(this.#meta._, context, {safe: true}) : ""
     this.ready.resolve(this)
     return await this.ready as this
@@ -82,6 +89,16 @@ export class Scope {
   /** Create new scope from current scope */
   async from({meta, context}: {meta: meta, context: loose}) {
     return await new Scope({meta: deepmerge(this.#meta, meta), context: deepmerge(this.#context, context)}).ready
+  }
+
+  /** Executors utilitaries */
+  readonly executors = {
+    /** Executors arguments depending on target host */
+    args:(target:Host) => {
+      if ((this.executor.name === "default")&&(!is.object.with(target.executors, this.executor.name)))
+        return target.executors[this.executor.instance.index]
+      return target.executors[this.executor.name] ?? {}
+    }
   }
 
   /** Keywords list and patterns */
