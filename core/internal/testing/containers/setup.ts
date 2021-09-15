@@ -24,6 +24,8 @@ async function build(path: string) {
   }
   images.push(name)
   log.v(`building docker image ${name}`)
-  await run(`docker build -t ${name} ${path}`)
+  const {stderr} = await run(`docker build -t ${name} ${path}`)
+  if (stderr)
+    log.warn(stderr)
   log.v(`built docker image ${name}`)
 }
