@@ -99,7 +99,12 @@ export class Suite {
               const promise = deferred<void>()
               groups.push(promise)
               this.group(name, async test => {
-                callback(test, async (args:infered) => ((await ((await import("@executors")).Executors.ssh.call({name:this.#module, args, target:"test"}, {host:"127.0.0.1", port, login:"it", password:"itsudeno"}))).result.module))
+                callback(test, async (args:infered) => {
+                  const outcome = await ((await import("@executors")).Executors.ssh.call({name:this.#module, args, target:"test"}, {host:"127.0.0.1", port, login:"it", password:"itsudeno"}))
+                  if (outcome.failed)
+                    log.error(Deno.inspect(outcome))
+                  return outcome.result.module ?? {}
+                })
                 promise.resolve()
                 this.#cleanup.push(async () => {
                   await run(`docker rm --force ${id}`)
@@ -123,6 +128,7 @@ export class Suite {
     idempotent(outcome:infered, options:options = {}) {
       return this.bench(async (test, module) => {
         test("idempotency test (1st call)", async () => assertObjectMatch(await module(outcome.args), outcome), options)
+        test("idempotency test (2nd call)", async () => assertObjectMatch(await module(outcome.args), {...outcome, past:{...outcome.result}, changed:false}), options)
       })
     }
 
