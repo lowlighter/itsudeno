@@ -8,10 +8,10 @@ import {deepmerge} from "@tools/std"
 import type {strategy} from "@tools/validate"
 import {stripColor} from "std/fmt/colors.ts"
 import {toFileUrl} from "std/path/mod.ts"
+import {minify} from "y/terser"
 import {ItsudenoError} from "@errors"
 import {Modules} from "@modules"
 import type {loose} from "@types"
-import {minify} from "y/terser"
 const log = new Logger(import.meta.url)
 const imap = "imports.json"
 
