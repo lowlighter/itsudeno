@@ -19,7 +19,7 @@ export {images}
 async function build(path: string) {
   path = path.replace("Dockerfile", "")
   const name = strcase(resolve(path).replace(`${resolve("", {base: import.meta.url})}`, ""), {from: "slash", to: "snake"})
-  if ((name.split("_").at(0) !== os) && (!((os === "windows") && (await run.can("wsl"))))) {
+  if (name.split("_").at(0) !== os) {
     log.v(`skipping docker image ${name} (incompatible OS)`)
     return
   }

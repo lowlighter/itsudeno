@@ -144,4 +144,4 @@ export class Suite {
 type test = () => (void | Promise<void>)
 
 /** Test options */
-type options = {details?: string, missing?: boolean, ignore?: boolean, only?: boolean, sanitizeExit?: boolean}
+type options = {details?: string, missing?: boolean, ignore?: boolean, only?: boolean, sanitizeExit?: boolean, sanitizeResources?: boolean}
