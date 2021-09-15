@@ -25,7 +25,6 @@ Executor.register(
       //Prepare command
       const deno = `'deno run --allow-all --unstable --no-check -'`
       const command = `${ssh.trim()} ${deno}`
-      console.log("============", payload, "============")
 
       return this.return(await run(command, {stdin: payload}))
     }

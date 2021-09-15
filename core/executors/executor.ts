@@ -11,6 +11,7 @@ import {toFileUrl} from "std/path/mod.ts"
 import {ItsudenoError} from "@errors"
 import {Modules} from "@modules"
 import type {loose} from "@types"
+import {minify} from "y/terser"
 const log = new Logger(import.meta.url)
 const imap = "imports.json"
 
@@ -129,7 +130,7 @@ export abstract class Executor<raw, args> extends Common<definition> {
           continue
 
         //Encode payload as base64 to avoid quotes issues
-        const blob = new Blob([content], {type: "application/javascript"})
+        const blob = new Blob([(await minify(content)).code], {type: "application/javascript"})
         const base64 = await new Promise<string>(solve => {
           const reader = new FileReader()
           reader.onload = event => solve(event.target?.result as string)
