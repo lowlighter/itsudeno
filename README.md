@@ -3,6 +3,53 @@
 *Itsudeno* is a scriptable IT automation system written in [TypeScript](https://github.com/Microsoft/TypeScript) and running on [Deno](https://github.com/denoland/deno).
 It can be used to easily deploy and configure applications, services and networks on target hosts.
 
+## 🍥 Hello Itsudeno!
+
+### 🍙 Using YAML
+
+```yml
+# Itsudeno offers a wide range of modules, here's a few possibilities:
+
+- _: Set file content
+  file.content:
+    path: /tmp/itsudeno.example
+    content: Hello! Current time is ${new Date()}
+
+- _: Configure firewalls
+  loop:chain: [ INPUT, OUTPUT, FORWARD ]
+  net.firewall:
+    chain: ${chain}
+    policy: DROP
+
+- _: Install packages
+  packages.apt:
+    name: net-tools
+    state: latest
+```
+
+### 🍘 Using TypeScript
+
+```ts
+// Itsudeno can also be used directly with TypeScript for power-users and can even
+// be packaged in a single self-contained executable thanks to deno compile!
+
+import * as it from "https://deno.land/x/itsudeno";
+
+for (const user of ["foo", "bar", "baz"]) {
+  await it.modules.os.user({
+    _: `Create users and save passwords into default vault`,
+    user,
+    password: await it.vault.default.get(`${user}_password`, await it.tools.mkpasswd())
+  });
+}
+
+await it.modules.wait.user({
+  _: "Wait for user input",
+  message:"Itsudeno successfully configured your machine, ready?",
+  type:"confirm"
+});
+```
+
 ## 🍱 Features
 
 - [x] 🥢 Pick between [YAML and TypeScript](https://itsudeno.land/syntaxes) syntaxes
@@ -21,41 +68,11 @@ It can be used to easily deploy and configure applications, services and network
 
 > ⚠️ This project is in active development and some features advertised above may not be implemented yet. Progress can be tracked [here](https://github.com/lowlighter/itsudeno/discussions/3)
 
-## 🍥 Hello Itsudeno!
-
-### 🍙 Using YAML
-
-```yml
-- _: Use Itsudeno with YAML
-  loop:hello:
-    - Hello
-    - Bonjour
-    - 你好
-    - こんにちは
-  log:
-    message: ${hello}! Current time is ${new Date()}
-```
-
-### 🍘 Using TypeScript
-
-```ts
-import * as it from "https://deno.land/x/itsudeno";
-
-for (const hello of ["Hello", "Bonjour", "你好", "こんにちは"]) {
-  await it.modules.log({
-    _: `Use Itsudeno with TypeScript`,
-    message:`${hello}! Current time is ${new Date()}`
-  });
-}
-```
-
 ### 🍶 Try it know!
 
 ```
 deno run --allow-all --unstable --no-check --import-map https://deno.land/x/itsudeno/imports.json https://deno.land/x/itsudeno/mod.ts run https://deno.land/x/itsudeno/docs/examples/hello.yml
 ```
-
-*`--no-check` is currently needed because of recent changes in web crypto APIs (it will be fixed in future releases)*
 
 ## 🦑 Contributions and license
 
