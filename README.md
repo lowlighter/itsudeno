@@ -3,13 +3,9 @@
 *Itsudeno* is a scriptable IT automation system written in [TypeScript](https://github.com/Microsoft/TypeScript) and running on [Deno](https://github.com/denoland/deno).
 It can be used to easily deploy and configure applications, services and networks on target hosts.
 
-## 🍥 Hello Itsudeno!
-
 ### 🍙 Using YAML
 
 ```yml
-# Itsudeno offers a wide range of modules, here's a few possibilities:
-
 - _: Set file content
   file.content:
     path: /tmp/itsudeno.example
@@ -30,24 +26,24 @@ It can be used to easily deploy and configure applications, services and network
 ### 🍘 Using TypeScript
 
 ```ts
-// Itsudeno can also be used directly with TypeScript for power-users and can even
-// be packaged in a single self-contained executable thanks to deno compile!
-
 import * as it from "https://deno.land/x/itsudeno";
 
-for (const user of ["foo", "bar", "baz"]) {
-  await it.modules.os.user({
-    _: `Create users and save passwords into default vault`,
-    user,
-    password: await it.vault.default.get(`${user}_password`, await it.tools.mkpasswd())
-  });
-}
+await it.tasks(({_, vault, tools}) => {
+  for (const user of ["foo", "bar", "baz"]) {
+    await _(`Create users and save passwords into default vault`)
+      .os.user({
+        user,
+        password: await vault.get(`${user}_password`, await tools.mkpasswd())
+      });
+  }
 
-await it.modules.wait.user({
-  _: "Wait for user input",
-  message:"Itsudeno successfully configured your machine, ready?",
-  type:"confirm"
+  await _("Wait for user input")
+    .wait.user({
+      message: "Itsudeno successfully configured your machine, ready?",
+      type: "confirm",
+    });
 });
+
 ```
 
 ## 🍱 Features
@@ -68,10 +64,10 @@ await it.modules.wait.user({
 
 > ⚠️ This project is in active development and some features advertised above may not be implemented yet. Progress can be tracked [here](https://github.com/lowlighter/itsudeno/discussions/3)
 
-### 🍶 Try it know!
+### 🍥 Try it know!
 
 ```
-deno run --allow-all --unstable --no-check --import-map https://deno.land/x/itsudeno/imports.json https://deno.land/x/itsudeno/mod.ts run https://deno.land/x/itsudeno/docs/examples/hello.yml
+deno run --allow-all --unstable --import-map https://deno.land/x/itsudeno/imports.json https://deno.land/x/itsudeno/mod.ts run https://deno.land/x/itsudeno/docs/examples/hello.yml
 ```
 
 ## 🦑 Contributions and license
