@@ -2,6 +2,7 @@
 import {Logger} from "@tools/log"
 import argv from "y/string-argv@0.3.1"
 import {ItsudenoError} from "@errors"
+import {os} from "@core/setup/os"
 const log = new Logger(import.meta.url)
 
 //Text encoder and decoder
@@ -35,6 +36,9 @@ const run = Object.assign(async function run(command: string, {stdin = null, cwd
     command = `powershell.exe -Nologo -NoProfile -NonInteractive -ExecutionPolicy Unrestricted -Command '${command.replace(/'/g, "''")}'`
     return await run(command, options)
   },
+  async can(command: string) {
+    return (await run(os === "windows" ? `where.exe ${command}` : `which ${command}`)).success
+  }
 })
 
 //Exports
