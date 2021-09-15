@@ -52,5 +52,5 @@ const settings = deepmerge({
   env: {
     mode: "apply",
   },
-}, custom)
+}, custom) as infered
 export {settings}
