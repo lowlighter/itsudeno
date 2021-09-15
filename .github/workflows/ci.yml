@@ -62,8 +62,6 @@ jobs:
         uses: jurassiscripts/setup-velociraptor@v1
       - name: Build app
         run: vr build
-      - name: Prepare test environment
-        run: vr test-setup
       - name: Run tests
         run: vr test
   codeql:
