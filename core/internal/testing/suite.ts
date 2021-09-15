@@ -79,7 +79,8 @@ export class Suite {
     /** Bench a function or module agains all available containers */
     bench(callback: (test: (name: string, fn: test, options?: options) => (void | Promise<void>), module: (args: infered) => infered) => void) {
       const promise = deferred<void>()
-      this.#pending.push(promise)(async () => {
+      this.#pending.push(promise)
+      void (async () => {
         //Instantiate a docker images
         const groups = []
         images:
