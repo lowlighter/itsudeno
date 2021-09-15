@@ -109,7 +109,7 @@ export class Common<definition, options = unknown> {
     const about = definition.description?.split("\n").shift() ?? name
 
     //Definition and metadata
-    return {section, path, name, index, about, classname, definition, implementations, paths, examples:[] as string[]}
+    return {section, path, name, index, about, classname, definition, implementations, paths, examples: [] as string[]}
   }
 
   /** Autoload implementation, using specific one before agnostic one */
