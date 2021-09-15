@@ -26,7 +26,7 @@ const executors = new Proxy({} as {[key: string]: Executor<infered, infered>}, {
 if (settings.executors) {
   log.vvv(`preparing defined executors`)
   const loaded = [] as Array<[string, Executor<infered, infered>]>
-  for (const [name, {type, ...args}] of Object.entries<{type:string} & loose>(settings.executors)) {
+  for (const [name, {type, ...args}] of Object.entries<{type: string} & loose>(settings.executors)) {
     if (!(type in Executors))
       throw new ItsudenoError.Executor(`could not load executor: ${name} (unknown type: ${type})`)
     loaded.push([name, await Executors[type as keyof typeof Executors].prepare(args)])
@@ -45,7 +45,7 @@ const inventories = new Proxy({} as {[key: string]: Inventory<infered, infered>}
 if (settings.inventories) {
   log.vvv(`preparing defined inventories`)
   const loaded = [] as Array<[string, Inventory<infered, infered>]>
-  for (const [name, {type, ...args}] of Object.entries<{type:string} & loose>(settings.inventories)) {
+  for (const [name, {type, ...args}] of Object.entries<{type: string} & loose>(settings.inventories)) {
     if (!(type in Inventories))
       throw new ItsudenoError.Inventory(`could not load inventory: ${name} (unknown type: ${type})`)
     loaded.push([name, await Inventories[type as keyof typeof Inventories].open(args)])
@@ -64,7 +64,7 @@ const vaults = new Proxy({} as {[key: string]: Vault<infered, infered>}, {
 if (settings.vaults) {
   log.vvv(`preparing defined vaults`)
   const loaded = [] as Array<[string, Vault<infered, infered>]>
-  for (const [name, {type, ...args}] of Object.entries<{type:string} & loose>(settings.vaults)) {
+  for (const [name, {type, ...args}] of Object.entries<{type: string} & loose>(settings.vaults)) {
     if (!(type in Vaults))
       throw new ItsudenoError.Vault(`could not load vault: ${name} (unknown type: ${type})`)
     loaded.push([name, await Vaults[type as keyof typeof Vaults].open(args)])
@@ -83,7 +83,7 @@ const reporters = new Proxy({} as {[key: string]: Reporter<infered, infered>}, {
 if (settings.reporters) {
   log.vvv(`preparing defined reporters`)
   const loaded = [] as Array<[string, Reporter<infered, infered>]>
-  for (const [name, {type, ...args}] of Object.entries<{type:string} & loose>(settings.reporters)) {
+  for (const [name, {type, ...args}] of Object.entries<{type: string} & loose>(settings.reporters)) {
     if (!(type in Reporters))
       throw new ItsudenoError.Reporter(`could not load reporter: ${name} (unknown type: ${type})`)
     loaded.push([name, await Reporters[type as keyof typeof Reporters].open(args)])

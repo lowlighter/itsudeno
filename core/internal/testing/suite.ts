@@ -1,12 +1,12 @@
 //Imports
 import {esm} from "@tools/internal"
-import {italic, yellow} from "std/fmt/colors.ts"
-import type {infered} from "@types"
-import {assertObjectMatch} from "std/testing/asserts.ts"
 import {Logger} from "@tools/log"
 import {run} from "@tools/run"
-import {delay} from "std/async/delay.ts"
 import {deferred} from "@tools/std"
+import {delay} from "std/async/delay.ts"
+import {italic, yellow} from "std/fmt/colors.ts"
+import {assertObjectMatch} from "std/testing/asserts.ts"
+import type {infered} from "@types"
 const log = new Logger(import.meta.url)
 
 /**
@@ -62,15 +62,12 @@ export class Suite {
 
   /** Testing containers */
   static readonly containers = {
-
     /** Used ports */
-    ports:new Set<number>()
-
+    ports: new Set<number>(),
   }
 
   /** Test suite for modules */
   static readonly Modules = class extends Suite {
-
     /** Cleanup promises */
     readonly #cleanup = []
 
@@ -80,27 +77,27 @@ export class Suite {
     }
 
     /** Bench a function or module agains all available containers */
-    bench(callback:(test:(name:string, fn:test, options?:options) => (void|Promise<void>), module:(args:infered) => infered) => void) {
+    bench(callback: (test: (name: string, fn: test, options?: options) => (void | Promise<void>), module: (args: infered) => infered) => void) {
       const promise = deferred<void>()
-      this.#pending.push(promise)
-      ;(async () => {
+      this.#pending.push(promise)(async () => {
         //Instantiate a docker images
         const groups = []
-        images: for (const name of (await import("@testing/containers")).images) {
+        images:
+        for (const name of (await import("@testing/containers")).images) {
           while (true) {
             for (let port = 4650; port < 65535; port++) {
               if (Suite.containers.ports.has(port))
                 continue
               Suite.containers.ports.add(port)
-              const {stdout:id} = await run(`docker run --name itsudeno_test_${port} --detach --tty --publish ${port}:22 ${name}`)
+              const {stdout: id} = await run(`docker run --name itsudeno_test_${port} --detach --tty --publish ${port}:22 ${name}`)
               log.vvv(`started container ${name} (${id})`)
 
               //Run callback and add cleanup
               const promise = deferred<void>()
               groups.push(promise)
-              this.group(name, async test => {
-                callback(test, async (args:infered) => {
-                  const outcome = await ((await import("@executors")).Executors.ssh.call({name:this.#module, args, target:"test"}, {host:"127.0.0.1", port, login:"it", password:"itsudeno"}))
+              this.group(name, test => {
+                callback(test, async (args: infered) => {
+                  const outcome = await ((await import("@executors")).Executors.ssh.call({name: this.#module, args, target: "test"}, {host: "127.0.0.1", port, login: "it", password: "itsudeno"}))
                   if (outcome.failed)
                     log.error(Deno.inspect(outcome))
                   return outcome.result.module ?? {}
@@ -115,7 +112,7 @@ export class Suite {
               continue images
             }
             log.vvv(`could not start container ${name} as all ports were taken, retrying later`)
-            await delay(15*1000)
+            await delay(15 * 1000)
           }
         }
         await Promise.all(groups)
@@ -125,10 +122,10 @@ export class Suite {
     }
 
     /** Idempotency check */
-    idempotent(outcome:infered, options:options = {}) {
-      return this.bench(async (test, module) => {
+    idempotent(outcome: infered, options: options = {}) {
+      return this.bench((test, module) => {
         test("idempotency test (1st call)", async () => assertObjectMatch(await module(outcome.args), outcome), options)
-        test("idempotency test (2nd call)", async () => assertObjectMatch(await module(outcome.args), {...outcome, past:{...outcome.result}, changed:false}), options)
+        test("idempotency test (2nd call)", async () => assertObjectMatch(await module(outcome.args), {...outcome, past: {...outcome.result}, changed: false}), options)
       })
     }
 
@@ -137,9 +134,7 @@ export class Suite {
       await super.conclude()
       this.test("cleaning", async () => void await Promise.all(this.#cleanup.map(cleanup => cleanup())))
     }
-
   }
-
 }
 
 /** Test function */

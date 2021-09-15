@@ -1,9 +1,9 @@
 //Imports
+import {os} from "@core/setup/os"
 import {glob, resolve} from "@tools/internal"
 import {Logger} from "@tools/log"
 import {run} from "@tools/run"
 import {strcase} from "@tools/strings"
-import {os} from "@core/setup/os"
 const log = new Logger(import.meta.url)
 
 //Build docker images
@@ -18,7 +18,7 @@ export {images}
 /** Build and prepare docker image */
 async function build(path: string) {
   const name = strcase(resolve(path).replace(`${resolve("", {base: import.meta.url})}`, "").replace("Dockerfile", ""), {from: "slash", to: "snake"})
-  if ((name.split("_").at(0) !== os)&&(!((os === "windows")&&(await run.can("wsl"))))) {
+  if ((name.split("_").at(0) !== os) && (!((os === "windows") && (await run.can("wsl"))))) {
     log.v(`skipping docker image ${name} (incompatible OS)`)
     return
   }

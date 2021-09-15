@@ -93,9 +93,10 @@ export class Common<definition, options = unknown> {
 
     //Load implementations
     const implementations = []
-    for await (const {name} of glob("*.ts", {base: path}))
+    for await (const {name} of glob("*.ts", {base: path})) {
       if (!/test\.ts$/.test(name))
         implementations.push(name)
+    }
 
     //Load paths
     const paths = {
