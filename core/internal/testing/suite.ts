@@ -90,7 +90,9 @@ export class Suite {
               if (Suite.containers.ports.has(port))
                 continue
               Suite.containers.ports.add(port)
-              const {stdout: id} = await run(`docker run --name itsudeno_test_${port} --detach --tty --publish ${port}:22 ${name}`)
+              const {stdout: id, stderr} = await run(`docker run --name itsudeno_test_${port} --detach --tty --publish ${port}:22 ${name}`)
+              if (stderr)
+                log.warn(stderr)
               log.vvv(`started container ${name} (${id})`)
 
               //Run callback and add cleanup
