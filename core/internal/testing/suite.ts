@@ -1,6 +1,13 @@
 //Imports
 import {esm} from "@tools/internal"
 import {italic, yellow} from "std/fmt/colors.ts"
+import type {infered} from "@types"
+import {assertObjectMatch} from "std/testing/asserts.ts"
+import {Logger} from "@tools/log"
+import {run} from "@tools/run"
+import {delay} from "std/async/delay.ts"
+import {deferred} from "@tools/std"
+const log = new Logger(import.meta.url)
 
 /**
  * Test suite
@@ -49,8 +56,84 @@ export class Suite {
 
   /** Conclude tests */
   async conclude() {
-    return await Promise.all(this.#pending)
+    await Promise.all(this.#pending)
+    log.info(`test suite concluded`)
   }
+
+  /** Testing containers */
+  static readonly containers = {
+
+    /** Used ports */
+    ports:new Set<number>()
+
+  }
+
+  /** Test suite for modules */
+  static readonly Modules = class extends Suite {
+
+    /** Cleanup promises */
+    readonly #cleanup = []
+
+    /** Module name */
+    get #module() {
+      return this.prefix.replace("modules.", "")
+    }
+
+    /** Bench a function or module agains all available containers */
+    bench(callback:(test:(name:string, fn:test, options?:options) => (void|Promise<void>), module:(args:infered) => infered) => void) {
+      const promise = deferred<void>()
+      this.#pending.push(promise)
+      ;(async () => {
+        //Instantiate a docker images
+        const groups = []
+        images: for (const name of (await import("@testing/containers")).images) {
+          while (true) {
+            for (let port = 4650; port < 65535; port++) {
+              if (Suite.containers.ports.has(port))
+                continue
+              Suite.containers.ports.add(port)
+              const {stdout:id} = await run(`docker run --name itsudeno_test_${port} --detach --tty --publish ${port}:22 ${name}`)
+              log.vvv(`started container ${name} (${id})`)
+
+              //Run callback and add cleanup
+              const promise = deferred<void>()
+              groups.push(promise)
+              this.group(name, async test => {
+                callback(test, async (args:infered) => ((await ((await import("@executors")).Executors.ssh.call({name:this.#module, args, target:"test"}, {host:"127.0.0.1", port, login:"it", password:"itsudeno"}))).result.module))
+                promise.resolve()
+                this.#cleanup.push(async () => {
+                  await run(`docker rm --force ${id}`)
+                  Suite.containers.ports.delete(port)
+                  log.vvv(`removed container ${name} (${id})`)
+                })
+              })
+              continue images
+            }
+            log.vvv(`could not start container ${name} as all ports were taken, retrying later`)
+            await delay(15*1000)
+          }
+        }
+        await Promise.all(groups)
+        promise.resolve()
+      })()
+      return this
+    }
+
+    /** Idempotency check */
+    idempotent(outcome:infered, options:options = {}) {
+      return this.bench(async (test, module) => {
+        test("idempotency test (1st call)", async () => assertObjectMatch(await module(outcome.args), outcome), options)
+      })
+    }
+
+    /** Conclude tests */
+    async conclude() {
+      await super.conclude()
+      this.test("cleaning", async () => void await Promise.all(this.#cleanup.map(cleanup => cleanup())))
+    }
+
+  }
+
 }
 
 /** Test function */
