@@ -23,7 +23,7 @@ export const enum level {
  */
 export class Logger {
   /** Log level */
-  static level = level.info
+  static level = level.all
 
   /** Tag */
   readonly tag: string
