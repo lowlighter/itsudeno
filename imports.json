@@ -9,6 +9,7 @@
     "@settings": "./core/setup/settings.ts",
     "@generated/":"./core/generated/",
     "@testing": "./core/internal/testing/mod.ts",
+    "@testing/containers": "./core/internal/testing/containers/mod.ts",
     "@executors": "./core/generated/executors/mod.ts",
     "@executors/": "./executors/",
     "@interfaces/": "./interfaces/",
