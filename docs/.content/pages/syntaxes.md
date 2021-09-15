@@ -16,7 +16,7 @@ Control statements are also supported (loops, conditionals, includes, etc.) whic
 
 It is recommended for most usages and should be able to cover most use cases.
 
-## 🍘 🍥 TypeScript syntax
+## 🍘 TypeScript syntax
 
 This syntax uses *Itsudeno* components directly, and is mostly intended for power users.
 

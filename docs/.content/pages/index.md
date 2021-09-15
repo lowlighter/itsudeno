@@ -24,14 +24,14 @@ Itsudeno is a scriptable IT automation system written in TypeScript and running 
 
 > *🚧 Work in progress*
 
-## 🍱 Components
+## 🍱 Components list
 
-* [Modules](/modules)
-* [Executors](/executors)
-* [Reporters](/reporters)
-* [Inventories](/inventories)
-* [Vaults](/vaults)
-* [Interfaces](/interfaces)
+* [Modules list](/modules)
+* [Executors list](/executors)
+* [Reporters list](/reporters)
+* [Inventories list](/inventories)
+* [Vaults list](/vaults)
+* [Interfaces list](/interfaces)
 
 ## 🍳 Hacking
 

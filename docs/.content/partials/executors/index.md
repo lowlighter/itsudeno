@@ -2,7 +2,7 @@
 title: Itsudeno executors
 ---
 
-# 🍖 Executors
+# 🍖 Executors list
 
 | Name | Description |
 | ---- | ----------- |

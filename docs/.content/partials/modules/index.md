@@ -2,7 +2,7 @@
 title: Itsudeno modules
 ---
 
-# 🥡 Modules
+# 🥡 Modules list
 
 | Name | Description |
 | ---- | ----------- |

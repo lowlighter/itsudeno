@@ -10,7 +10,7 @@ title: Itsudeno templating
 
 ## 🖊️ JavaScript template literals
 
-Templating in *Itsudeno* is implicit which is why no backticks (<code>`</code>) are required unlike JavaScript.
+Templating in *Itsudeno* is implicit which is why no backticks (<code>&#96;</code>) are required unlike JavaScript.
 Content between a dollar sign and curly brackets (`${}`) will be automatically templated unless escaped.
 
 All features supported by JavaScript can be used, meaning that complex operations can be achieved easily:

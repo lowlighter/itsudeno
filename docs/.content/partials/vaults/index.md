@@ -2,7 +2,7 @@
 title: Itsudeno vaults
 ---
 
-# 🍢 Vaults
+# 🍢 Vaults list
 
 | Name | Description |
 | ---- | ----------- |

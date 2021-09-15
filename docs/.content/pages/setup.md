@@ -18,7 +18,7 @@ See this [Deno install guide](https://deno.land/manual/getting_started/installat
 
 It is advised to import and use entry points (named `mod.ts`) though it is actually possible to import any file.
 
-[Velociraptor](https://velociraptor.run) can be used to use scripts located in `scripts.yml`.
+[Velociraptor](https://velociraptor.run) can be installed to make use of scripts located in `scripts.yml`.
 
 ## 🐉 From CLI
 

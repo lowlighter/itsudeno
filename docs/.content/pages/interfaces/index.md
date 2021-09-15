@@ -2,7 +2,7 @@
 title: Itsudeno interfaces
 ---
 
-# 🍜 Interfaces
+# 🍜 Interfaces list
 
 | Name | Description |
 | ---- | ----------- |

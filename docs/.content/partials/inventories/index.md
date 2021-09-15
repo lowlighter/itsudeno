@@ -2,7 +2,7 @@
 title: Itsudeno inventories
 ---
 
-# 🍡 Inventories
+# 🍡 Inventories list
 
 | Name | Description |
 | ---- | ----------- |

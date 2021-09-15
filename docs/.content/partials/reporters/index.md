@@ -2,7 +2,7 @@
 title: Itsudeno reporters
 ---
 
-# 🥠 Reporters
+# 🥠 Reporters list
 
 | Name | Description |
 | ---- | ----------- |
