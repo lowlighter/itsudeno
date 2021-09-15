@@ -13,7 +13,7 @@ for (const [type, Module] of Object.entries(Modules) as test) {
     try {
       const tests = await yaml<loose[]>(`/modules/${strcase(type, {from: "dot", to: "slash"})}/test.yml`, {base: import.meta.url})
       for (const {_, args, context, ...outcome} of tests)
-        test(_ as string, async () => assertObjectMatch(await Module.call(args, context), outcome))
+        test(_ as string, async () => assertObjectMatch(await Module.call(args, context), outcome as loose))
     }
     catch (error) {
       if (error instanceof Deno.errors.NotFound)

@@ -21,7 +21,7 @@ const indexes = new Map<string, infered>()
 for (const section of ["executors", "vaults", "modules", "inventories", "reporters"]) {
   for await (const {path} of glob(`${section}/**/mod.yml`)) {
     const mod = await Common.about(path)
-    mod.examples = (await yaml(mod.paths.examples, {base: "//"}).catch(() => [])).map(stringify)
+    mod.examples = (await yaml<loose[]>(mod.paths.examples, {base: "//"}).catch(() => [])).map(example => stringify(example)) as string[]
     await build(`docs/.content/partials/${section}/mod.md`, {type: section, context: {mod}})
   }
 }

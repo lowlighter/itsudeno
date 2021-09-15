@@ -4,5 +4,5 @@ import {Suite} from "@testing"
 
 //Tests
 await new Suite(import.meta.url)
-  .test("settings", async () => await cli(["settings", "show"]))
+  .test("settings", async () => void await cli(["settings", "show"]))
   .conclude()

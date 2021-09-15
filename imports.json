@@ -1,6 +1,6 @@
 {
   "imports": {
-    "std/": "https://deno.land/std@0.106.0/",
+    "std/": "https://deno.land/std@0.107.0/",
     "x/": "https://deno.land/x/",
     "y/": "https://cdn.skypack.dev/",
     "@itsudeno": "./mod.ts",

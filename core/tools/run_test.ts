@@ -21,7 +21,8 @@ await new Suite(import.meta.url)
           stdout: "itsudeno",
           stderr: "",
         },
-      ))
+      )
+    )
     test("error, unknown executable", () => assertThrowsAsync(() => run("itsudeno-run-test"), ItsudenoError.Run, "could not find executable"))
   })
   .conclude()

@@ -69,7 +69,7 @@ export class Suite {
   /** Test suite for modules */
   static readonly Modules = class extends Suite {
     /** Cleanup promises */
-    readonly #cleanup = []
+    readonly #cleanup = [] as Array<() => void>
 
     /** Module name */
     get #module() {
