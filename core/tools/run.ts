@@ -15,10 +15,8 @@ const run = Object.assign(async function run(command: string, {stdin = null, cwd
   try {
     log.vvv(`command: ${command}`)
     process = Deno.run({cmd: argv(command), cwd, env, stdin: stdin ? "piped" : "null", stdout: "piped", stderr: "piped"})
-    if (stdin) {
-      log.vvv(`tty: ${Deno.isatty(process?.stdin)}`)
-      await process?.stdin?.write(encoder.encode(stdin))
-    }
+    if ((stdin)&&(process.stdin))
+      await process.stdin.write(encoder.encode(stdin))
     process?.stdin?.close()
     const [{success, code}, stdout, stderr] = await Promise.all([process.status(), process.output(), process.stderrOutput()])
     return {success, code, stdout: decoder.decode(stdout), stderr: decoder.decode(stderr)}

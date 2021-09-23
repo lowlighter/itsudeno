@@ -63,6 +63,7 @@ jobs:
       - name: Create itsudeno directory
         run: mkdir .itsudeno
       - name: Run tests
+        shell: 'script -q -e -c "bash {0}"'
         run: vr test
   codeql:
     name: Analyze code
