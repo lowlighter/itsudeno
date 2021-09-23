@@ -85,6 +85,12 @@ export class Logger {
     if (Logger.level >= level.vvvv)
       console.debug(...this.#format(gray, {args}))
   }
+
+  /** Byte */
+  async byte(bytes: Uint8Array) {
+    if (Logger.level >= level.vvvv)
+      await Deno.stdout.write(bytes)
+  }
 }
 
 /** Colors */

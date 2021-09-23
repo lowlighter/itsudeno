@@ -58,14 +58,12 @@ jobs:
         uses: denoland/setup-deno@v1
       - name: Setup Velociraptor
         uses: jurassiscripts/setup-velociraptor@v1
-      - name: Setup faketty
-        uses: Yuri6037/Action-FakeTTY@v1.1
       - name: Build app
         run: vr build
       - name: Create itsudeno directory
         run: mkdir .itsudeno
       - name: Run tests
-        run: faketty vr test
+        run: vr test
   codeql:
     name: Analyze code
     runs-on: ubuntu-latest
