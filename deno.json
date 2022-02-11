@@ -1,0 +1,53 @@
+{
+  "meta": {
+    "name": "Itsudeno",
+    "description": "Scriptable IT automation system.",
+    "author": "lowlighter (Simon Lecoq)",
+    "repository": "https://github.com/lowlighter/itsudeno",
+    "license": {
+      "name": "GNU General Public License v3.0",
+      "link": "https://github.com/lowlighter/itsudeno/blob/main/LICENSE"
+    }
+  },
+  "velociraptor": {
+    "unstable": true,
+    "quiet": true,
+    "allow": {
+      "net": ["deno.land"]
+    },
+    "importMap": "deno.json",
+    "scripts": {
+      "fmt": {
+        "desc": "> format code",
+        "cmd": "deno fmt"
+      },
+      "lint": {
+        "desc": "> lint code",
+        "cmd": "deno lint"
+      },
+      "test": {
+        "desc": "> run tests",
+        "cmd": "deno test"
+      }
+    }
+  },
+  "imports": {
+    "std/": "https://deno.land/std@0.123.0/",
+    "x/": "https://deno.land/x/",
+    "y/": "https://cdn.skypack.dev/",
+    "core/": "./core/"
+  },
+  "compilerOptions": {
+    "experimentalDecorators": true
+  },
+  "lint": {
+    "rules": {
+      "exclude": ["require-await", "no-async-promise-executor"]
+    }
+  },
+  "fmt": {
+    "options": {
+      "lineWidth": 200
+    }
+  }
+}
