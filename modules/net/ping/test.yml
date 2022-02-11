@@ -1,9 +1,0 @@
-- _: ping 127.0.0.1
-  args:
-    host: 127.0.0.1
-    packets: 5
-  failed: false
-  result:
-    host: 127.0.0.1
-    ip: 127.0.0.1
-    transmitted: 5

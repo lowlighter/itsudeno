@@ -1,7 +1,1 @@
-# Auto detect text files and perform LF normalization
 * text=auto
-
-# Linguist
-core/generated/* linguist-generated
-docs/vendors/* linguist-vendored
-docs/* linguist-documentation

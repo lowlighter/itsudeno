@@ -1,6 +1,0 @@
-description: test
-inherits: core.internal.common.tests.inherited
-args:
-  foo:
-    description: foo
-    type: boolean

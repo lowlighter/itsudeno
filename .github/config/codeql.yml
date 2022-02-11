@@ -1,3 +1,0 @@
-name: CodeQL settings
-queries:
-  - uses: security-and-quality

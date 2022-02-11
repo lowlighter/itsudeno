@@ -1,1 +1,0 @@
-![Architecture](/docs/architecture.svg)
