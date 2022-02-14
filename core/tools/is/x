@@ -1,0 +1,108 @@
+
+
+/** URL assertions */
+{
+    url:Object.assign(function(x: unknown) {
+        if (x instanceof URL)
+          return true
+        try {
+          return new URL(x as string), true
+        }
+        catch {
+          return false
+        }
+      }, {
+        remote(x: unknown) {
+          if (is.url(x))
+            return /^https?:$/.test(new URL(x as string).protocol)
+          return false
+        },
+      })
+}
+
+
+)
+
+
+/** Typings assertions */
+export const iss = Object.assign(function(query: string, x: unknown) {
+  const {path = "", args = ""} = query.match(/^(?<path>[\s\S]+?)(?:\((?<args>[\s\S]*)\))?$/)?.groups ?? {}
+  if (!path)
+    throw new ItsudenoError.Internal(`bad assertion query: ${query}`)
+  return (access(is as infered, path) as infered)(x, ...eval(`[${args}]`))
+}, {
+ 
+ 
+ 
+    
+  //Function asserts
+  //deno-lint-ignore ban-types
+  function(x: unknown): x is Function {
+    return typeof x === "function"
+  },
+ 
+  //String asserts
+  filepath(x: unknown, oss = ["win32", "posix"]): x is string {
+    if (!is.string(x))
+      return false
+    for (const os of oss) {
+      const lib = {win32, posix}[os]
+      if (lib) {
+        try {
+          lib.parse(x)
+          return true
+        }
+        catch {
+          //Ignore errors
+        }
+      }
+    }
+    return false
+  },
+
+  //Number asserts
+
+  port(x: unknown): x is number {
+    return is.number(x) && is.number.integer(x) && (x > 0) && (x < 65535)
+  },
+  
+  //Array asserts
+  array: Object.assign(function(x: unknown): x is unknown[] {
+    return Array.isArray(x)
+  }),
+  //Object asserts
+  object: Object.assign(function<T>(x: T): x is T {
+    return (typeof x === "object") && (!is.null(x))
+  }, {
+    empty<T>(x: T): x is T {
+      return is.object<T>(x) && (!Object.keys(x).length)
+    },
+    with<T>(x: T, path: string): x is T {
+      try {
+        access(x as infered, path)
+        return true
+      }
+      catch {
+        //Ignore errors
+      }
+      return false
+    },
+  }),
+  //Date asserts
+  date: Object.assign(function(x: unknown): x is Date {
+    return x instanceof Date
+  }, {
+    like(x: unknown): x is number | string | Date {
+      if ((!is.string(x)) && (!is.number(x)) && (!is.date(x)))
+        return false
+      const d = new Date(x as number | string | Date)
+      if (!is.number.nan(d.getTime()))
+        return true
+      return false
+    },
+  }),
+  //Promise asserts
+  promise<T>(x: unknown): x is Promise<T> {
+    return x instanceof Promise
+  },
+})

@@ -1,6 +1,6 @@
 //Imports
-import {esm} from "core/tools/meta/esm.ts"
-import type {test} from "core/tools/testing/types.ts"
+import {esm} from "core/meta/esm.ts"
+import type {test} from "core/testing/types.ts"
 
 /** Helper to create unit test suites */
 export class Suite {
@@ -14,7 +14,7 @@ export class Suite {
 
     /** Test */
     test(name: string, fn: test) {
-        Deno.test({name:`[${this.esm}] ${name}`, fn})
+        Deno.test({name:`[${this.esm}] ${name}`.trim(), fn})
         return this
     }
 
@@ -23,7 +23,7 @@ export class Suite {
 
     /** Test group */
     group(group: string, tests:(test:(name:string, fn:test) => this) => void|Promise<void>) {
-        this.#groups.push(tests((name: string, fn: test) => this.test(`${group} | ${name}`, fn)))
+        this.#groups.push(tests((name: string, fn: test) => this.test(`${group}${/^\w/.test(name) ? " " : ""}${name}`, fn)))
         return this
     }
 

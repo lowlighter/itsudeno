@@ -27,7 +27,11 @@
       },
       "test": {
         "desc": "> run tests",
-        "cmd": "deno test"
+        "cmd": [
+          "rm -rf .coverage",
+          "deno test --coverage=.coverage --no-check",
+          "deno coverage .coverage"
+        ]
       }
     }
   },
@@ -35,7 +39,10 @@
     "std/": "https://deno.land/std@0.123.0/",
     "x/": "https://deno.land/x/",
     "y/": "https://cdn.skypack.dev/",
-    "core/": "./core/"
+    "core/": "./core/",
+    "@testing": "./core/testing/mod.ts",
+    "@errors": "./core/meta/errors.ts",
+    "@types": "./core/meta/types.ts"
   },
   "compilerOptions": {
     "experimentalDecorators": true
