@@ -1,5 +1,2 @@
 /** Result */
-export type result = {
-    command:string
-    stdin?:string
-}
+export type result = {command: string, stdin?: string}

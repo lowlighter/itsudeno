@@ -1,28 +1,29 @@
 {
-	"name": "GitHub Codespaces (Default)",
-	"build": {
-		"dockerfile": "Dockerfile"
-	},
-	"settings": {
-		"deno.enable": true,
-		"deno.unstable": true,
-		"deno.lint": true,
-		"deno.config": "deno.json",
-		"deno.importMap": "imports.json",
-		"editor.defaultFormatter": "denoland.vscode-deno"
-	},
-	"remoteUser": "codespace",
-	"overrideCommand": false,
-	"mounts": ["source=codespaces-linux-var-lib-docker,target=/var/lib/docker,type=volume"],
-	"runArgs": [
-		"--cap-add=SYS_PTRACE",
-		"--security-opt",
-		"seccomp=unconfined",
-		"--privileged",
-		"--init"
-	],	
-	"extensions": [
-		"GitHub.vscode-pull-request-github",
-		"denoland.vscode-deno"
-	]
+  "name": "GitHub Codespaces (Default)",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "settings": {
+    "deno.enable": true,
+    "deno.unstable": true,
+    "deno.lint": true,
+    "deno.config": "deno.json",
+    "deno.importMap": "imports.json",
+    "editor.defaultFormatter": "denoland.vscode-deno"
+  },
+  "remoteUser": "codespace",
+  "overrideCommand": false,
+  "mounts": ["source=codespaces-linux-var-lib-docker,target=/var/lib/docker,type=volume"],
+  "runArgs": [
+    "--cap-add=SYS_PTRACE",
+    "--security-opt",
+    "seccomp=unconfined",
+    "--privileged",
+    "--init"
+  ],
+  "extensions": [
+    "GitHub.vscode-pull-request-github",
+    "denoland.vscode-deno",
+    "ms-azuretools.vscode-docker"
+  ]
 }

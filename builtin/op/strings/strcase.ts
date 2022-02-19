@@ -1,20 +1,26 @@
-//Imports
-import {lcfirst} from "./lcfirst.ts"
-import {ucfirst} from "./ucfirst.ts"
+// Imports
 import { ItsudenoError } from "../../meta/errors.ts"
+import { lcfirst } from "./lcfirst.ts"
+import { ucfirst } from "./ucfirst.ts"
 
-//Separators
+// Separators
 const separators = {snake: "_", kebab: "-", dot: ".", slash: "/"}
 
-//From case
-type fcase = keyof typeof separators | "pascal" | "camel"
+// From case
+type fcase =
+	| keyof typeof separators
+	| "pascal"
+	| "camel"
 
-//To case
-type tcase = fcase | "flat" | "upper"
+// To case
+type tcase =
+	| fcase
+	| "flat"
+	| "upper"
 
-//camelsnake
+// camelsnake
 
-//macro
+// macro
 
 /*
  NAMING-IDENTIFIER        | TRAIN-CASE, COBOL-CASE, SCREAMING-KEBAB-CASE                |
@@ -22,41 +28,38 @@ type tcase = fcase | "flat" | "upper"
 | _namingIdentifier        | Undercore Notation (prefixed by "_" followed by camelCase
 */
 
-
 /** Change string case */
 export function strcase(string: string, {from, to}: {from: fcase, to: tcase}) {
+	//
+	if (["lower", "flat"].includes(to))
+		return string.toLocaleLowerCase()
+	// if ([""])
 
-  //
-  if (["lower", "flat"].includes(to))
-    return string.toLocaleLowerCase()
-  //if ([""])
+	// Parse identifier
+	const parts = []
+	switch (true) {
+		case Object.keys(separators).includes(from):
+			parts.push(...string.split(separators[from as keyof typeof separators]).filter(part => part))
+			break
+		case ["pascal", "camel"].includes(from):
+			parts.push(...string.split(/(?=[A-Z])/g).filter(part => part).map(lcfirst))
+			break
+		default:
+			throw new ItsudenoError.Unsupported(`unsupported string case conversion: ${from} → ${to}`)
+	}
 
-  //Parse identifier
-  const parts = []
-  switch (true) {
-    case Object.keys(separators).includes(from):
-      parts.push(...string.split(separators[from as keyof typeof separators]).filter(part => part))
-      break
-    case ["pascal", "camel"].includes(from):
-      parts.push(...string.split(/(?=[A-Z])/g).filter(part => part).map(lcfirst))
-      break
-    default:
-      throw new ItsudenoError.Unsupported(`unsupported string case conversion: ${from} → ${to}`)
-  }
+	// Rebuild identifier
+	switch (true) {
+		case Object.keys(separators).includes(to):
+			return parts.join(separators[to as keyof typeof separators])
+		case to === "pascal":
+			return parts.map(ucfirst).join("")
+		case to === "camel":
+			return [...parts.slice(0, 1).map(lcfirst), ...parts.slice(1).map(ucfirst)].join("")
 
-  //Rebuild identifier
-  switch (true) {
-    case Object.keys(separators).includes(to):
-      return parts.join(separators[to as keyof typeof separators])
-    case to === "pascal":
-      return parts.map(ucfirst).join("")
-    case to === "camel":
-      return [...parts.slice(0, 1).map(lcfirst), ...parts.slice(1).map(ucfirst)].join("")
-
-    case to === "upper":
-      return parts.join("").toLocaleUpperCase()
-    default:
-      throw new ItsudenoError.Unsupported(`unsupported string case conversion: ${from} → ${to}`)
-  }
-
+		case to === "upper":
+			return parts.join("").toLocaleUpperCase()
+		default:
+			throw new ItsudenoError.Unsupported(`unsupported string case conversion: ${from} → ${to}`)
+	}
 }

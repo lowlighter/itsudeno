@@ -2,19 +2,19 @@ FROM debian:bullseye-slim
 
 RUN apt-get update \
   && apt-get install -y openssh-server sudo openssl \
-  # Setup user
+# Setup user
   && useradd itsudeno -m -G sudo -p $(openssl passwd -1 itsudeno) \
-  # Configure ssh
+# Configure ssh
   && sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config \
   && mkdir -p /run/sshd \
   && ssh-keygen -A \
   && sshd -t \
-  # Setup deno
+# Setup deno
   && apt-get install -y curl unzip \
   && (curl -fsSL https://deno.land/x/install/install.sh | sh) \
   && cp /root/.deno/bin/deno /usr/bin/deno \
   && apt-get remove -y curl unzip \
-  # Cleaning
+# Cleaning
   && apt-get autoremove -y
 
 EXPOSE 22
