@@ -1,5 +1,5 @@
 //Imports
-import {fromFileUrl, toFileUrl, common, join} from "std/path/mod.ts"
+import {fromFileUrl, toFileUrl, common, join} from "https://deno.land/std@0.123.0/path/mod.ts"
 
 //Project root url
 const {protocol, pathname} = new URL(import.meta.url)

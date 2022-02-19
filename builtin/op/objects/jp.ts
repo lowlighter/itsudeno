@@ -1,5 +1,5 @@
 //Imports
-import {search} from "y/jmespath@0.16.0"
+import {search} from "https://cdn.skypack.dev/jmespath@0.16.0"
 
 /**  */
 export function jp<T>(object:Record<PropertyKey, unknown>, query: string) {

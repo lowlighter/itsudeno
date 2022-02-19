@@ -1,6 +1,6 @@
 //Imports
-import {root} from "core/meta/root.ts"
-import {dirname} from "std/path/mod.ts"
+import {root} from "./root.ts"
+import {dirname} from "https://deno.land/std@0.123.0/path/mod.ts"
 
 /** ES module path (relative to project root) */
 export function esm(url:string, {dir = false} = {}) {

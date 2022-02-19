@@ -1,6 +1,6 @@
 //Imports
-import {Suite, assertEquals, assertStrictEquals, test} from "@testing"
-import {is} from "core/tools/is/type.ts"
+import {Suite, assertEquals, assertStrictEquals, test} from "../../testing/mod.ts"
+import {is} from "./type.ts"
 
 //Tests
 const suite = new Suite(import.meta.url)

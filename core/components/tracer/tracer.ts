@@ -1,8 +1,8 @@
 //Imports
-import {TracerEvent} from "core/components/tracer/event.ts"
-import type {level} from "core/components/tracer/types.ts"
-import {Component} from "core/components/component/component.ts"
-import {ItsudenoError} from "@errors"
+import {TracerEvent} from "./event.ts"
+import type {level} from "./types.ts"
+import {Component} from "../component/component.ts"
+import {ItsudenoError} from "../../meta/errors.ts"
 
 /** Generic tracer */
 export abstract class Tracer extends Component {

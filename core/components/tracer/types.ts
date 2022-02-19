@@ -1,6 +1,6 @@
 //Imports
-import type {Tracer} from "core/components/tracer/tracer.ts"
-import type {TracerEvent} from "core/components/tracer/event.ts"
+import type {Tracer} from "./tracer.ts"
+import type {TracerEvent} from "./event.ts"
 
 /** Tracer event */
 export type event = {tracer:Tracer, level:level, data:unknown}

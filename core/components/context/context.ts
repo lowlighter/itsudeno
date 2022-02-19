@@ -1,6 +1,6 @@
 //Imports
-import {Component} from "core/components/component/mod.ts"
-import type {vars} from "core/components/context/types.ts"
+import {Component} from "../component/mod.ts"
+import type {vars} from "./types.ts"
 
 /** Context */
 export class Context extends Component {
@@ -12,10 +12,10 @@ export class Context extends Component {
     }
   
     /** Parent context */
-    readonly parent = null as Context|null
+    protected readonly parent = null as Context|null
 
     /** Depth */
-    readonly depth = 0
+    protected readonly depth = 0
 
     /** Context variables (internal) */
     #vars = {

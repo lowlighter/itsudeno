@@ -10,4 +10,8 @@ export class ItsudenoError extends Error {
   /** Reference error */
   static readonly Reference = class ItsudenoReferenceError extends ItsudenoError {}
 
+  /** Connector error */
+  static readonly Connector = class ItsudenoConnectorError extends ItsudenoError {}
+
+
 }

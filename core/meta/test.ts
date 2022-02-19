@@ -1,9 +1,8 @@
 //Imports
-import {Suite} from "core/testing/suite.ts"
-import {root} from "core/meta/root.ts"
-import {esm} from "core/meta/esm.ts"
-import {assert, assertStrictEquals} from "std/testing/asserts.ts"
-import {basename, fromFileUrl} from "std/path/mod.ts"
+import {Suite, assert, assertStrictEquals} from "../testing/mod.ts"
+import {root} from "./root.ts"
+import {esm} from "./esm.ts"
+import {basename, fromFileUrl} from "https://deno.land/std@0.123.0/path/mod.ts"
 
 //Tests
 await new Suite(import.meta.url)

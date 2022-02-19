@@ -1,12 +1,13 @@
 //Imports
-import type {event} from "core/components/tracer/types.ts"
+import type {event} from "./types.ts"
+import type {friend} from "../../meta/types.ts"
 
 /** Tracer event */
 export class TracerEvent {
 
   /** Constructor */
   constructor({tracer, level, data}:event) {
-    this.tracer = tracer
+    this.#tracer = tracer
     this.level = level
     this.data = data
     this.timestamp = Date.now()
@@ -14,7 +15,7 @@ export class TracerEvent {
   }
 
   /** Tracer */
-  readonly tracer
+  readonly #tracer
 
   /** Level */
   readonly level
@@ -28,7 +29,7 @@ export class TracerEvent {
   /** String representation */
   toString() {
     const date = new Date(this.timestamp).toISOString()
-    const meta = [date, this.level, this.tracer.context?.vars?.it?.scope, this.tracer.id].filter(part => part).map(part => `[${part}]`).join(" ").trim()
+    const meta = [date, this.level, (this.#tracer as friend).context?.vars?.it?.scope, this.#tracer.id].filter(part => part).map(part => `[${part}]`).join(" ").trim()
     return `${meta} ${Deno.inspect(this.data, {colors:true, depth:Infinity})}`.trim()
   }
 

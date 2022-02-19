@@ -1,7 +1,7 @@
 //Imports
-import {Suite, assert, assertThrows, ItsudenoError} from "@testing"
-import {throws} from "core/tools/flow/throws.ts"
-import {mandatory} from "core/tools/flow/mandatory.ts"
+import {Suite, assert, assertThrows, ItsudenoError} from "../../testing/mod.ts"
+import {throws} from "./throws.ts"
+import {mandatory} from "./mandatory.ts"
 
 //Tests
 await new Suite(import.meta.url)

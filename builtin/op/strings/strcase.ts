@@ -1,7 +1,7 @@
 //Imports
-import {lcfirst} from "core/tools/strings/lcfirst.ts"
-import {ucfirst} from "core/tools/strings/ucfirst.ts"
-import { ItsudenoError } from "@errors"
+import {lcfirst} from "./lcfirst.ts"
+import {ucfirst} from "./ucfirst.ts"
+import { ItsudenoError } from "../../meta/errors.ts"
 
 //Separators
 const separators = {snake: "_", kebab: "-", dot: ".", slash: "/"}

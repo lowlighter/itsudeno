@@ -1,6 +1,6 @@
 //Imports
-import {TracerEvent, Tracer} from "core/components/tracer/mod.ts"
-import {cyan, gray, magenta, red, yellow, white, bgYellow, bgRed} from "std/fmt/colors.ts"
+import {TracerEvent, Tracer} from "../../../core/components/tracer/mod.ts"
+import {cyan, gray, magenta, red, yellow, white, bgYellow, bgRed} from "https://deno.land/std@0.123.0/fmt/colors.ts"
 
 /** Console tracer */
 export default class ConsoleTracer extends Tracer {

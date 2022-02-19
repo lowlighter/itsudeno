@@ -1,9 +1,10 @@
 //Imports
-import {deferred} from "std/async/deferred.ts"
-import {esm} from "core/meta/esm.ts"
-import type {definition} from "core/components/component/types.ts"
-import type {constructor} from "core/meta/types.ts"
-import type {Context} from "core/components/context/context.ts"
+import {deferred} from "https://deno.land/std@0.123.0/async/deferred.ts"
+import {esm} from "../../meta/esm.ts"
+import type {definition} from "./types.ts"
+import type {constructor} from "../../meta/types.ts"
+import type {Context} from "../context/mod.ts"
+import type {Tracer} from "../tracer/mod.ts"
 
 /** Component */
 export class Component {
@@ -17,7 +18,7 @@ export class Component {
   }
 
   /** ES module meta url */
-  readonly meta
+  protected readonly meta
 
   /** ES module path */
   readonly module
@@ -26,13 +27,13 @@ export class Component {
   readonly id
 
   /** Context */
-  readonly context = null as Context|null
+  protected readonly context = null as Context|null
 
   /** Ready state */
   readonly ready = deferred<this>()
 
   /** Asynchronous setup */
-  async setup() {
+  protected async setup() {
     this.ready.resolve(this)
   }
 
@@ -44,6 +45,11 @@ export class Component {
   /** Definition */
   get definition():definition {
     return (this.constructor as constructor<Component>).definition
+  }
+
+  /** Tracer */
+  protected get tracer():Tracer|null {
+    return this.context?.vars?.it?.tracer ?? null
   }
 
   /** Definition */

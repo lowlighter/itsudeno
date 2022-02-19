@@ -1,7 +1,7 @@
 //Imports
-import {ItsudenoError} from "@errors"
-import {throws} from "core/tools/flow/throws.ts"
-import {is} from "core/tools/is/type.ts"
+import {ItsudenoError} from "../../meta/errors.ts"
+import {throws} from "../flow/throws.ts"
+import {is} from "../is/type.ts"
 
 /** Mandatory value test */
 export function mandatory(x:unknown):typeof x {

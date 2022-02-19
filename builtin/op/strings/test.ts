@@ -1,8 +1,8 @@
 //Imports
-import {Suite, assert, assertStrictEquals} from "@testing"
-import {ucfirst} from "core/tools/strings/ucfirst.ts"
-import {lcfirst} from "core/tools/strings/lcfirst.ts"
-import {strcase} from "core/tools/strings/strcase.ts"
+import {Suite, assertStrictEquals} from "../../testing/mod.ts"
+import {ucfirst} from "./ucfirst.ts"
+import {lcfirst} from "./lcfirst.ts"
+import {strcase} from "./strcase.ts"
 
 //Tests
 await new Suite(import.meta.url)

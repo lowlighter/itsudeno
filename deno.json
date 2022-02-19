@@ -11,11 +11,9 @@
   },
   "velociraptor": {
     "unstable": true,
-    "quiet": true,
     "allow": {
       "net": ["deno.land"]
     },
-    "importMap": "deno.json",
     "scripts": {
       "fmt": {
         "desc": "> format code",
@@ -27,6 +25,9 @@
       },
       "test": {
         "desc": "> run tests",
+        "allow": {
+          "run": true
+        },
         "cmd": [
           "rm -rf .coverage",
           "deno test --coverage=.coverage --no-check",
@@ -34,15 +35,6 @@
         ]
       }
     }
-  },
-  "imports": {
-    "std/": "https://deno.land/std@0.123.0/",
-    "x/": "https://deno.land/x/",
-    "y/": "https://cdn.skypack.dev/",
-    "core/": "./core/",
-    "@testing": "./core/testing/mod.ts",
-    "@errors": "./core/meta/errors.ts",
-    "@types": "./core/meta/types.ts"
   },
   "compilerOptions": {
     "experimentalDecorators": true
