@@ -1,5 +1,5 @@
 // Imports
-import { ItsudenoError } from "../../meta/errors.ts"
+import { ItsudenoError } from "../../../core/meta/errors.ts"
 import { lcfirst } from "./lcfirst.ts"
 import { ucfirst } from "./ucfirst.ts"
 

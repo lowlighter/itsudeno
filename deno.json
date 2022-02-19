@@ -1,52 +1,57 @@
 {
-  "meta": {
-    "name": "Itsudeno",
-    "description": "Scriptable IT automation system.",
-    "author": "lowlighter (Simon Lecoq)",
-    "repository": "https://github.com/lowlighter/itsudeno",
-    "license": {
-      "name": "GNU General Public License v3.0",
-      "link": "https://github.com/lowlighter/itsudeno/blob/main/LICENSE"
-    }
-  },
-  "velociraptor": {
-    "unstable": true,
-    "allow": {
-      "net": ["deno.land"]
-    },
-    "scripts": {
-      "fmt": {
-        "desc": "> format code",
-        "cmd": "deno fmt"
-      },
-      "lint": {
-        "desc": "> lint code",
-        "cmd": "deno lint"
-      },
-      "test": {
-        "desc": "> run tests",
-        "allow": {
-          "run": true
-        },
-        "cmd": [
-          "rm -rf .coverage",
-          "deno test --coverage=.coverage --no-check",
-          "deno coverage .coverage"
-        ]
-      }
-    }
-  },
-  "compilerOptions": {
-    "experimentalDecorators": true
-  },
-  "lint": {
-    "rules": {
-      "exclude": ["require-await", "no-async-promise-executor"]
-    }
-  },
-  "fmt": {
-    "options": {
-      "lineWidth": 200
-    }
-  }
+	"meta": {
+		"name": "Itsudeno",
+		"description": "Scriptable IT automation system.",
+		"author": "lowlighter (Simon Lecoq)",
+		"repository": "https://github.com/lowlighter/itsudeno",
+		"license": {
+			"name": "GNU General Public License v3.0",
+			"link": "https://github.com/lowlighter/itsudeno/blob/main/LICENSE"
+		}
+	},
+	"velociraptor": {
+		"unstable": true,
+		"allow": {
+			"net": ["deno.land"]
+		},
+		"scripts": {
+			"fmt": {
+				"allow": {
+					"read": true,
+					"write": true,
+					"net": ["plugins.dprint.dev"]
+				},
+				"desc": "> format code",
+				"cmd": "deno run core/tools/dev/fmt.ts"
+			},
+			"lint": {
+				"desc": "> lint code",
+				"cmd": "deno lint"
+			},
+			"test": {
+				"desc": "> run tests",
+				"allow": {
+					"run": true
+				},
+				"cmd": [
+					"rm -rf .coverage",
+					"deno test --coverage=.coverage --no-check",
+					"deno coverage .coverage"
+				]
+			}
+		}
+	},
+	"compilerOptions": {
+		"experimentalDecorators": true
+	},
+	"lint": {
+		"rules": {
+			"exclude": ["require-await", "no-async-promise-executor"]
+		}
+	},
+	"fmt": {
+		"options": {
+			"lineWidth": 200
+		}
+	}
 }

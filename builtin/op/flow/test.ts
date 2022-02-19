@@ -1,5 +1,5 @@
 // Imports
-import { assert, assertThrows, ItsudenoError, Suite } from "../../testing/mod.ts"
+import { assert, assertThrows, ItsudenoError, Suite } from "../../../core/testing/mod.ts"
 import { mandatory } from "./mandatory.ts"
 import { throws } from "./throws.ts"
 

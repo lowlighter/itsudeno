@@ -1,5 +1,5 @@
 // Imports
-import { assertStrictEquals, Suite } from "../../testing/mod.ts"
+import { assertStrictEquals, Suite } from "../../../core/testing/mod.ts"
 import { lcfirst } from "./lcfirst.ts"
 import { strcase } from "./strcase.ts"
 import { ucfirst } from "./ucfirst.ts"

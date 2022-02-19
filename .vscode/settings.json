@@ -1,10 +1,11 @@
 {
-  "deno.enable": true,
-  "deno.unstable": true,
-  "deno.importMap": "deno.json",
-  "deno.config": "deno.json",
-  "deno.lint": true,
-  "deno.suggest.imports.hosts": {
-    "https://deno.land": false
-  }
+	"editor.tabSize": 2,
+	"deno.enable": true,
+	"deno.unstable": true,
+	"deno.importMap": "deno.json",
+	"deno.config": "deno.json",
+	"deno.lint": true,
+	"deno.suggest.imports.hosts": {
+		"https://deno.land": false
+	}
 }
