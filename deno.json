@@ -46,7 +46,7 @@
 	},
 	"lint": {
 		"rules": {
-			"exclude": ["require-await", "no-async-promise-executor"]
+			"exclude": ["require-await", "no-async-promise-executor", "no-extra-semi"]
 		}
 	},
 	"fmt": {
