@@ -1,24 +1,34 @@
 //Imports
 import {exec} from "./../exec.ts"
-import {escape} from "../../regexp/escape.ts"
-import type {prompt, options} from "../types.ts"
+import type {prompt, prompts,  options} from "../types.ts"
+import {settings} from "../../../settings/mod.ts"
+
+//ANSI escape code
+const ansiec = "\\x1b\\[(?:(?:\\?1[hl])|([0-9]+m))"
 
 /** PowerShell session */
-export async function pwsh(commands:string|string[], {tracer = null, cwd, env, ansi}:options = {}) {
-	//Create session 
-	const ps1 = `itsudeno_${crypto.randomUUID()}`
-	tracer?.vvvv(`sh: created session ${ps1}`)
-
-  //Set prompt string, enter commands (and clean them from stdout as they're written) and close upon next prompt
-  const prompts = [{stdout:/PS.*>/, stdin: `function prompt() {"${ps1.substring(0, 8)}"+"${ps1.substring(8)}"}`, capture: false}] as prompt[]
-  commands = [commands].flat()
-  const ansiec = "\\x1b\\[(?:(?:\\?1[hl])|([0-9]+m))"
-  for (let i = 0; i < commands.length; i++) {
+export async function pwsh(commands:Array<string|prompt>, {tracer = null, cwd, env, ansi}:options = {}) {
+	// Configure prompts options and wrap command into a session
+	const ps1 = settings.tools.exec.ps1
+	const prompts = {
+		string:new RegExp(`${ps1}${ansiec}`),
+		channel:"stdout",
+		feedback:{
+			string:`$<stdin>\\r?\\n${ansiec}`,
+			channel:"stdout"
+		},
+		list:[{stdout:/PS.*>/, stdin: `function prompt() {"${ps1.substring(0, 1)}"+"${ps1.substring(1)}"}`, capture: false}]
+	} as prompts
+	for (let i = 0; i < commands.length; i++) {
     const command = commands[i]
-    prompts.push({stdout:new RegExp(`${ps1}${ansiec}`), stdin:command, flush: i === 0})
-    prompts.push({stdout:new RegExp(`${escape(command)}\\n${ansiec}`), capture:false, amend:true})
+		const prompt = typeof command === "string" ? {stdin:command} : command
+		if ((typeof prompt.prompt === "undefined")&&(typeof prompt.stdout === "undefined")&&(typeof prompt.stderr === "undefined"))
+			prompt.prompt = true
+    if (i === 0)
+      prompt.flush = true
+		prompts.list.push(prompt)
   }
-  prompts.push({stdout:new RegExp(`${ps1}${ansiec}`), stdin:"exit $LASTEXITCODE", capture:false, close:true})
+	prompts.list.push({prompt:true, stdin:"exit $LASTEXITCODE", capture:false, close:true})
 
 	//Launch session
   return exec(`pwsh -NoLogo -NoProfile`, {tracer, prompts, cwd, env, ansi})

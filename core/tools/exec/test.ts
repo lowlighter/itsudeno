@@ -9,7 +9,7 @@ import { pwsh } from "./bin/pwsh.ts"
 await new Suite(import.meta.url)
 	.group("exec", test => {
 		for (const [i, stdio] of Object.entries({1: "stdout", 2: "stderr"} as const)) {
-			test(`(>&${stdio})`, async () => {
+			test(`('command').${stdio}`, async () => {
 				const {success, code, ...stdo} = await exec(`bash -c 'echo itsudeno >&${i}'`)
 				assert(success)
 				assertStrictEquals(code, 0)
@@ -18,26 +18,59 @@ await new Suite(import.meta.url)
 			})
 		}
 
-		test("(<&1)", async () => {
-			const {success, code, stdout, stderr} = await exec(`bash -c 'read it && echo $it'`, {prompts: [{stdin: "itsudeno"}]})
+		test("('command').stdin", async () => {
+			const {success, code, stdout, stderr} = await exec(`bash -c 'read it && echo $it'`, {prompts: {list:[{stdin: "itsudeno"}]}})
 			assert(success)
 			assertStrictEquals(code, 0)
 			assertStrictEquals(stdout, "itsudeno\n")
 			assertStrictEquals(stderr, "")
 		})
 
-		test("(<&1) (no linefeed)", async () => {
-			const tracer = await new TestTracer().ready
-			const {success} = await exec(`bash -c 'read it && echo $it'`, {tracer, prompts: [{stdin: "itsudeno", lf:(0 as test)}]})
-			assert(!success)
-			assert(tracer.handled.has("stdin input does not end with a linefeed, if this is intentional explicitely set lf option to false"))
+		test("('command', {cwd})", async () => {
+			const {success, code, stdout, stderr} =  await exec("pwd", {cwd:"/"})
+			assert(success)
+			assertStrictEquals(code, 0)
+			assertStrictEquals(stdout, "/\n")
+			assertStrictEquals(stderr, "")
 		})
 
-		test("(not-found)", async () => {
+		test("('command', {env})", async () => {
+			const {success, code, stdout, stderr} =  await exec("printenv ITSUDENO", {env:{ITSUDENO:"itsudeno"}})
+			assert(success)
+			assertStrictEquals(code, 0)
+			assertStrictEquals(stdout, "itsudeno\n")
+			assertStrictEquals(stderr, "")
+		})
+
+		for (const [ansi, expected] of [[false, "itsudeno\n"], [true, "\x1b[0;36mitsudeno\x1b[0m\n"]] as const) {
+			test(`('command', {ansi: ${ansi}})`, async () => {
+				const {success, code, stdout, stderr} =  await exec('echo -e "\\x1b[0;36mitsudeno\\x1b[0m"', {ansi})
+				assert(success)
+				assertStrictEquals(code, 0)
+				assertStrictEquals(stdout, expected)
+				assertStrictEquals(stderr, "")
+			})
+		}		
+
+		for (const [piped, expected] of [[false, ""], [true, "itsudeno\n"]] as const) {
+		test(`('command', {piped: ${piped}})`, async () => {
+			const {success, code, stdout, stderr} =  await exec("echo itsudeno", {piped})
+			assert(success)
+			assertStrictEquals(code, 0)
+			assertStrictEquals(stdout, expected)
+			assertStrictEquals(stderr, "")
+		})
+	}
+
+		test("('command', {prompts, piped: false}) throws ItsudenoError.Range", async () => {
+			assertRejects(() => exec("whoami", {prompts:{list:[{stdin:"#"}]}, piped:false}), ItsudenoError.Range, "requires stdio to be piped")
+		})
+
+		test("('<unknown>') throws ItsudenoError.Unsupported", async () => {
 			assertRejects(() => exec("itsudeno-not-found"), ItsudenoError.Unsupported, "could not find executable")
 		})
 
-		test("(unexpected-error)", async () => {
+		test("(?) throws ItsudenoError", async () => {
 			const tracer = Object.assign(await new TestTracer().ready, {handle() { throw new Error("test error") }})
 			assertRejects(() => exec("bash -c 'echo itsudeno'", {tracer}), ItsudenoError, "test error")
 		})

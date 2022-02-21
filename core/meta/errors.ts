@@ -9,6 +9,9 @@ export class ItsudenoError extends Error {
 	/** Reference error */
 	static readonly Reference = class ItsudenoReferenceError extends ItsudenoError {}
 
+	/** Range error */
+	static readonly Range = class ItsudenoRangeError extends ItsudenoError {}
+
 	/** Connector error */
 	static readonly Connector = class ItsudenoConnectorError extends ItsudenoError {}
 }
