@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: jurassiscripts/setup-velociraptor@v2
-      - run: vr fmt --check
+      - run: vr test
 #  fmt:
 #    runs-on: ubuntu-latest
 #    steps:
