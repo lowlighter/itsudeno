@@ -12,6 +12,9 @@ export class ItsudenoError extends Error {
 	/** Range error */
 	static readonly Range = class ItsudenoRangeError extends ItsudenoError {}
 
+	/** Template error */
+	static readonly Template = class TemplateError extends ItsudenoError {}
+
 	/** Connector error */
 	static readonly Connector = class ItsudenoConnectorError extends ItsudenoError {}
 }

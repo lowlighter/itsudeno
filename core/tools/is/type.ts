@@ -3,6 +3,16 @@ export const is = {
 	unknown(_: unknown) {
 		return true
 	},
+
+	not:{
+		void(x:unknown) {
+			return !is.void(x)
+		},
+		null(x:unknown) {
+			return !is.null(x)
+		}
+	},
+
 	/** Void assertions */
 
 	void: Object.assign(function(x: unknown): x is undefined {
@@ -84,4 +94,20 @@ export const is = {
 			},
 		},
 	),
-}
+
+	object:Object.assign(function (x:unknown):x is Record<PropertyKey, unknown> {
+		return typeof x === "object"
+	}, {
+		empty(x:unknown):x is Record<PropertyKey, unknown> {
+			return is.object(x) && (!Object.keys(x).length)
+		},
+		not:{
+			empty(x:unknown):x is Record<PropertyKey, unknown> {
+				return is.object(x) && (Object.keys(x).length > 0)
+			}
+		}
+	}
+
+	)
+
+} as const

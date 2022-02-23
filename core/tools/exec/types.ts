@@ -1,6 +1,12 @@
 // Imports
 import type { Tracer } from "../../components/tracer/mod.ts"
 import type { XOR } from "../../meta/types.ts"
+import type {exec} from "./exec.ts"
+
+/** Shell */
+export interface shell {
+	(commands:Array<string|prompt>, options?:options) : ReturnType<typeof exec>
+}
 
 /** Prompts */
 export type prompts = {
@@ -128,7 +134,7 @@ export type options = {
 	/** Current working directory */
 	cwd?: string, 
 	/** Environment variables */
-	env?: {[key: string]: string}, 
+	env?: Record<string, string> 
 	/** Keep ANSI escape code */	
 	ansi?:boolean
 }

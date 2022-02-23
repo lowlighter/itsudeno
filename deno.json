@@ -31,7 +31,8 @@
 			"test": {
 				"desc": "> run tests",
 				"allow": {
-					"run": true
+					"run": true,
+					"read": true
 				},
 				"cmd": [
 					"rm -rf .coverage",

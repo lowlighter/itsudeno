@@ -1,35 +1,44 @@
-import ConsoleTracer from "../../builtin/tracer/console/mod.ts"
+//Imports
+import type { Tracer} from "../components/tracer/mod.ts"
 import { exec } from "../tools/exec/exec.ts"
 import { strcase } from "../../builtin/op/strings/strcase.ts"
 import {root} from "../meta/root.ts"
 import { join } from "https://deno.land/std@0.123.0/path/mod.ts"
 import {ItsudenoError} from "../meta/errors.ts"
 
-const tracer = await new ConsoleTracer("docker").ready
-
+/** Docker containers manager for testing purposes */
 export class Docker {
-	async spawn(image:string) {
-		const dockerfile = join(root.path, "core/testing/containers", strcase(image, {from:"kebab", to:"slash"}), "container.dockerfile")
 
-		const {success:build, stdout:sha256} = await exec(`docker build --quiet --tag ${image} --file ${dockerfile} .`, {tracer})
+	/** Tracer */
+	static readonly tracer = null as Tracer|null
+
+	/** Spawn a docker image instance */
+	static async spawn(image:string) {
+		//Build image
+		const dockerfile = join(root.path, "core/testing/containers", strcase(image, {from:"kebab", to:"slash"}), "container.dockerfile")
+		const {success:build, stdout:sha256} = await exec(`docker build --quiet --tag ${image} --file ${dockerfile} .`, {tracer:this.tracer})
 		if (!build)
 			throw new ItsudenoError(`failed to build ${image}`)
-		tracer?.debug(`built: ${image} (${sha256})`)
+		this?.tracer?.debug(`built: ${image} (${sha256})`)
 
-		const {success:run, stdout:id} = await exec(`docker run --detach --rm ${image}`, {tracer})
+		//Start image
+		const {success:run, stdout:id} = await exec(`docker run --detach --rm ${image}`, {tracer:this.tracer})
 		if (!run)
 			throw new ItsudenoError(`failed to start ${image}`)
-		tracer?.debug(`started: ${image} (${id})`)
+		this?.tracer?.debug(`started: ${image} (${id})`)
 
-		const {success:inspect, stdout:inspected} = await exec(`docker inspect --format={{.NetworkSettings.IPAddress}} ${id}`, {tracer})
+		//Inspect image
+		const {success:inspect, stdout:inspected} = await exec(`docker inspect --format={{.NetworkSettings.IPAddress}} ${id}`, {tracer:this.tracer})
 		if (!inspect)
 			throw new ItsudenoError(`failed to inspect ${image} (${id})`)
 		const ip = inspected.trim()
-		return {id, image, ip, async stop() {
-			const {success} = await exec(`docker stop ${id}`, {tracer})
+
+		//Return image handle
+		return {id, image, ip, stop: async() => {
+			const {success} = await exec(`docker stop ${id}`, {tracer:this.tracer})
 			if (!success)
 				throw new ItsudenoError(`failed to stop ${image} (${id})`)
-			tracer?.debug(`stopped: ${image} (${id})`)
+			this?.tracer?.debug(`stopped: ${image} (${id})`)
 		}}
 	}
 }

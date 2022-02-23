@@ -1,6 +1,5 @@
 // Imports
-import { assert, assertRejects, assertStrictEquals, assertObjectMatch, ItsudenoError, Suite, TestTracer } from "../../testing/mod.ts"
-import type { test } from "../../testing/mod.ts"
+import { Docker, assert, assertRejects, assertStrictEquals, assertMatch, assertObjectMatch, ItsudenoError, Suite, TestTracer } from "../../testing/mod.ts"
 import { exec } from "./exec.ts"
 import { sh } from "./bin/sh.ts"
 import { pwsh } from "./bin/pwsh.ts"
@@ -94,6 +93,37 @@ await new Suite(import.meta.url)
 			assertObjectMatch(commands[2], {stdout:"itsudeno\n", stderr:""})
 			assertObjectMatch(commands[3], {stdout:"", stderr:"itsudeno\n"})
 			assert(tracer.handled.size > 0)
+		})
+
+		test("() on remote", async () => {
+			const image = await Docker.spawn("linux-debian-11")
+			let result
+			try {
+				result = await sh([
+					{stdin:"set -e", capture:false},
+					{stdin:`sshpass -e ssh -tt -o StrictHostKeyChecking=no -l itsudeno -p 22 ${image.ip} sh -i`, capture:false},
+					{prompt:false, stdin:`PS1=__itsudeno_prompt_`, capture:false},
+					{prompt:false, on({tracer, prompts}) { 
+						prompts.channel = "stdout" 
+						prompts.feedback = {string:"$<stdin>\\r?\\n", channel:"stdout"}
+						tracer?.vvvv(`exec: prompts channel changed to ${prompts.channel}`)
+					}},
+					{stdin:"sudo -K", capture:false},
+					{stdin:"sudo -S -k -p '__itsudeno_sudo_' deno --version", flush:true},
+					{stdout:/(?:We trust you have received the usual lecture[\s\S]+)?(?<!')__itsudeno_sudo_(?!')/, stdin:"itsudeno", feedback:false, capture:false, amend:true},
+				], {env:{SSHPASS:"itsudeno"}})
+			}
+			finally {
+				await image.stop()
+			}
+			assert(result)
+			const {success, code, stdout, stderr, commands} = result
+			assert(success)
+			assertStrictEquals(code, 0)
+			assertMatch(stdout, /deno \d+\.\d+\.\d+/)
+			assertStrictEquals(stderr, "")
+			assertStrictEquals(commands.length, 1)
+			assertMatch(commands[0].stdin, /deno --version/)
 		})
 
 	})
