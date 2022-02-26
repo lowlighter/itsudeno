@@ -10,11 +10,35 @@ import {Context} from "../context/mod.ts"
 
 
 // Tests
-await new Suite(import.meta.url).group("tracer", async test => {
+await new Suite(import.meta.url).group("check", async test => {
 	
   const context = await (await new Context(import.meta.url).ready).with({foo:"foo"})
   const tracer = await new ConsoleTracer().ready
   const error = (type:string, arg = Error as unknown, path = "error") => new ItsudenoError.Type(`test: schema.${path} is expected to be ${type} but got ${Deno.inspect(arg)} instead`)
+
+  //empty schema
+  //deprecaed
+  //aliases
+  //required
+  //object but not
+  //conflicts
+  //dependency
+
+  test("", async () => assertObjectMatch(await check({
+    name:"test",
+    inputs:{
+      foo:{
+        type:"string",
+        conflicts:["bar"]
+      },
+      bar:{
+        type:"string",
+        aliases:["baz"]
+      },
+    }
+  } as test, {foo:"foo"}, {tracer, context}), {}))
+
+  return
 
   for (const [schema, actual, expected] of [
     //Void
@@ -496,66 +520,93 @@ await new Suite(import.meta.url).group("tracer", async test => {
         error:error("string")
       }
     ],
-    //Object
+    //RegExp
     [
       {
         raw:{
-          type:"string"
+          type:"regexp"
         },
         like:{
-          type:"string"
+          type:{
+            pattern:{
+              type:"regexp"
+            },
+            regexp:{
+              type:"regexp"
+            },
+          }
         },
         templated:{
-          type:"string"
+          type:{
+            pattern:{
+              type:"regexp"
+            },
+            regexp:{
+              type:"regexp"
+            },
+          }
         },
         defaults:{
           type:{
             raw:{
-              type:"string",
-              defaults:"",
+              type:"regexp",
+              defaults:/a+b*c?/,
             },
             like:{
-              type:"string",
-              defaults:"",
+              type:"regexp",
+              defaults:"/a+b*c?/",
             },
             templated:{
-              type:"string",
-              defaults:"${''}"
+              type:"regexp",
+              defaults:"${/a+b*c?/}"
             },
           }
         },
         error:{
-          type:"string"
+          type:"regexp"
         },
       },
       {
-        raw:"",
-        like:"",
-        templated:"${''}",
+        raw:/a+b*c?/,
+        like:{
+          pattern:"a+b*c?",
+          regexp:"/a+b*c?/",
+        },
+        templated:{
+          pattern:"${'a+b*c?'}",
+          regexp:"${/a+b*c?/}",
+        },
         error:Error
       },
       {
-        raw:"",
-        like:"",
-        templated:"",
-        defaults:{
-          raw:"",
-          like:"",
-          templated:""
+        raw:/a+b*c?/,
+        like:{
+          pattern:/a\+b\*c\?/,
+          regexp:/a+b*c?/,
         },
-        error:error("string")
+        templated:{
+          pattern:/a\+b\*c\?/,
+          regexp:/a+b*c?/,
+        },
+        defaults:{
+          raw:/a+b*c?/,
+          like:/a+b*c?/,
+          templated:/a+b*c?/
+        },
+        error:error("regexp")
       }
     ],
 
-  ]) {
+  ] as const) {
 
-    assertObjectMatch(await check({
+    test(`(${schema.raw.type})`, async () => assertObjectMatch(await check({
       name:"test",
       inputs:{
         schema:{type:schema}
       }
-    } as test, {schema:actual}, {tracer, context}), {schema:expected})
+    } as test, {schema:actual}, {tracer, context}), {schema:expected}))
   }
+  
 
 })
 .conclude()

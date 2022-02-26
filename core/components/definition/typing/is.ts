@@ -1,3 +1,6 @@
+//Imports
+import {escape} from "../../../tools/regexp/mod.ts"
+
 /** Typing assertions */
 export const is = {
 	/** Generic assertions */
@@ -168,7 +171,12 @@ export const is = {
 			if (is.regexp(x))
 				return true
 			try {
-				new RegExp(`${x}`)
+				let p = `${x}`
+				if (p.startsWith("/") && p.endsWith("/"))
+					p = p.substring(1, p.length-1)
+				else 
+					p = escape(p)
+				new RegExp(`${p}`)
 				return true
 			}
 			catch {

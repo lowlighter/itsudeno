@@ -44,9 +44,11 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
           result[key] = new ItsudenoError.Type(errors.at(-1))
           continue
         }
-        const aliased = keys.shift()!
-        value = entries[aliased]
-        tracer?.vvvv(`${prefix} is aliased by ${aliased}`)
+        else if (keys.length === 1) {
+          const aliased = keys.shift()!
+          value = entries[aliased]
+          tracer?.vvvv(`${prefix} is aliased by ${aliased}`)
+        }
       }
 
       //Evaluating value
@@ -106,6 +108,12 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
         continue
       }
 
+      //Optional value
+      if (is.void(value)) {
+        tracer?.vvv(`${prefix} is void, but is not required`)
+        continue
+      }
+
       //Type check
       if (!is[type](value)) {
         errors.push(`${prefix} is expected to be ${type} but got ${Deno.inspect(value)} instead`)
@@ -156,6 +164,6 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
 
   }
 
-  //console.log(result, errors)
+  console.log(result, errors)
   return result
 }

@@ -1,6 +1,7 @@
 //Imports
 import {is} from "./is.ts"
 import {ItsudenoError, throws} from "../../../meta/errors.ts"
+import {escape} from "../../../tools/regexp/mod.ts"
 
 /** Typing conversions */
 export const to = {
@@ -68,6 +69,12 @@ export const to = {
 
   /** RegExp converions */
   regexp(x:unknown):RegExp {
+    if (is.string(x)) {
+      if (x.startsWith("/") && x.endsWith("/"))
+        x = x.substring(1, x.length-1)
+      else 
+        x = escape(x)
+    }
     return is.regexp.like(x) ? new RegExp(`${x}`) : throws(new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to regexp`))
   },
 
