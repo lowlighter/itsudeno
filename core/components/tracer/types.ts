@@ -4,12 +4,12 @@ import type { Tracer } from "./tracer.ts"
 
 /** Tracer event */
 export type event = {
-  /** Tracer */
-  tracer: Tracer, 
-  /** Event level */
-  level: level, 
-  /** Data */
-  data: unknown
+	/** Tracer */
+	tracer: Tracer,
+	/** Event level */
+	level: level,
+	/** Data */
+	data: unknown,
 }
 
 /** Tracer event level */

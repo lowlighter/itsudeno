@@ -4,21 +4,21 @@ import type { Escalation } from "../escalation/escalation.ts"
 /** Connector handle */
 export type handle = {
 	/** Escalation */
-	escalation:Escalation, 
+	escalation: Escalation,
 	/** Command to execute */
-	command:string
+	command: string,
 }
 
 /** Connector options */
 export type options = {
 	/** Escalation */
-	escalation: Escalation, 
+	escalation: Escalation,
 	/** Deno permissions */
-	permissions?: permissions
+	permissions?: permissions,
 	/** Current working directory */
-	cwd?: string, 
+	cwd?: string,
 	/** Environment variables */
-	env?: Record<string, string> 
+	env?: Record<string, string>,
 }
 
 /** Deno permissions */
@@ -30,15 +30,25 @@ export type permissions = {
 	/** Plugin */
 	plugin?: boolean,
 	/** Read */
-	read?: boolean | string[],
+	read?:
+		| boolean
+		| string[],
 	/** Write */
-	write?: boolean | string[],
+	write?:
+		| boolean
+		| string[],
 	/** Net */
-	net?: boolean | string[],
+	net?:
+		| boolean
+		| string[],
 	/** Child processes */
-	run?: boolean | string[],
+	run?:
+		| boolean
+		| string[],
 	/** Environment variables */
-	env?: boolean | string[],
+	env?:
+		| boolean
+		| string[],
 	/** FFI */
 	ffi?: boolean | string[],
 }

@@ -3,9 +3,8 @@ import type { notyping } from "./types.ts"
 
 /** Generic itsudeno error */
 export class ItsudenoError extends Error {
-
 	/** Constructor */
-	constructor(..._:unknown[]) {
+	constructor(..._: unknown[]) {
 		super(...arguments)
 		this.name = this.constructor.name
 		this.stack = this.message

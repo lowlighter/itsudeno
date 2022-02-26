@@ -1,1 +1,1 @@
-export {escape} from "./escape.ts"
+export { escape } from "./escape.ts"

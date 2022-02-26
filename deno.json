@@ -39,6 +39,10 @@
 					"deno test --coverage=.coverage --no-check",
 					"deno coverage .coverage"
 				]
+			},
+			"coverage": {
+				"desc": "> print coverage",
+				"cmd:": "deno coverage .coverage"
 			}
 		}
 	},

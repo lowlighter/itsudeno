@@ -1,12 +1,12 @@
 // Imports
 import { ItsudenoError } from "../../../core/meta/errors.ts"
 import { lcfirst } from "./lcfirst.ts"
+import { lower } from "./lower.ts"
 import { ucfirst } from "./ucfirst.ts"
 import { upper } from "./upper.ts"
-import { lower } from "./lower.ts"
 
 // Separators
-const separators = {snake: "_", kebab: "-", dot: ".", slash: "/", http:"-", train:"-"}
+const separators = {snake: "_", kebab: "-", dot: ".", slash: "/", http: "-", train: "-"}
 
 // From case
 type fcase =
@@ -27,7 +27,7 @@ export function strcase(string: string, {from, to}: {from: fcase, to: tcase}) {
 	switch (true) {
 		case ["http", "train"].includes(from):
 			string = lower(string)
-			//falls through 
+			// falls through
 		case Object.keys(separators).includes(from):
 			parts.push(...string.split(separators[from as keyof typeof separators]).filter(part => part))
 			break
@@ -41,7 +41,7 @@ export function strcase(string: string, {from, to}: {from: fcase, to: tcase}) {
 	// Rebuild identifier
 	switch (true) {
 		case Object.keys(separators).includes(to):
-			return parts.map(({http:ucfirst, train:upper} as Record<string, typeof identity>)[to] ?? identity).join(separators[to as keyof typeof separators])
+			return parts.map(({http: ucfirst, train: upper} as Record<string, typeof identity>)[to] ?? identity).join(separators[to as keyof typeof separators])
 		case to === "pascal":
 			return parts.map(ucfirst).join("")
 		case to === "camel":
@@ -56,6 +56,6 @@ export function strcase(string: string, {from, to}: {from: fcase, to: tcase}) {
 }
 
 /** Identity function */
-function identity (string:string) {
+function identity(string: string) {
 	return string
 }

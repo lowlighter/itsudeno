@@ -1,23 +1,23 @@
-//Imports
-import {escape} from "../../../tools/regexp/mod.ts"
-import {to} from "./to.ts"
+// Imports
+import { escape } from "../../../tools/regexp/mod.ts"
+import { to } from "./to.ts"
 
 /** Typing assertions */
 export const is = {
 	/** Generic assertions */
-	unknown:Object.assign(function(_: unknown): _ is unknown {
+	unknown: Object.assign(function(_: unknown): _ is unknown {
 		return true
 	}, {
-		like(_:unknown): _ is unknown {
+		like(_: unknown): _ is unknown {
 			return true
-		}
+		},
 	}),
 
 	/** Void assertions */
 	void: Object.assign(function(x: unknown): x is void {
 		return x === undefined
 	}, {
-		like(x: unknown): x is void|"undefined" {
+		like(x: unknown): x is void | "undefined" {
 			return is.void(x) || (x === "undefined")
 		},
 	}),
@@ -26,7 +26,7 @@ export const is = {
 	null: Object.assign(function(x: unknown): x is null {
 		return x === null
 	}, {
-		like(x: unknown):x is null|"null" {
+		like(x: unknown): x is null | "null" {
 			return is.null(x) || (x === "null")
 		},
 	}),
@@ -35,15 +35,15 @@ export const is = {
 	boolean: Object.assign(function(x: unknown): x is boolean {
 		return typeof x === "boolean"
 	}, {
-		like(x: unknown):x is boolean|"true"|"false"|"yes"|"no" {
+		like(x: unknown): x is boolean | "true" | "false" | "yes" | "no" {
 			return is.boolean(x) || (x === "true") || (x === "false") || (x === "yes") || (x === "no")
 		},
-		truthy(x:unknown):x is true|"true"|"yes" {
+		truthy(x: unknown): x is true | "true" | "yes" {
 			return is.boolean(x) ? x : ((x === "true") || (x === "yes"))
 		},
-		falsy(x:unknown):x is false|"false"|"no" {
+		falsy(x: unknown): x is false | "false" | "no" {
 			return is.boolean(x) ? !x : ((x === "false") || (x === "no"))
-		}
+		},
 	}),
 
 	/** Number assertions */
@@ -81,75 +81,71 @@ export const is = {
 
 	/** String assertions */
 	string: Object.assign(function(x: unknown): x is string {
-			return typeof x === "string"
+		return typeof x === "string"
 	}, {
-		like(_:unknown) {
+		like(_: unknown) {
 			return true
 		},
 	}),
 
 	/** Object assertions */
-	object:Object.assign(function (x:unknown):x is Record<PropertyKey, unknown> {
+	object: Object.assign(function(x: unknown): x is Record<PropertyKey, unknown> {
 		return (typeof x === "object") && ((is.null(x)) || (Object.getPrototypeOf(x) === Object.prototype))
 	}, {
-		like(x:unknown) {
+		like(x: unknown) {
 			return is.object(x) || is.object.parseable(x)
 		},
-		empty(x:unknown):x is null|Record<PropertyKey, never> {
+		empty(x: unknown): x is null | Record<PropertyKey, never> {
 			return is.object(x) && (!Object.keys(x ?? {}).length)
 		},
-		parseable(x:unknown):x is string|{toJSON:() => string} {
+		parseable(x: unknown): x is string | {toJSON: () => string} {
 			try {
-				return is.object(JSON.parse((is.object(x) && "toJSON" in x) ? (x as {toJSON:() => string}).toJSON() : `${x}`))
-			}
-			catch {
+				return is.object(JSON.parse((is.object(x) && "toJSON" in x) ? (x as {toJSON: () => string}).toJSON() : `${x}`))
+			} catch {
 				return false
 			}
 		},
-		stringifiable(x:unknown) {
+		stringifiable(x: unknown) {
 			if (!is.object(x))
 				return false
 			try {
 				JSON.stringify(x)
 				return true
-			}
-			catch {
+			} catch {
 				return false
 			}
-		}
+		},
 	}),
 
 	/** Function assertions */
-	//deno-lint-ignore ban-types
-	function:Object.assign(function (x:unknown):x is Function {
-    return typeof x === "function"
+	// deno-lint-ignore ban-types
+	function: Object.assign(function(x: unknown): x is Function {
+		return typeof x === "function"
 	}, {
-		like(x:unknown) {
+		like(x: unknown) {
 			try {
 				to.function(x)
 				return true
-			}
-			catch {
+			} catch {
 				return false
 			}
-		}
+		},
 	}),
 
 	/** URL assertions */
-	url:Object.assign(function(x: unknown):x is URL {
+	url: Object.assign(function(x: unknown): x is URL {
 		return x instanceof URL
 	}, {
-		like(x:unknown):x is URL {
+		like(x: unknown): x is URL {
 			if (is.url(x))
-			return true
-		try {
-			new URL(`${x}`)
-			return true
-		}
-		catch {
-			return false
-		}
-		}
+				return true
+			try {
+				new URL(`${x}`)
+				return true
+			} catch {
+				return false
+			}
+		},
 	}),
 
 	/** Date assertions */
@@ -164,19 +160,19 @@ export const is = {
 	}),
 
 	/** BigInt assertions */
-	bigint:Object.assign(function(x:unknown): x is BigInt {
+	bigint: Object.assign(function(x: unknown): x is BigInt {
 		return (typeof x === "bigint") || is.number.integer(x)
 	}, {
-		like(x:unknown) {
-			return is.bigint(x) || /^[-+]?\d+n?$/.test((is.object(x) && "valueOf" in x) ? `${(x as {valueOf:() => unknown}).valueOf()}` : `${x}`)
-		}
+		like(x: unknown) {
+			return is.bigint(x) || /^[-+]?\d+n?$/.test((is.object(x) && "valueOf" in x) ? `${(x as {valueOf: () => unknown}).valueOf()}` : `${x}`)
+		},
 	}),
 
 	/** RegExp assertions */
-	regexp:Object.assign(function(x:unknown): x is RegExp {
+	regexp: Object.assign(function(x: unknown): x is RegExp {
 		return x instanceof RegExp
 	}, {
-		like(x:unknown) {
+		like(x: unknown) {
 			if (is.regexp(x))
 				return true
 			if (!is.string(x))
@@ -184,25 +180,23 @@ export const is = {
 			try {
 				let p = x
 				if (p.startsWith("/") && p.endsWith("/"))
-					p = p.substring(1, p.length-1)
-				else 
+					p = p.substring(1, p.length - 1)
+				else
 					p = escape(p)
 				new RegExp(`${p}`)
 				return true
-			}
-			catch {
+			} catch {
 				return false
 			}
-		}
+		},
 	}),
 
 	/** Extra assertions */
-	x:{
-		net:{
-			port(x:unknown) {
+	x: {
+		net: {
+			port(x: unknown) {
 				return is.number.integer(x) && (x >= 1) && (x <= 65535)
-			}
-		}
-	}
-
+			},
+		},
+	},
 } as const

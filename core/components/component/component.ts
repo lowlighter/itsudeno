@@ -3,8 +3,8 @@ import { deferred } from "https://deno.land/std@0.123.0/async/deferred.ts"
 import { esm } from "../../meta/esm.ts"
 import type { constructor } from "../../meta/types.ts"
 import type { Context } from "../context/mod.ts"
-import type { Tracer } from "../tracer/mod.ts"
 import type { definition } from "../definition/mod.ts"
+import type { Tracer } from "../tracer/mod.ts"
 
 /** Component */
 export class Component {

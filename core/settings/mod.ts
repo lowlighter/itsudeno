@@ -1,1 +1,1 @@
-export {settings} from "./settings.ts"
+export { settings } from "./settings.ts"

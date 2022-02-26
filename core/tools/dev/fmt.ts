@@ -1,4 +1,5 @@
 // Imports
+import { red } from "https://deno.land/std@0.123.0/fmt/colors.ts"
 import { parse } from "https://deno.land/std@0.126.0/flags/mod.ts"
 import { createStreaming as stream } from "https://deno.land/x/dprint@0.2.0/mod.ts"
 import { glob } from "./../fs/mod.ts"
@@ -50,16 +51,20 @@ if (import.meta.main) {
 			if (!isFile)
 				continue
 			files++
-			const content = await Deno.readTextFile(path)
-			const formatted = fmt[ext].formatText(path, content)
-			if (content !== formatted) {
-				console.log(path)
-				if (flags.check) {
-					console.log(diff(content, formatted))
-					ok = false
-				} else {
-					await Deno.writeTextFile(path, formatted)
+			try {
+				const content = await Deno.readTextFile(path)
+				const formatted = fmt[ext].formatText(path, content)
+				if (content !== formatted) {
+					console.log(path)
+					if (flags.check) {
+						console.log(diff(content, formatted))
+						ok = false
+					} else {
+						await Deno.writeTextFile(path, formatted)
+					}
 				}
+			} catch (error) {
+				console.error(red(error.message))
 			}
 		}
 	}

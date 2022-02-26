@@ -1,1 +1,1 @@
-export {template} from "./template.ts"
+export { template } from "./template.ts"

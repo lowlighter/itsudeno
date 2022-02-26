@@ -1,25 +1,25 @@
 // Imports
 import { minify } from "https://cdn.skypack.dev/terser@v5.10.0"
+import { encode } from "https://deno.land/std@0.127.0/encoding/base64.ts"
 import type { shell } from "../../../core/tools/exec/types.ts"
 import type { prompt } from "../../../core/tools/exec/types.ts"
 import { ItsudenoError } from "../../meta/errors.ts"
+import { root } from "../../meta/root.ts"
 import { Component } from "../component/component.ts"
-import type { options, permissions, handle } from "./types.ts"
-import {root} from "../../meta/root.ts"
-import {encode} from "https://deno.land/std@0.127.0/encoding/base64.ts"
+import type { handle, options, permissions } from "./types.ts"
 
 /** Generic connector */
 export abstract class Connector extends Component {
 	/** Command handler */
-	protected abstract handle(handle:handle): Promise<Array<string|prompt>>
+	protected abstract handle(handle: handle): Promise<Array<string | prompt>>
 
 	/** Shell handler */
-	protected abstract shell:shell
+	protected abstract shell: shell
 
 	/** Execute payload */
 	async exec(payload: string, {escalation, permissions = {}, cwd, env}: options) {
-		const commands = await this.handle({escalation, command:await this.#deno(payload, permissions)})
-		return this.shell(commands, {tracer:this.context?.vars?.it?.tracer ?? null, cwd, env})
+		const commands = await this.handle({escalation, command: await this.#deno(payload, permissions)})
+		return this.shell(commands, {tracer: this.context?.vars?.it?.tracer ?? null, cwd, env})
 	}
 
 	/** Create deno command */
@@ -48,14 +48,10 @@ export abstract class Connector extends Component {
 		try {
 			this.tracer?.vvv(`preparing payload: ${payload}`)
 			const {files} = await Deno.emit(`data:application/javascript;base64,${encode(payload)}`, {
-				bundle: "classic", 
+				bundle: "classic",
 				check: false,
-				importMapPath:"imports.json",
-				importMap:{
-					imports:{
-						"@it/":`${root.path}/`,
-					},
-				}
+				importMapPath: "imports.json",
+				importMap: {imports: {"@it/": `${root.path}/`}},
 			})
 			for (const [file, content] of Object.entries(files)) {
 				if (file.endsWith(".map"))
@@ -64,8 +60,7 @@ export abstract class Connector extends Component {
 				return `data:application/javascript;base64,${encode(code)}`
 			}
 			throw new ItsudenoError.Connector("unexpected error")
-		}
-		catch (error) {
+		} catch (error) {
 			throw new ItsudenoError.Connector(`failed to prepare payload: ${error}`)
 		}
 	}

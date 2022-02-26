@@ -1,1 +1,1 @@
-export {glob} from "./glob.ts"
+export { glob } from "./glob.ts"
