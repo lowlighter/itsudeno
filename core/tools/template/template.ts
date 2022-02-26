@@ -1,5 +1,5 @@
 //Imports
-import ejs from 'https://cdn.skypack.dev/ejs';
+import ejs from "https://cdn.skypack.dev/ejs";
 import {ItsudenoError} from "../../meta/errors.ts"
 import type {options, vars} from "./types.ts"
 

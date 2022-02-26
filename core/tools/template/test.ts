@@ -10,7 +10,7 @@ await new Suite(import.meta.url)
       assertStrictEquals(template("foo", null, {sync:true}), "foo")
       assertStrictEquals(template("${foo}", null, {sync:true}), "${foo}")
     })
-
+  
     test(`('<%= include("path") %>')`, async () => {
       assertStrictEquals(template("<%= include('core/tools/template/mod.ts') %>", null, {sync:true}), await Deno.readTextFile("core/tools/template/mod.ts"))
     })

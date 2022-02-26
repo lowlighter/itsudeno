@@ -1,5 +1,5 @@
 //Imports
-import type {is} from "../../tools/is/type.ts"
+import type {to} from "./typing/mod.ts"
 
 /** Component definition */
 export type definition = {
@@ -20,7 +20,7 @@ type entry<T extends (input|output)> = {
   /** Description */
   description: string
   /** Type */
-  type: keyof typeof is | Record<string, T>
+  type: keyof typeof to | Record<string, T>
   /** Type constraints */
   validates?: Array<(...args:unknown[]) => boolean>
   /** Examples */

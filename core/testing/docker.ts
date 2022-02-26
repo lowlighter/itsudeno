@@ -1,7 +1,7 @@
 //Imports
 import type { Tracer} from "../components/tracer/mod.ts"
-import { exec } from "../tools/exec/exec.ts"
-import { strcase } from "../../builtin/op/strings/strcase.ts"
+import { exec } from "../tools/exec/mod.ts"
+import { strcase } from "../tools/strings/mod.ts"
 import {root} from "../meta/root.ts"
 import { join } from "https://deno.land/std@0.123.0/path/mod.ts"
 import {ItsudenoError} from "../meta/errors.ts"

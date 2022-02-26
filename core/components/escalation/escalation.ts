@@ -1,6 +1,6 @@
 // Imports
 import { Component } from "../component/component.ts"
-import type { prompt } from "../../../core/tools/exec/types.ts"
+import type { prompt } from "../../../core/tools/exec/mod.ts"
 
 /** Generic escalation */
 export abstract class Escalation extends Component {

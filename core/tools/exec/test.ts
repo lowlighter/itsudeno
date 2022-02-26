@@ -1,8 +1,6 @@
 // Imports
 import { Docker, assert, assertRejects, assertStrictEquals, assertMatch, assertObjectMatch, ItsudenoError, Suite, TestTracer } from "../../testing/mod.ts"
-import { exec } from "./exec.ts"
-import { sh } from "./bin/sh.ts"
-import { pwsh } from "./bin/pwsh.ts"
+import { exec, sh, pwsh } from "./mod.ts"
 
 // Tests
 await new Suite(import.meta.url)

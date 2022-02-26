@@ -1,3 +1,10 @@
+//Imports
+import type {Tracer} from "../tracer/mod.ts"
+
 /** Context variables */
-// deno-lint-ignore no-explicit-any
-export type vars = any
+export type vars = {
+  it?: {
+    tracer?:Tracer|null
+  }
+  [key:PropertyKey]:unknown
+}

@@ -1,7 +1,7 @@
 // Imports
 import { parse } from "https://deno.land/std@0.126.0/flags/mod.ts"
 import { createStreaming as stream } from "https://deno.land/x/dprint@0.2.0/mod.ts"
-import { glob } from "./../fs/glob.ts"
+import { glob } from "./../fs/mod.ts"
 import { diff } from "./diff.ts"
 
 // Flags

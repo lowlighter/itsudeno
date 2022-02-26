@@ -4,7 +4,7 @@ import { esm } from "../../meta/esm.ts"
 import type { constructor } from "../../meta/types.ts"
 import type { Context } from "../context/mod.ts"
 import type { Tracer } from "../tracer/mod.ts"
-import type { definition } from "./types.ts"
+import type { definition } from "../definition/mod.ts"
 
 /** Component */
 export class Component {

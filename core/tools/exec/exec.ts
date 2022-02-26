@@ -7,7 +7,7 @@ import { ItsudenoError } from "../../meta/errors.ts"
 import type { listener, exec, cursor, command, _prompt } from "./types.ts"
 import { stripColor } from "https://deno.land/std@0.123.0/fmt/colors.ts"
 import {settings} from "../../settings/mod.ts"
-import {escape} from "../regexp/escape.ts"
+import {escape} from "../regexp/mod.ts"
 
 // Text encoder and decoder
 const decoder = new TextDecoder()

@@ -1,6 +1,6 @@
 // Imports
 import { esm } from "../meta/esm.ts"
-import type { test } from "../testing/types.ts"
+import type { test } from "./types.ts"
 
 /** Helper to create unit test suites */
 export class Suite {

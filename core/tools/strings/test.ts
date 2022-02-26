@@ -1,8 +1,6 @@
 // Imports
-import { assertStrictEquals, Suite } from "../../../core/testing/mod.ts"
-import { lcfirst } from "./lcfirst.ts"
-import { strcase } from "./strcase.ts"
-import { ucfirst } from "./ucfirst.ts"
+import { assertStrictEquals, Suite } from "../../testing/mod.ts"
+import { lcfirst, ucfirst, strcase } from "./mod.ts"
 
 // Tests
 await new Suite(import.meta.url).group("ucfirst", test => {
