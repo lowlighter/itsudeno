@@ -1,5 +1,6 @@
 //Imports
 import {escape} from "../../../tools/regexp/mod.ts"
+import {to} from "./to.ts"
 
 /** Typing assertions */
 export const is = {
@@ -41,7 +42,7 @@ export const is = {
 			return is.boolean(x) ? x : ((x === "true") || (x === "yes"))
 		},
 		falsy(x:unknown):x is false|"false"|"no" {
-			return is.boolean(x) ? x : ((x === "false") || (x === "no"))
+			return is.boolean(x) ? !x : ((x === "false") || (x === "no"))
 		}
 	}),
 
@@ -50,7 +51,7 @@ export const is = {
 		return typeof x === "number"
 	}, {
 		like(x: unknown) {
-			return is.number(x) || ["NaN", "Infinity", "-Infinity"].includes(`${x}`) || ((is.string(x)) && (!is.number.nan(Number(x)))) || is.bigint.like(x)
+			return is.number(x) || ["NaN", "Infinity", "-Infinity"].includes(`${x}`) || ((is.string(x)) && (x.length) && (!is.number.nan(Number(x)))) || is.bigint.like(x)
 		},
 		nan(x: unknown): x is number {
 			return is.number(x) && Number.isNaN(x)
@@ -89,7 +90,7 @@ export const is = {
 
 	/** Object assertions */
 	object:Object.assign(function (x:unknown):x is Record<PropertyKey, unknown> {
-		return typeof x === "object"
+		return (typeof x === "object") && ((is.null(x)) || (Object.getPrototypeOf(x) === Object.prototype))
 	}, {
 		like(x:unknown) {
 			return is.object(x) || is.object.parseable(x)
@@ -99,14 +100,15 @@ export const is = {
 		},
 		parseable(x:unknown):x is string|{toJSON:() => string} {
 			try {
-				JSON.parse((is.object(x) && "toJSON" in x) ? (x as {toJSON:() => string}).toJSON() : `${x}`)
-				return true
+				return is.object(JSON.parse((is.object(x) && "toJSON" in x) ? (x as {toJSON:() => string}).toJSON() : `${x}`))
 			}
 			catch {
 				return false
 			}
 		},
 		stringifiable(x:unknown) {
+			if (!is.object(x))
+				return false
 			try {
 				JSON.stringify(x)
 				return true
@@ -118,11 +120,18 @@ export const is = {
 	}),
 
 	/** Function assertions */
+	//deno-lint-ignore ban-types
 	function:Object.assign(function (x:unknown):x is Function {
     return typeof x === "function"
 	}, {
 		like(x:unknown) {
-
+			try {
+				to.function(x)
+				return true
+			}
+			catch {
+				return false
+			}
 		}
 	}),
 
@@ -156,10 +165,10 @@ export const is = {
 
 	/** BigInt assertions */
 	bigint:Object.assign(function(x:unknown): x is BigInt {
-		return typeof x === "bigint"
+		return (typeof x === "bigint") || is.number.integer(x)
 	}, {
 		like(x:unknown) {
-			return is.bigint(x) || /^\d+n?$/.test((is.object(x) && "valueOf" in x) ? `${(x as {valueOf:() => unknown}).valueOf()}` : `${x}`)
+			return is.bigint(x) || /^[-+]?\d+n?$/.test((is.object(x) && "valueOf" in x) ? `${(x as {valueOf:() => unknown}).valueOf()}` : `${x}`)
 		}
 	}),
 
@@ -170,8 +179,10 @@ export const is = {
 		like(x:unknown) {
 			if (is.regexp(x))
 				return true
+			if (!is.string(x))
+				return false
 			try {
-				let p = `${x}`
+				let p = x
 				if (p.startsWith("/") && p.endsWith("/"))
 					p = p.substring(1, p.length-1)
 				else 

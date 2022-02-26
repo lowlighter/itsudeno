@@ -1,14 +1,16 @@
-import type {definition, input, output} from "./types.ts"
+import type {definition, input} from "./types.ts"
 import {is, to} from "./typing/mod.ts"
 import type {Tracer} from "../tracer/mod.ts"
 import type {Context} from "../context/mod.ts"
 import {ItsudenoError} from "../../meta/errors.ts"
 import {template} from "../../tools/template/mod.ts"
+import type {Component} from "../component/mod.ts"
+import type {constructor} from "../../meta/types.ts"
 
   //on?: Record<typeof Deno.build.os, Partial<T>>
 
 export function define(definition:definition) {
-  return function (constructor: Function) {
+  return function (constructor: constructor<Component>) {
     constructor.prototype.definition = definition
     constructor.prototype.validate = function () {
       return check(definition, {}, {tracer:this?.tracer, context:this?.context})
@@ -17,13 +19,13 @@ export function define(definition:definition) {
 } 
   
 
-export async function check(definition:definition, entries:any, {tracer = null, context}:{tracer?:Tracer|null, context?:Context}) {
+export async function check(definition:definition, entries:Record<string, unknown>|null, {tracer = null, context}:{tracer?:Tracer|null, context?:Context}) {
   return _check(definition.inputs, entries, {name:definition.name, tracer, context, result:{}, errors:[], path:""})
 }
   
 
 
-async function _check(schema:Record<string, input>|null, entries:any, {name, tracer, context, result, errors, path}:{name:string, tracer:Tracer|null, context?:Context, result:any, errors:string[], path:string}) {
+async function _check(schema:Record<string, input>|null, entries:Record<string, unknown>|null, {name, tracer, context, result, errors, path}:{name:string, tracer:Tracer|null, context?:Context, result:Record<string, unknown>, errors:string[], path:string}) {
 
   //Without arguments
   if (is.object.empty(schema)) {
@@ -36,6 +38,7 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
   }
   //With arguments
   else {
+    entries ??= {}
     for (const [key, {aliases = [], required = false, defaults, deprecated, type, validates = []}] of Object.entries(schema)) {
       const prefix = `${name}: ${path}${path.length ? `.${key}` : key}`
       tracer?.vvvv(`${prefix} is being checked`)
@@ -47,7 +50,7 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
 
       //Resolve aliases
       if (aliases.length) {
-        const keys = aliases.filter(alias => alias in entries)
+        const keys = aliases.filter(alias => alias in entries!)
         if ((keys.length > 1) || (key in entries)) {
           errors.push(`${prefix} is redefined by ${Deno.inspect(keys)}`)
           tracer?.vvv(errors.at(-1))
@@ -114,12 +117,12 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
           continue
         }
         result[key] = {}
-        await _check(type, value ?? {}, {name, tracer, context, result:result[key], errors, path:`${path}${path.length ? `.${key}` : key}`})
+        await _check(type, value ?? {}, {name, tracer, context, result:result[key] as Record<string, unknown>, errors, path:`${path}${path.length ? `.${key}` : key}`})
         continue
       }
 
       //Optional value
-      if ((is.void(value))&&(type !== "void")) {
+      if (is.void(value)) {
         tracer?.vvv(`${prefix} is void, but is not required`)
         continue
       }
@@ -132,13 +135,15 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
         continue
       }
 
-      /*
+      //Additional validator
       for (const validate of validates) {
         if (!validate(value)) {
-          errors.push(`${prefix} is required`)
+          errors.push(`${prefix} has correct typing but does not pass additional inputs validators`)
           tracer?.vvv(errors.at(-1))
+          result[key] = new ItsudenoError.Type(errors.at(-1))
+          continue
         }
-      }*/
+      }
 
       result[key] = value
 

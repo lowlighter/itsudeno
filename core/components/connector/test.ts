@@ -1,8 +1,9 @@
 // Imports
 import { assert, assertMatch, assertStrictEquals, assertObjectMatch, ItsudenoError, Suite, TestTracer, assertRejects } from "../../testing/mod.ts"
 import type { test } from "../../testing/mod.ts"
-import { Connector, type handle, type permissions } from "./mod.ts"
-import {sh, exec} from "../../tools/exec/mod.ts"
+import { Connector, type handle } from "./mod.ts"
+import type {permissions} from "./mod.ts"
+import {exec} from "../../tools/exec/mod.ts"
 import type { Escalation } from "../escalation/escalation.ts"
 
 // Tests

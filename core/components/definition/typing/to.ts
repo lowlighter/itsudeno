@@ -6,16 +6,6 @@ import {escape} from "../../../tools/regexp/mod.ts"
 /** Typing conversions */
 export const to = {
 
-  /** Unknown conversions */
-  unknown(x:unknown):unknown {
-    return x
-  },
-
-  /** Void conversions */
-  void(x:unknown):void {
-    return is.void.like(x) ? undefined : throws(new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to void`))
-  },
-
   /** Null conversions */
   null(x:unknown):null {
     return is.null.like(x) ? null : throws(new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to null`))
@@ -48,9 +38,51 @@ export const to = {
   },
 
   /** Function conversions */
-  /*function():Function {
-
-  },*/
+  //deno-lint-ignore ban-types
+  function(x:unknown):Function {
+    if (is.function(x))
+      return x
+    if (!is.string(x))
+      throw new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to function`)
+    try {
+      const f = x as string
+      for (const regex of [
+        //Functions
+        /^\s*(?<async>async\s+)?\s*function\s*(?<generator>\*)?\s*(?<name>[\s\S]+)?\s*\((?<params>[\s\S]+)?\)\s*\{(?<content>[\s\S]+)?\}$/,
+        //Arrow functions
+        /^\s*(?<async>async\s+)?\s*\((?<params>[\s\S]+)?\)\s*=>\s*\{(?<content>[\s\S]+)?\}$/,
+        /^\s*(?<async>async\s+)?\s*(?<params>[\s\S]+)\s*=>\s*\{(?<content>[\s\S]+)?\}$/,
+        /^\s*(?<async>async\s+)?\s*\((?<params>[\s\S]+)?\)\s*=>\s*(?<content>[\s\S]+)$/,
+        /^\s*(?<async>async\s+)?\s*(?<params>[\s\S]+)\s*=>\s*(?<content>[\s\S]+)$/,
+      ] as const) {
+      if (regex.test(f)) {
+          const {async:__async, generator:__generator, params:_params = "", body:_body} = f.match(regex)!.groups!
+          const _async = (__async?.length > 0) ?? false
+          const _generator = (__generator?.length > 0) ?? false
+          const params = _params?.split(",").map(param => param.trim()).filter(param => param) ?? []
+          const body = _body?.trim() ?? ""
+          let constructor = Function
+          switch (true) {
+            case (_async && _generator):
+              constructor = Object.getPrototypeOf(async function*(){}).constructor
+              break
+            case _async:
+              constructor = Object.getPrototypeOf(async function(){}).constructor
+              break
+            case _generator:
+              constructor = Object.getPrototypeOf(function*(){}).constructor
+              break
+          }
+          return new constructor(...params, body.trim())
+        }
+      }
+      throw new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to function`)
+    }
+    catch (error) {
+      console.log(error)
+      throw new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to function`)
+    }
+  },
 
   /** URL conversions */
   url(x:unknown):URL {

@@ -91,7 +91,7 @@ await new Suite(import.meta.url)
 				tracer,
 				prompts:{list:[
 					{prompt:false, on({process}) {
-						this.stdout = /hello/
+						Object.assign(this, {stdout:/hello/})
 						process.stdin?.close()
 					}}
 				]}

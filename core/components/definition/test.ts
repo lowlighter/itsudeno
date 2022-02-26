@@ -1,13 +1,9 @@
 // Imports
-import { stripColor } from "https://deno.land/std@0.123.0/fmt/colors.ts"
-import { assert, assertMatch, assertObjectMatch, assertStrictEquals, assertThrows, ItsudenoError, Suite, TestTracer } from "../../testing/mod.ts"
+import { assertObjectMatch, ItsudenoError, Suite } from "../../testing/mod.ts"
 import type { test } from "../../testing/mod.ts"
-
 import ConsoleTracer from "../../../builtin/tracer/console/mod.ts"
-import {check, define} from "./definition.ts"
+import {check} from "./definition.ts"
 import {Context} from "../context/mod.ts"
-
-
 
 // Tests
 await new Suite(import.meta.url).group("check", async test => {
@@ -52,56 +48,6 @@ await new Suite(import.meta.url).group("check", async test => {
   } as test, {foo:"foo"}, {tracer, context}), {}))
 
   for (const [schema, actual, expected] of [
-    //Void
-    [
-      {
-        raw:{
-          type:"void"
-        },
-        like:{
-          type:"void"
-        },
-        templated:{
-          type:"void"
-        },
-        defaults:{
-          type:{
-            raw:{
-              type:"void",
-              defaults:undefined,
-            },
-            like:{
-              type:"void",
-              defaults:"undefined",
-            },
-            templated:{
-              type:"void",
-              defaults:"${undefined}"
-            },
-          }
-        },
-        error:{
-          type:"void"
-        },
-      },
-      {
-        raw:undefined,
-        like:"undefined",
-        templated:"${undefined}",
-        error:Error
-      },
-      {
-        raw:undefined,
-        like:undefined,
-        templated:undefined,
-        defaults:{
-          raw:undefined,
-          like:undefined,
-          templated:undefined
-        },
-        error:error("void")
-      }
-    ],
     //Null
     [
       {
