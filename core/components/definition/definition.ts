@@ -6,7 +6,17 @@ import {ItsudenoError} from "../../meta/errors.ts"
 import {template} from "../../tools/template/mod.ts"
 
   //on?: Record<typeof Deno.build.os, Partial<T>>
- 
+
+export function define(definition:definition) {
+  return function (constructor: Function) {
+    constructor.prototype.definition = definition
+    constructor.prototype.validate = function () {
+      return check(definition, {}, {tracer:this?.tracer, context:this?.context})
+    }
+  }
+} 
+  
+
 export async function check(definition:definition, entries:any, {tracer = null, context}:{tracer?:Tracer|null, context?:Context}) {
   return _check(definition.inputs, entries, {name:definition.name, tracer, context, result:{}, errors:[], path:""})
 }
@@ -78,7 +88,7 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
         }
 
         //Default value
-        if ((!is.void(defaults))&&((is.void(value))||(is.null(value)))) {
+        if (("defaults" in schema[key])&&(is.void(value))) {
           value ??= defaults
           tracer?.vvv(`${prefix} has been defaulted to ${Deno.inspect(defaults)}`)
         }
@@ -109,7 +119,7 @@ async function _check(schema:Record<string, input>|null, entries:any, {name, tra
       }
 
       //Optional value
-      if (is.void(value)) {
+      if ((is.void(value))&&(type !== "void")) {
         tracer?.vvv(`${prefix} is void, but is not required`)
         continue
       }

@@ -126,7 +126,7 @@ async function handle(process: Deno.Process, {tracer, channel, stdio, closed, pr
 				// Shift prompt and extract it
 				if (prompt.on) {
 					tracer?.vvvv("exec: calling prompt listener")
-					prompt.on({tracer:tracer ?? null, prompts, stdio})
+					prompt.on({tracer:tracer ?? null, prompts, stdio, process, closed})
 				}
 				const {stdin, stdout, stderr, lf = true, capture = true, amend = false, clean = true, flush = false, close = false, feedback = true} = prompts.list.shift()! as _prompt
 				const match = prompt.prompt ? prompts.string! : stdout ?? stderr

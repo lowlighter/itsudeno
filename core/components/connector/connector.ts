@@ -4,25 +4,22 @@ import type { shell } from "../../../core/tools/exec/types.ts"
 import type { prompt } from "../../../core/tools/exec/types.ts"
 import { ItsudenoError } from "../../meta/errors.ts"
 import { Component } from "../component/component.ts"
-import type { options, permissions } from "./types.ts"
+import type { options, permissions, handle } from "./types.ts"
+import {root} from "../../meta/root.ts"
+import {encode} from "https://deno.land/std@0.127.0/encoding/base64.ts"
 
 /** Generic connector */
 export abstract class Connector extends Component {
 	/** Command handler */
-	abstract handle(): Promise<Array<string|prompt>>
+	protected abstract handle(handle:handle): Promise<Array<string|prompt>>
 
 	/** Shell handler */
-	abstract shell:shell
+	protected abstract shell:shell
 
 	/** Execute payload */
-	async exec(payload: string, {escalation, permissions = {}}: options) {
-
-		await this.handle({escalation, x:await this.#deno(payload, permissions)})
-
-		return this.shell()
-
-		const {command: cmd, stdin} = await escalation.handle(await this.#deno(payload, permissions))
-		return command(cmd, {stdin})
+	async exec(payload: string, {escalation, permissions = {}, cwd, env}: options) {
+		const commands = await this.handle({escalation, command:await this.#deno(payload, permissions)})
+		return this.shell(commands, {tracer:this.context?.vars?.it?.tracer ?? null, cwd, env})
 	}
 
 	/** Create deno command */
@@ -43,23 +40,33 @@ export abstract class Connector extends Component {
 					allow.push(`--allow-${name}`)
 			}
 		}
-
 		return ["deno run", ...options, ...allow, `"${await this.#bundle(payload)}"`].join(" ").trim()
 	}
 
 	/** Bundle payload into data url */
 	async #bundle(payload: string) {
-		this.tracer?.vvv(`preparing payload: ${payload}`)
-		//https://github.com/denoland/deno/pull/13667 (direcetly use data url once supported)
-		await Deno.writeTextFile(`/tmp/bundle.ts`, payload)
-		const {files} = await Deno.emit("/tmp/bundle.ts", {bundle: "classic", check: false})
-		for (const [file, content] of Object.entries(files)) {
-			if (file.endsWith(".map"))
-				continue
-			const {code} = await minify(content)
-			await Deno.remove("/tmp/bundle.ts")
-			return `data:application/javascript;base64,${btoa(code)}`
+		try {
+			this.tracer?.vvv(`preparing payload: ${payload}`)
+			const {files} = await Deno.emit(`data:application/javascript;base64,${encode(payload)}`, {
+				bundle: "classic", 
+				check: false,
+				importMapPath:"imports.json",
+				importMap:{
+					imports:{
+						"@it/":`${root.path}/`,
+					},
+				}
+			})
+			for (const [file, content] of Object.entries(files)) {
+				if (file.endsWith(".map"))
+					continue
+				const {code} = await minify(content)
+				return `data:application/javascript;base64,${encode(code)}`
+			}
+			throw new ItsudenoError.Connector("unexpected error")
 		}
-		throw new ItsudenoError.Connector("failed to prepare payload")
+		catch (error) {
+			throw new ItsudenoError.Connector(`failed to prepare payload: ${error}`)
+		}
 	}
 }

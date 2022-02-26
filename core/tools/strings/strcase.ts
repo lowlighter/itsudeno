@@ -2,9 +2,11 @@
 import { ItsudenoError } from "../../../core/meta/errors.ts"
 import { lcfirst } from "./lcfirst.ts"
 import { ucfirst } from "./ucfirst.ts"
+import { upper } from "./upper.ts"
+import { lower } from "./lower.ts"
 
 // Separators
-const separators = {snake: "_", kebab: "-", dot: ".", slash: "/"}
+const separators = {snake: "_", kebab: "-", dot: ".", slash: "/", http:"-", train:"-"}
 
 // From case
 type fcase =
@@ -16,28 +18,16 @@ type fcase =
 type tcase =
 	| fcase
 	| "flat"
-	| "upper"
-
-// camelsnake
-
-// macro
-
-/*
- NAMING-IDENTIFIER        | TRAIN-CASE, COBOL-CASE, SCREAMING-KEBAB-CASE                |
-| Naming-Identifier        | Train-Case, HTTP-Header-Case                                |
-| _namingIdentifier        | Undercore Notation (prefixed by "_" followed by camelCase
-*/
+	| "macro"
 
 /** Change string case */
 export function strcase(string: string, {from, to}: {from: fcase, to: tcase}) {
-	//
-	if (["lower", "flat"].includes(to))
-		return string.toLocaleLowerCase()
-	// if ([""])
-
 	// Parse identifier
 	const parts = []
 	switch (true) {
+		case ["http", "train"].includes(from):
+			string = lower(string)
+			//falls through 
 		case Object.keys(separators).includes(from):
 			parts.push(...string.split(separators[from as keyof typeof separators]).filter(part => part))
 			break
@@ -51,15 +41,21 @@ export function strcase(string: string, {from, to}: {from: fcase, to: tcase}) {
 	// Rebuild identifier
 	switch (true) {
 		case Object.keys(separators).includes(to):
-			return parts.join(separators[to as keyof typeof separators])
+			return parts.map(({http:ucfirst, train:upper} as Record<string, typeof identity>)[to] ?? identity).join(separators[to as keyof typeof separators])
 		case to === "pascal":
 			return parts.map(ucfirst).join("")
 		case to === "camel":
 			return [...parts.slice(0, 1).map(lcfirst), ...parts.slice(1).map(ucfirst)].join("")
-
-		case to === "upper":
-			return parts.join("").toLocaleUpperCase()
+		case to === "flat":
+			return parts.map(lower).join("")
+		case to === "macro":
+			return parts.map(upper).join("")
 		default:
 			throw new ItsudenoError.Unsupported(`unsupported string case conversion: ${from} → ${to}`)
 	}
+}
+
+/** Identity function */
+function identity (string:string) {
+	return string
 }

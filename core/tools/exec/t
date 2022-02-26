@@ -1,0 +1,18 @@
+  34 |          if (piped)
+-----|-----
+  64 |  } finally {
+-----|-----
+  92 |          if (!channels.length)
+  93 |                  return
+-----|-----
+ 128 |                                  tracer?.vvvv("exec: calling prompt listener")
+-----|-----
+ 137 |                                  ;({"0": matched} = stdio[channel].substring(cursors[channel]).match(match) ?? [""])
+-----|-----
+ 167 |                                  const input = lf ? `${stdin}\n` : stdin
+-----|-----
+ 180 |                                          tracer?.vvvv("exec: amend to previous prompt, calling handler again")
+-----|-----
+ 203 |                  } catch {
+ 204 |                          // No-op
+ 205 |                  }

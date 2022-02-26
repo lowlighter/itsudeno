@@ -19,13 +19,13 @@ export class Docker {
 		const {success:build, stdout:sha256} = await exec(`docker build --quiet --tag ${image} --file ${dockerfile} .`, {tracer:this.tracer})
 		if (!build)
 			throw new ItsudenoError(`failed to build ${image}`)
-		this?.tracer?.debug(`built: ${image} (${sha256})`)
+		this.tracer?.debug(`built: ${image} (${sha256})`)
 
 		//Start image
 		const {success:run, stdout:id} = await exec(`docker run --detach --rm ${image}`, {tracer:this.tracer})
 		if (!run)
 			throw new ItsudenoError(`failed to start ${image}`)
-		this?.tracer?.debug(`started: ${image} (${id})`)
+		this.tracer?.debug(`started: ${image} (${id})`)
 
 		//Inspect image
 		const {success:inspect, stdout:inspected} = await exec(`docker inspect --format={{.NetworkSettings.IPAddress}} ${id}`, {tracer:this.tracer})
@@ -38,7 +38,7 @@ export class Docker {
 			const {success} = await exec(`docker stop ${id}`, {tracer:this.tracer})
 			if (!success)
 				throw new ItsudenoError(`failed to stop ${image} (${id})`)
-			this?.tracer?.debug(`stopped: ${image} (${id})`)
+			this.tracer?.debug(`stopped: ${image} (${id})`)
 		}}
 	}
 }

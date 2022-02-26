@@ -72,6 +72,50 @@ await new Suite(import.meta.url)
 			assertRejects(() => exec("bash -c 'echo itsudeno'", {tracer}), ItsudenoError, "test error")
 		})
 
+		test("() [edge cases]", async () => {
+			const tracer = await new TestTracer().ready
+			
+			//Manually close channels
+			assertObjectMatch(await exec("bash -i", {
+					tracer,
+					prompts:{list:[
+						{prompt:false, on({closed}) {
+							closed.stderr = true
+							closed.stdout = true
+						}}
+					]}
+				}), {success:true})
+
+			//Manually close stdin
+			assertObjectMatch(await exec("bash -i", {
+				tracer,
+				prompts:{list:[
+					{prompt:false, on({process}) {
+						this.stdout = /hello/
+						process.stdin?.close()
+					}}
+				]}
+			}), {success:true})
+
+			//Manually use line-feed and exit
+			assertObjectMatch(await exec("bash -i", {
+				tracer,
+				prompts:{list:[
+				{prompt:false, stdin:"echo itsudeno\n", lf:false},
+				{prompt:false, stdin:"exit", capture:false, amend:true}
+			]}}), {success:true})
+
+			//Mess with stdio content
+			assertObjectMatch(await exec("bash -i", {
+				tracer,
+				prompts:{list:[
+					{prompt:false, on({stdio}) {
+						Object.assign(stdio, {stdout:"", stderr:""})
+					}}
+				]}
+			}), {success:true})
+
+		})
 	})
 	.group("sh", test => {
 

@@ -62,12 +62,12 @@ export const to = {
     return is.date.like(x) ? new Date(x) : throws(new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to date`))
   },
 
-  /** BigInt converions */
+  /** BigInt conversions */
   bigint(x:unknown):BigInt {
     return is.bigint.like(x) ? BigInt((is.object(x) && "valueOf" in x) ? `${(x as {valueOf:() => unknown}).valueOf()}` : `${x}`) : throws(new ItsudenoError.Type(`cannot convert ${Deno.inspect(x)} to bigint`))
   },
 
-  /** RegExp converions */
+  /** RegExp conversions */
   regexp(x:unknown):RegExp {
     if (is.string(x)) {
       if (x.startsWith("/") && x.endsWith("/"))

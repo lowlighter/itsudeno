@@ -40,7 +40,7 @@ export type prompt = {
 	/** Close stdio channels */
  	close?:boolean
 	/** Listener */
-	on?:(args:{tracer:Tracer|null, prompts:prompts, stdio:stdio}) => void
+	on?:(args:{tracer:Tracer|null, prompts:prompts, stdio:stdio, process:Deno.Process, closed:{stdout:boolean, stderr:boolean}}) => void
 }
 & XOR<[
 	Record<never, never> , {

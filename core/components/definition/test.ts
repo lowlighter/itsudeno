@@ -4,7 +4,7 @@ import { assert, assertMatch, assertObjectMatch, assertStrictEquals, assertThrow
 import type { test } from "../../testing/mod.ts"
 
 import ConsoleTracer from "../../../builtin/tracer/console/mod.ts"
-import {check} from "./definition.ts"
+import {check, define} from "./definition.ts"
 import {Context} from "../context/mod.ts"
 
 
@@ -15,6 +15,19 @@ await new Suite(import.meta.url).group("check", async test => {
   const context = await (await new Context(import.meta.url).ready).with({foo:"foo"})
   const tracer = await new ConsoleTracer().ready
   const error = (type:string, arg = Error as unknown, path = "error") => new ItsudenoError.Type(`test: schema.${path} is expected to be ${type} but got ${Deno.inspect(arg)} instead`)
+
+  /*@define({
+    name:"test",
+    description:"",
+    inputs:{},
+    outputs:null,
+    for:[]
+  })
+  class A {
+
+  }
+
+  console.log((new A() as any).validate)*/
 
   //empty schema
   //deprecaed
@@ -37,8 +50,6 @@ await new Suite(import.meta.url).group("check", async test => {
       },
     }
   } as test, {foo:"foo"}, {tracer, context}), {}))
-
-  return
 
   for (const [schema, actual, expected] of [
     //Void
@@ -607,7 +618,6 @@ await new Suite(import.meta.url).group("check", async test => {
     } as test, {schema:actual}, {tracer, context}), {schema:expected}))
   }
   
-
 })
 .conclude()
 
@@ -619,5 +629,4 @@ function
 url
 date
 bigint
-regexp
 */
